@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/alarms"
+        android:enabled="true"
+        android:icon="@drawable/ic_app_logo"
+        android:title="alarms"/>
+    <item
+        android:id="@+id/schedule"
+        android:enabled="true"
+        android:icon="@drawable/ic_app_logo"
+        android:title="schedule"/>
+    <item
+        android:id="@+id/timer"
+        android:enabled="true"
+        android:icon="@drawable/ic_app_logo"
+        android:title="timer"/>
+    <item
+        android:id="@+id/stopwatch"
+        android:enabled="true"
+        android:icon="@drawable/ic_app_logo"
+        android:title="stopwatch"/>
+</menu>
