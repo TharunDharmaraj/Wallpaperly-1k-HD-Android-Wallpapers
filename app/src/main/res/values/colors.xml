@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="black">#FF000000</color>
+    <color name="shimmer">#BFBDBD</color>
     <color name="white">#FFFFFFFF</color>
     <color name="offwhite">#BFFFFFFF</color>
     <color name="red">#FFFF6565</color>

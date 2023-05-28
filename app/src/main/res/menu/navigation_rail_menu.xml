@@ -3,20 +3,20 @@
         android:id="@+id/alarms"
         android:enabled="true"
         android:icon="@drawable/ic_app_logo"
-        android:title="alarms"/>
+        android:title="home"/>
     <item
         android:id="@+id/schedule"
         android:enabled="true"
-        android:icon="@drawable/ic_app_logo"
-        android:title="schedule"/>
+        android:icon="@drawable/baseline_category_24"
+        android:title="category"/>
     <item
         android:id="@+id/timer"
         android:enabled="true"
-        android:icon="@drawable/ic_app_logo"
-        android:title="timer"/>
+        android:icon="@drawable/baseline_favorite_24"
+        android:title="fav"/>
     <item
         android:id="@+id/stopwatch"
         android:enabled="true"
-        android:icon="@drawable/ic_app_logo"
-        android:title="stopwatch"/>
+        android:icon="@drawable/baseline_download_24"
+        android:title="downloads"/>
 </menu>

@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,26 +27,30 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private boolean isNavBarVisible = false;
     private int animationDuration = 200;
-
+    ShimmerFrameLayout shimmerFrameLayout;
+    RecyclerView recyclerView;
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-// the status bar.
+//        shimmerFrameLayout = findViewById(R.id.shimmer);
+//        shimmerFrameLayout.startShimmer();
         if (Build.VERSION.SDK_INT < 16) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
         BottomNavigationView navRail = findViewById(R.id.navigation_rail);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-
         List<String> imageUrls = new ArrayList<>();
 
         ImageAdapter adapter = new ImageAdapter(imageUrls);
         recyclerView.setAdapter(adapter);
+        getData();
+
+
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private int previousScrollPosition = 0;
@@ -96,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void getData() {
+
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
@@ -114,12 +124,15 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String imageUrl = uri.toString();
+                                    String imageName = imageRef.getName(); // Retrieve the image name
                                     imageUrls.add(imageUrl);
 
                                     // Check if all images have been retrieved
                                     if (imageUrls.size() == imageRefs.size()) {
+
                                         // Pass the imageUrls list to your RecyclerView adapter
                                         ImageAdapter adapter = new ImageAdapter(imageUrls);
+                                        Log.d("IMAGEURL", imageUrl);
                                         recyclerView.setAdapter(adapter);
                                     }
                                 }
@@ -130,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                         }
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -138,5 +152,15 @@ public class MainActivity extends AppCompatActivity {
                         // Handle any errors that occurred during listing images
                     }
                 });
+
+//        new Timer().scheduleAtFixedRate(new TimerTask(){
+//            @Override
+//            public void run(){
+//                Log.i("tag", "A Kiss every 5 seconds");
+//            }
+//        },0,5000);
+//        shimmerFrameLayout.stopShimmer();
+//        shimmerFrameLayout.setVisibility(View.GONE);
+//        recyclerView.setVisibility(View.VISIBLE);
     }
 }
