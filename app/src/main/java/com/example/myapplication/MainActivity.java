@@ -1,144 +1,142 @@
 package com.example.myapplication;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ScrollView;
-import android.widget.Toast;
+import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.navigationrail.NavigationRailView;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private boolean isNavBarVisible = false;
     private int animationDuration = 200;
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button showNavRailButton = findViewById(R.id.button2);
+// the status bar.
+        if (Build.VERSION.SDK_INT < 16) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
         BottomNavigationView navRail = findViewById(R.id.navigation_rail);
-        ScrollView scrollView = findViewById(R.id.scrollView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                private int previousScrollPosition = 0;
+        List<String> imageUrls = new ArrayList<>();
 
-                @Override
-                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                    if (scrollY > previousScrollPosition) {
-                        // Scrolling down
-                        onScrollDown();
-                    } else if (scrollY < previousScrollPosition) {
-                        // Scrolling up
-                        onScrollUp();
-                    }
-                    previousScrollPosition = scrollY;
-                }
+        ImageAdapter adapter = new ImageAdapter(imageUrls);
+        recyclerView.setAdapter(adapter);
 
-                private void onScrollDown() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            private int previousScrollPosition = 0;
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                // Handle scroll state changes
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    // Scrolled down
                     toggleOutNavBar();
-                }
-
-                private void onScrollUp() {
+                } else if (dy < 0) {
+                    // Scrolled up
                     toggleInNavBar();
                 }
-            });
+            }
 
-            showNavRailButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    toggleNavBar();
+            private void toggleInNavBar() {
+                if (!isNavBarVisible) {
+                    navRail.setVisibility(View.VISIBLE);
+                    navRail.animate()
+                            .translationY(0)
+                            .setDuration(animationDuration)
+                            .start();
+                    isNavBarVisible = true;
                 }
-            });
 
-            navRail.setOnItemSelectedListener(new NavigationRailView.OnItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                    int id = menuItem.getItemId();
+            }
 
-                    if (id == R.id.alarms) {
-                        Toast.makeText(MainActivity.this, "alarms", Toast.LENGTH_SHORT).show();
-                        return true;
-                    } else if (id == R.id.schedule) {
-                        Toast.makeText(MainActivity.this, "schedule", Toast.LENGTH_SHORT).show();
-                        return true;
-                    } else if (id == R.id.timer) {
-                        Toast.makeText(MainActivity.this, "timer", Toast.LENGTH_SHORT).show();
-                        return true;
-                    } else if (id == R.id.stopwatch) {
-                        Toast.makeText(MainActivity.this, "stopwatch", Toast.LENGTH_SHORT).show();
-                        return true;
-                    } else {
-                        return false;
+            private void toggleOutNavBar() {
+                if (isNavBarVisible) {
+                    navRail.animate()
+                            .translationY(navRail.getHeight())
+                            .setDuration(animationDuration)
+                            .withEndAction(new Runnable() {
+                                @Override
+                                public void run() {
+                                    navRail.setVisibility(View.GONE);
+                                }
+                            })
+                            .start();
+                    isNavBarVisible = false;
+                }
+            }
+        });
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        // Assuming you have a "images" folder in your Firebase Storage
+        StorageReference imagesRef = storageRef.child("Christmas");
+
+        imagesRef.listAll()
+                .addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                    @Override
+                    public void onSuccess(ListResult listResult) {
+                        List<StorageReference> imageRefs = listResult.getItems();
+                        List<String> imageUrls = new ArrayList<>();
+
+                        for (StorageReference imageRef : imageRefs) {
+                            imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    String imageUrl = uri.toString();
+                                    imageUrls.add(imageUrl);
+
+                                    // Check if all images have been retrieved
+                                    if (imageUrls.size() == imageRefs.size()) {
+                                        // Pass the imageUrls list to your RecyclerView adapter
+                                        ImageAdapter adapter = new ImageAdapter(imageUrls);
+                                        recyclerView.setAdapter(adapter);
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Handle any errors that occurred during image URL retrieval
+                                }
+                            });
+                        }
                     }
-                }
-            });
-            ;
-        }
-    }
-
-    private void toggleNavBar() {
-        BottomNavigationView navRail = findViewById(R.id.navigation_rail);
-
-        if (isNavBarVisible) { // toggle out
-            navRail.animate()
-                    .translationY(navRail.getWidth())
-                    .setDuration(animationDuration)
-                    .withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            navRail.setVisibility(View.GONE);
-                        }
-                    })
-                    .start();
-        } else { // toggle in
-            navRail.setVisibility(View.VISIBLE);
-            navRail.animate()
-                    .translationY(0)
-                    .setDuration(animationDuration)
-                    .start();
-        }
-        isNavBarVisible = !isNavBarVisible;
-    }
-    private void toggleInNavBar() {
-
-        BottomNavigationView navRail = findViewById(R.id.navigation_rail);
-        if (!isNavBarVisible) { // toggle In
-
-            navRail.setVisibility(View.VISIBLE);
-            navRail.animate()
-                    .translationY(0)
-                    .setDuration(animationDuration)
-                    .start();
-        }
-        isNavBarVisible = !isNavBarVisible;
-    }
-    private void toggleOutNavBar() {
-        BottomNavigationView navRail = findViewById(R.id.navigation_rail);
-
-        if (isNavBarVisible) { // toggle out
-            navRail.animate()
-                    .translationY(navRail.getWidth())
-                    .setDuration(animationDuration)
-                    .withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            navRail.setVisibility(View.GONE);
-                        }
-                    })
-                    .start();
-        }
-        isNavBarVisible = !isNavBarVisible;
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle any errors that occurred during listing images
+                    }
+                });
     }
 }

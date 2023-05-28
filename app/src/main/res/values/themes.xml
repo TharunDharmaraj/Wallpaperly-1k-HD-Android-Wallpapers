@@ -4,7 +4,6 @@
         <!-- Background color. -->
         <item name="android:windowBackground">@color/rippleAccent</item>
         <item name="android:colorBackground">@color/rippleAccent</item>
-
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorAccent</item>
         <item name="colorPrimaryDark">@color/colorAccent</item>
