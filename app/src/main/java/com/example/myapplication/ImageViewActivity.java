@@ -2,7 +2,6 @@ package com.example.myapplication;
 
 import android.app.DownloadManager;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,6 +11,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,11 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
-import com.facebook.shimmer.BuildConfig;
 
 import java.io.File;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ImageViewActivity extends AppCompatActivity {
     private ImageView imageView;
@@ -188,8 +185,8 @@ public class ImageViewActivity extends AppCompatActivity {
         }
     }
     private class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
-        private static final int SWIPE_DISTANCE_THRESHOLD = 500;
-        private static final int SWIPE_VELOCITY_THRESHOLD = 500;
+        private static final int SWIPE_DISTANCE_THRESHOLD = 200;
+        private static final int SWIPE_VELOCITY_THRESHOLD = 200;
 
         @Override
         public boolean onDown(MotionEvent e) {
@@ -225,7 +222,8 @@ public class ImageViewActivity extends AppCompatActivity {
 
     private void openMainActivity() {
         Intent intent = new Intent(ImageViewActivity.this, MainActivity.class);
+        imageView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide_up));
         startActivity(intent);
-        finish(); // Optional: finish the current activity
+        finish();
     }
 }

@@ -58,7 +58,7 @@
     <style name="dividerTransparent">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2dp</item>
-        <item name="android:background">@color/transparent</item>
+        <item name="android:background">@drawable/divider_accent</item>
     </style>
 
     <style name="customSwitch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
