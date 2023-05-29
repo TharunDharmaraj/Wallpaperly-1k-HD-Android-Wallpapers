@@ -4,12 +4,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,142 +29,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    BottomNavigationView navRail;
+FrameLayout recyclerView;
     private boolean isNavBarVisible = false;
     private int animationDuration = 200;
     ShimmerFrameLayout shimmerFrameLayout;
-    RecyclerView recyclerView;
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 //        shimmerFrameLayout = findViewById(R.id.shimmer);
 //        shimmerFrameLayout.startShimmer();
         if (Build.VERSION.SDK_INT < 16) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
-        BottomNavigationView navRail = findViewById(R.id.navigation_rail);
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        List<String> imageUrls = new ArrayList<>();
-
-        ImageAdapter adapter = new ImageAdapter(imageUrls);
-        recyclerView.setAdapter(adapter);
-        getData();
-
-
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            private int previousScrollPosition = 0;
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                // Handle scroll state changes
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0) {
-                    // Scrolled down
-                    toggleOutNavBar();
-                } else if (dy < 0) {
-                    // Scrolled up
-                    toggleInNavBar();
-                }
-            }
-
-            private void toggleInNavBar() {
-                if (!isNavBarVisible) {
-                    navRail.setVisibility(View.VISIBLE);
-                    navRail.animate()
-                            .translationY(0)
-                            .setDuration(animationDuration)
-                            .start();
-                    isNavBarVisible = true;
-                }
-
-            }
-
-            private void toggleOutNavBar() {
-                if (isNavBarVisible) {
-                    navRail.animate()
-                            .translationY(navRail.getHeight())
-                            .setDuration(animationDuration)
-                            .withEndAction(new Runnable() {
-                                @Override
-                                public void run() {
-                                    navRail.setVisibility(View.GONE);
-                                }
-                            })
-                            .start();
-                    isNavBarVisible = false;
-                }
-            }
-        });
-
+        navRail = findViewById(R.id.navigation_rail);
+        navRail.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+        openFragment(HomeFragment.newInstance("", ""));
     }
-
-    private void getData() {
-
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
-
-        // Assuming you have a "images" folder in your Firebase Storage
-        StorageReference imagesRef = storageRef.child("Christmas");
-
-        imagesRef.listAll()
-                .addOnSuccessListener(new OnSuccessListener<ListResult>() {
-                    @Override
-                    public void onSuccess(ListResult listResult) {
-                        List<StorageReference> imageRefs = listResult.getItems();
-                        List<String> imageUrls = new ArrayList<>();
-
-                        for (StorageReference imageRef : imageRefs) {
-                            imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    String imageUrl = uri.toString();
-                                    String imageName = imageRef.getName(); // Retrieve the image name
-                                    imageUrls.add(imageUrl);
-
-                                    // Check if all images have been retrieved
-                                    if (imageUrls.size() == imageRefs.size()) {
-
-                                        // Pass the imageUrls list to your RecyclerView adapter
-                                        ImageAdapter adapter = new ImageAdapter(imageUrls);
-                                        Log.d("IMAGEURL", imageUrl);
-                                        recyclerView.setAdapter(adapter);
-                                    }
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    // Handle any errors that occurred during image URL retrieval
-                                }
-                            });
+    public void openFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+    BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    if(item.getItemId() == R.id.home) {
+                            openFragment(HomeFragment.newInstance("", ""));
+                            return true;}
+                    else if(item.getItemId() == R.id.category){
+                            openFragment(CategoriesFragment.newInstance("", ""));
+                            return true;}
+                    else if(item.getItemId() == R.id.fav){
+                            openFragment(FavFragment.newInstance("", ""));
+                            return true;}
+                    else if(item.getItemId() == R.id.downloads){
+                            openFragment(DownloadFragment.newInstance("", ""));
+                            return true;
                         }
+                    return false;
+                }
+            };
 
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Handle any errors that occurred during listing images
-                    }
-                });
-
-//        new Timer().scheduleAtFixedRate(new TimerTask(){
-//            @Override
-//            public void run(){
-//                Log.i("tag", "A Kiss every 5 seconds");
-//            }
-//        },0,5000);
-//        shimmerFrameLayout.stopShimmer();
-//        shimmerFrameLayout.setVisibility(View.GONE);
-//        recyclerView.setVisibility(View.VISIBLE);
-    }
 }

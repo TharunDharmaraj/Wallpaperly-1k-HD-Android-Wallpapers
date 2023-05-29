@@ -1,21 +1,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/alarms"
+        android:id="@+id/home"
         android:enabled="true"
         android:icon="@drawable/ic_app_logo"
         android:title="home"/>
     <item
-        android:id="@+id/schedule"
+        android:id="@+id/category"
         android:enabled="true"
         android:icon="@drawable/baseline_category_24"
         android:title="category"/>
     <item
-        android:id="@+id/timer"
+        android:id="@+id/fav"
         android:enabled="true"
         android:icon="@drawable/baseline_favorite_24"
         android:title="fav"/>
     <item
-        android:id="@+id/stopwatch"
+        android:id="@+id/downloads"
         android:enabled="true"
         android:icon="@drawable/baseline_download_24"
         android:title="downloads"/>
