@@ -35,6 +35,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         String imageUrl = imageUrls.get(position);
+        holder.imageView.setTag(imageUrl);
+
         // Load the image into the ImageView using a library like Glide or Picasso
         Glide.with(holder.itemView.getContext())
                 .load(imageUrl)

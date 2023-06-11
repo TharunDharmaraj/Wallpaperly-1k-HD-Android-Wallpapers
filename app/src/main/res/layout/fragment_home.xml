@@ -11,6 +11,7 @@
     app:layout_constraintTop_toTopOf="parent"
     tools:context=".HomeFragment">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
