@@ -12,7 +12,6 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -91,7 +90,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             // Extract the image name from the URL
             Uri uri = Uri.parse(imageUrl);
             String fileName = uri.getLastPathSegment();
-            int folder = fileName.indexOf("/")+1;
+            int folder = fileName.indexOf("/") + 1;
             fileName = fileName.substring(folder);
             // Remove any query parameters or extensions
             int dotIndex = fileName.indexOf(".");
@@ -101,6 +100,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 return toTitleCase(fileName);
             }
         }
+
         public String toTitleCase(String input) {
             StringBuilder titleCase = new StringBuilder(input.length());
             boolean nextTitleCase = true;

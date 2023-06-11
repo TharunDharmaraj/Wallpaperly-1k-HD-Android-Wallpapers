@@ -18,9 +18,29 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView navRail;
     FrameLayout recyclerView;
+    ShimmerFrameLayout shimmerFrameLayout;
+    BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    if (item.getItemId() == R.id.home) {
+                        openFragment(HomeFragment.newInstance("", ""));
+                        return true;
+                    } else if (item.getItemId() == R.id.category) {
+                        openFragment(CategoriesFragment.newInstance("", ""));
+                        return true;
+                    } else if (item.getItemId() == R.id.fav) {
+                        openFragment(FavFragment.newInstance("", ""));
+                        return true;
+                    } else if (item.getItemId() == R.id.downloads) {
+                        openFragment(DownloadFragment.newInstance("", ""));
+                        return true;
+                    }
+                    return false;
+                }
+            };
     private boolean isNavBarVisible = false;
     private int animationDuration = 200;
-    ShimmerFrameLayout shimmerFrameLayout;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
@@ -46,26 +66,5 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
-    BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    if (item.getItemId() == R.id.home) {
-                        openFragment(HomeFragment.newInstance("", ""));
-                        return true;
-                    } else if (item.getItemId() == R.id.category) {
-                        openFragment(CategoriesFragment.newInstance("", ""));
-                        return true;
-                    } else if (item.getItemId() == R.id.fav) {
-                        openFragment(FavFragment.newInstance("", ""));
-                        return true;
-                    } else if (item.getItemId() == R.id.downloads) {
-                        openFragment(DownloadFragment.newInstance("", ""));
-                        return true;
-                    }
-                    return false;
-                }
-            };
 
 }

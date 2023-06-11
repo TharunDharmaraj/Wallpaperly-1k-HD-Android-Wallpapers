@@ -2,16 +2,15 @@ package com.example.myapplication;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,14 +34,9 @@ public class categoryEachImageFragment extends Fragment {
     private int animationDuration = 200;
     private String folderName;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public categoryEachImageFragment() {
+        // Required empty public constructor
+    }
 
     public static categoryEachImageFragment newInstance(String folderName) {
         categoryEachImageFragment fragment = new categoryEachImageFragment();
@@ -51,11 +45,6 @@ public class categoryEachImageFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-    public categoryEachImageFragment() {
-        // Required empty public constructor
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +57,7 @@ public class categoryEachImageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_category_each_image, container, false); //pass the correct layout name for the fragment
+        View view = inflater.inflate(R.layout.fragment_category_each_image, container, false); //pass the correct layout name for the fragment
 
         recyclerView = (RecyclerView) view.findViewById(R.id.imagesFOrEachFolderView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));

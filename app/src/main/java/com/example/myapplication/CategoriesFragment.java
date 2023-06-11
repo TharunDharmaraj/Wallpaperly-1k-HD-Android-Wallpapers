@@ -1,14 +1,6 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +8,13 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
@@ -34,19 +26,18 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class CategoriesFragment extends Fragment {
-    private ListView folderListView;
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
     BottomNavigationView navRail;
+    private ListView folderListView;
     private boolean isNavBarVisible = false;
     private int animationDuration = 200;
     private ArrayAdapter<String> adapter;
     private int previousVisibleItem = 0;
     private boolean isScrollingUp = false;
     private List<String> folderList;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -85,7 +76,7 @@ public class CategoriesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_categories, container, false); //pass the correct layout name for the fragment
+        View view = inflater.inflate(R.layout.fragment_categories, container, false); //pass the correct layout name for the fragment
         folderListView = view.findViewById(R.id.folderListView);
         folderList = new ArrayList<>();
         navRail = getActivity().findViewById(R.id.navigation_rail);
@@ -119,6 +110,7 @@ public class CategoriesFragment extends Fragment {
                 }
                 previousVisibleItem = firstVisibleItem;
             }
+
             private void toggleInNavBar() {
                 if (!isNavBarVisible) {
                     navRail.setVisibility(View.VISIBLE);
@@ -160,8 +152,6 @@ public class CategoriesFragment extends Fragment {
                 fragmentTransaction.replace(R.id.container, folderFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-                // Handle the click event for the selected folder
-                Toast.makeText(getContext(), "Clicked folder: " + folderName, Toast.LENGTH_SHORT).show();
             }
         });
 

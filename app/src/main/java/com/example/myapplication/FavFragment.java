@@ -1,13 +1,12 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,13 +14,11 @@ import android.widget.TextView;
  * create an instance of this fragment.
  */
 public class FavFragment extends Fragment {
-    TextView tv;
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    TextView tv;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -60,8 +57,8 @@ public class FavFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_fav, container, false); //pass the correct layout name for the fragment
-        TextView tv =(TextView) view.findViewById(R.id.textview);
+        View view = inflater.inflate(R.layout.fragment_fav, container, false); //pass the correct layout name for the fragment
+        TextView tv = (TextView) view.findViewById(R.id.textview);
         tv.setText("tharun");
         // Inflate the layout for this fragment
         return view;
