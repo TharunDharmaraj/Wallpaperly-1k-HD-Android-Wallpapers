@@ -4,9 +4,12 @@ import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.WallpaperManager;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +34,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +46,25 @@ public class ImageViewActivity extends AppCompatActivity {
     private ScaleGestureDetector scaleGestureDetector;
     private float scaleFactor = 1.0f;
     private GestureDetector gestureDetector;
+    static final int NONE = 0;
+    static final int DRAG = 1;
+    static final int ZOOM = 2;
+    int mode = NONE;
+
+    // Remember some things for zooming
+    PointF last = new PointF();
+    PointF start = new PointF();
+    float minScale = 1f;
+    float maxScale = 3f;
+    float[] m;
+
+    int viewWidth, viewHeight;
+    static final int CLICK = 3;
+    float saveScale = 1f;
+    protected float origWidth, origHeight;
+    int oldMeasuredWidth, oldMeasuredHeight;
+    Context context;
+    Matrix matrix;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,9 +237,11 @@ public class ImageViewActivity extends AppCompatActivity {
 //        TextView nameTextView = findViewById(R.id.imageNameTextView);
 
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        Glide.with(this)
-                .load(imageUrl)
-                .into(imageView);
+        Picasso.get().load(imageUrl).into(imageView);
+
+//        Glide.with(this)
+//                .load(imageUrl)
+//                .into(imageView);
 
 //        nameTextView.setText(imageName);
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
@@ -290,10 +315,7 @@ public class ImageViewActivity extends AppCompatActivity {
     }
 
 
-    private void openMainActivity() {
-        Intent intent = new Intent(ImageViewActivity.this, MainActivity.class);
-        imageView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up));
-        startActivity(intent);
+    private void goBack() {
         finish();
     }
 
@@ -349,7 +371,7 @@ public class ImageViewActivity extends AppCompatActivity {
                     && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
                 if (distanceY > 0) {
                     // Down swipe
-                    openMainActivity();
+                    goBack();
                 } else {
                     // Up swipe (optional)
                 }

@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,13 +58,20 @@ public class coverImageAdapter extends ArrayAdapter<String> {
         if (folderCoverMap.containsKey(folderName)) {
             // If the URL is available, load it into the ImageView using Glide
             String coverImageUrl = folderCoverMap.get(folderName);
-            Glide.with(getContext())
+            Picasso.get()
                     .load(coverImageUrl)
-                    .apply(new RequestOptions()
-                            .placeholder(R.drawable.baseline_category_24) // optional placeholder image
-                            .error(R.drawable.seek_progress) // optional error image
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)) // caching strategy
+                    .placeholder(R.drawable.baseline_category_24) // optional placeholder image while loading
+                    .error(R.drawable.seek_progress) // optional error image if loading fails
+                    .fit()
+                    .centerCrop()
                     .into(holder.imageView);
+//            Glide.with(getContext())
+//                    .load(coverImageUrl)
+//                    .apply(new RequestOptions()
+//                            .placeholder(R.drawable.baseline_category_24) // optional placeholder image
+//                            .error(R.drawable.seek_progress) // optional error image
+//                            .diskCacheStrategy(DiskCacheStrategy.ALL)) // caching strategy
+//                    .into(holder.imageView);
         } else {
             // If the URL is not available, fetch the first image URL for the folder
             StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folderName);
@@ -77,13 +85,20 @@ public class coverImageAdapter extends ArrayAdapter<String> {
                             public void onSuccess(Uri uri) {
                                 String coverImageUrl = uri.toString();
                                 folderCoverMap.put(folderName, coverImageUrl); // Store the cover image URL
-                                Glide.with(getContext())
+                                Picasso.get()
                                         .load(coverImageUrl)
-                                        .apply(new RequestOptions()
-                                                .placeholder(R.drawable.baseline_category_24) // optional placeholder image
-                                                .error(R.drawable.seek_progress) // optional error image
-                                                .diskCacheStrategy(DiskCacheStrategy.ALL)) // caching strategy
+                                        .placeholder(R.drawable.baseline_category_24) // optional placeholder image while loading
+                                        .error(R.drawable.seek_progress) // optional error image if loading fails
+                                        .fit()
+                                        .centerCrop()
                                         .into(holder.imageView);
+//                                Glide.with(getContext())
+//                                        .load(coverImageUrl)
+//                                        .apply(new RequestOptions()
+//                                                .placeholder(R.drawable.baseline_category_24) // optional placeholder image
+//                                                .error(R.drawable.seek_progress) // optional error image
+//                                                .diskCacheStrategy(DiskCacheStrategy.ALL)) // caching strategy
+//                                        .into(holder.imageView);
                             }
                         });
                     }
