@@ -47,24 +47,9 @@ public class ImageViewActivity extends AppCompatActivity {
     private float scaleFactor = 1.0f;
     private GestureDetector gestureDetector;
     static final int NONE = 0;
-    static final int DRAG = 1;
-    static final int ZOOM = 2;
-    int mode = NONE;
 
     // Remember some things for zooming
-    PointF last = new PointF();
-    PointF start = new PointF();
-    float minScale = 1f;
-    float maxScale = 3f;
-    float[] m;
 
-    int viewWidth, viewHeight;
-    static final int CLICK = 3;
-    float saveScale = 1f;
-    protected float origWidth, origHeight;
-    int oldMeasuredWidth, oldMeasuredHeight;
-    Context context;
-    Matrix matrix;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

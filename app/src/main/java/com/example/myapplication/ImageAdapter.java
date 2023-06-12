@@ -1,21 +1,29 @@
 package com.example.myapplication;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
+import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.File;
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
@@ -50,13 +58,51 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView imageView;
+        public ImageButton shareBtn;
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
             CardView cardView = itemView.findViewById(R.id.cardView);
             imageView = itemView.findViewById(R.id.imageView);
+            shareBtn = itemView.findViewById(R.id.shareBtn);
             itemView.setOnClickListener(this);
             cardView.setRadius(itemView.getContext().getResources().getDimensionPixelSize(R.dimen.card_corner_radius));
+            shareBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String imageUrl = imageUrls.get(getAdapterPosition());
+                    String imageName = getImageNameFromUrl(imageUrl);
+                    String directoryName = "wallpaperly";
+                    String fileName = imageName + ".png";
+                    File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), directoryName);
+                    if (!directory.exists()) {
+                        directory.mkdirs();
+                    }
+
+                    File file = new File(directory, fileName);
+
+                    DownloadManager.Request request = new DownloadManager.Request(Uri.parse(imageUrl));
+                    request.setTitle(imageName);
+                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                    request.setDestinationUri(Uri.fromFile(file));
+
+                    DownloadManager downloadManager = (DownloadManager) v.getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+                    if (downloadManager != null) {
+                        downloadManager.enqueue(request);
+                        Toast.makeText(v.getContext(), "Image Downloaded", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(v.getContext(), "Failed to download image", Toast.LENGTH_SHORT).show();
+                    }
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Do something after 5s = 5000ms
+                        }
+                    }, 5000);
+                    shareImage(file,v);
+                }
+            });
             // Get the device screen width
             DisplayMetrics displayMetrics = new DisplayMetrics();
             WindowManager windowManager = (WindowManager) itemView.getContext().getSystemService(Context.WINDOW_SERVICE);
@@ -79,15 +125,42 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 //            // Retrieve the clicked image URL
             String imageUrl = imageUrls.get(getAdapterPosition());
             String imageName = getImageNameFromUrl(imageUrl);
-
-
             // Start the new activity and pass the image URL
             Intent intent = new Intent(v.getContext(), ImageViewActivity.class);
             intent.putExtra("image_url", imageUrl);
             intent.putExtra("image_name", imageName);
             v.getContext().startActivity(intent);
         }
+        private void shareImage(File imageFile,View v) {
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Do something after 5s = 5000ms
+                }
+            }, 5000);
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
 
+            // Set the type of the content to "image/png"
+            shareIntent.setType("image/png");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "Made in India");
+
+            // Get the URI of the image file using FileProvider
+            Uri imageUri = FileProvider.getUriForFile(
+                    v.getContext(),
+                    "com.example.myapplication.fileprovider",
+                    imageFile
+            );
+            Log.d("tharun", String.valueOf(imageUri));
+            // Add the image URI to the intent as an extra
+            shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+
+            // Grant temporary permissions to the content URI
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            // Start the share activity
+            v.getContext().startActivity(Intent.createChooser(shareIntent, "Share Image"));
+        }
         private String getImageNameFromUrl(String imageUrl) {
             // Extract the image name from the URL
             Uri uri = Uri.parse(imageUrl);
