@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
@@ -41,6 +42,7 @@ public class CategoriesFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private GridView folderGridView;
 
     public CategoriesFragment() {
         // Required empty public constructor
@@ -77,14 +79,14 @@ public class CategoriesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_categories, container, false); //pass the correct layout name for the fragment
-        folderListView = view.findViewById(R.id.folderListView);
+        folderGridView = view.findViewById(R.id.folderGridView);
         folderList = new ArrayList<>();
         navRail = getActivity().findViewById(R.id.navigation_rail);
 
-        adapter = new ArrayAdapter<>(getContext(), R.layout.category_item_folder, folderList);
-        folderListView.setAdapter(adapter);
+        adapter = new coverImageAdapter(getContext(), folderList);
+        folderGridView.setAdapter(adapter);
 
-        folderListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        folderGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
             private int previousVisibleItem = 0;
             private boolean isScrollingUp = false;
 
@@ -140,7 +142,7 @@ public class CategoriesFragment extends Fragment {
             }
         });
 
-        folderListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        folderGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String folderName = folderList.get(position);
@@ -169,7 +171,8 @@ public class CategoriesFragment extends Fragment {
             // Handle the error
             // TODO: Add error handling
         });
-
+        int numColumns = 2; // Number of columns in the grid
+        folderGridView.setNumColumns(numColumns);
         return view;
     }
 }
