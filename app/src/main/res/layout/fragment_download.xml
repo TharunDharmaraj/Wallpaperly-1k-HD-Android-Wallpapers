@@ -11,6 +11,12 @@
     app:layout_constraintTop_toTopOf="parent"
     tools:context=".DownloadFragment">
 
+    <TextView
+        android:id="@+id/nonenew"
+        android:layout_width="match_parent"
+        android:textColor="@color/white"
+        android:text="@string/app_name"
+        android:layout_height="wrap_content" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

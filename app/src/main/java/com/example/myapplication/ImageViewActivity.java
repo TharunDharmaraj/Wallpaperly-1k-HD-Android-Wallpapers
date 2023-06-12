@@ -3,43 +3,40 @@ package com.example.myapplication;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.WallpaperManager;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class ImageViewActivity extends AppCompatActivity {
+    private SharedPreferences sharedPreferences;
+
     ImageButton shareBtn, downloadBtn;
     Button wallpaperBtn;
     private ImageView imageView;
@@ -59,6 +56,7 @@ public class ImageViewActivity extends AppCompatActivity {
         String imageName = getIntent().getStringExtra("image_name");
         gestureDetector = new GestureDetector(this, new SwipeGestureListener());
 
+        sharedPreferences = getApplicationContext().getSharedPreferences("image_urls", Context.MODE_PRIVATE);
         imageView = findViewById(R.id.imageView);
         shareBtn = findViewById(R.id.shareBtn);
         downloadBtn = findViewById(R.id.download);
@@ -87,6 +85,7 @@ public class ImageViewActivity extends AppCompatActivity {
 
                 DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
                 if (downloadManager != null) {
+                    storeImageUrl(imageUrl, imageName);
                     downloadManager.enqueue(request);
                     Toast.makeText(getApplicationContext(), "Image Downloaded", Toast.LENGTH_SHORT).show();
                 } else {
@@ -253,6 +252,7 @@ public class ImageViewActivity extends AppCompatActivity {
 
         DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         if (downloadManager != null) {
+            storeImageUrl(imageUrl, imageName);
             downloadManager.enqueue(request);
             Toast.makeText(getApplicationContext(), "Image Downloaded", Toast.LENGTH_SHORT).show();
         } else {
@@ -312,6 +312,17 @@ public class ImageViewActivity extends AppCompatActivity {
             super.onBackPressed();
     }
 
+    private void storeImageUrl(String imageUrl, String position) {
+        String key = "image_" + position;
+        String storedUrl = sharedPreferences.getString(key, null);
+
+        if (storedUrl == null || !storedUrl.equals(imageUrl)) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(key, imageUrl);
+            editor.apply();
+        }
+    }
+
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
@@ -364,4 +375,5 @@ public class ImageViewActivity extends AppCompatActivity {
             return super.onFling(e1, e2, velocityX, velocityY);
         }
     }
+
 }

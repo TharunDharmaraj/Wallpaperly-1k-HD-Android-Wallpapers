@@ -34,7 +34,8 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     BottomNavigationView navRail;
     RecyclerView recyclerView;
-    View borderLine;    private boolean isBorderLineVisible = false;
+    View borderLine;
+    private boolean isBorderLineVisible = false;
 
     private boolean isNavBarVisible = false;
     private int animationDuration = 200;
@@ -87,7 +88,6 @@ public class HomeFragment extends Fragment {
 
         ImageAdapter adapter = new ImageAdapter(imageUrls);
         recyclerView.setAdapter(adapter);
-        getData();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private int previousScrollPosition = 0;
 
@@ -154,6 +154,8 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+        getData();
+
         // Inflate the layout for this fragment
         return view;
     }
