@@ -1,8 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="@dimen/_12sdp"
     app:layout_constraintCircleRadius="@dimen/_16sdp"
     tools:context=".ImageViewActivity">
@@ -17,38 +17,60 @@
         android:src="@drawable/container"
         tools:ignore="ContentDescription" />
 
-    <ImageButton
-        android:id="@+id/favBtn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="@dimen/_6sdp"
-        android:adjustViewBounds="true"
-        android:background="@null"
-        android:src="@drawable/baseline_favorite_24" />
 
-    <ImageButton
-        android:id="@+id/shareBtn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom|left"
-        android:layout_margin="@dimen/_6sdp"
-        android:adjustViewBounds="true"
-        android:background="@null"
-        android:src="@drawable/baseline_share_24" />
-
-
-    <TextView
-        android:id="@+id/imageNameTextView"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="top|center"
-        android:background="#80000000"
-        android:padding="6dp"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        tools:text="Image Name" />
+        android:layout_gravity="bottom|right"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/favBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="@dimen/_6sdp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:src="@drawable/baseline_favorite_24"
+            android:tooltipText="Add To Fav" />
+
+        <ImageButton
+            android:id="@+id/download"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="top|right"
+            android:layout_margin="@dimen/_6sdp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+
+            android:src="@drawable/baseline_download_24"
+            android:tooltipText="Download" />
+
+        <ImageButton
+            android:id="@+id/shareBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|left"
+            android:layout_margin="@dimen/_6sdp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:src="@drawable/baseline_share_24"
+            android:tooltipText="share" />
+    </LinearLayout>
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/imageNameTextView"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentTop="true"-->
+    <!--        android:layout_gravity="top|center"-->
+    <!--        android:background="#80000000"-->
+    <!--        android:padding="6dp"-->
+    <!--        android:textColor="#FFFFFF"-->
+    <!--        android:textSize="18sp"-->
+    <!--        tools:text="Image Name" />-->
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -56,13 +78,13 @@
         android:layout_gravity="bottom|center_horizontal"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/download"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="@dimen/_6sdp"
-            android:text="Download Image" />
+        <!--        <Button-->
+        <!--            android:id="@+id/download"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="bottom|center_horizontal"-->
+        <!--            android:layout_marginBottom="@dimen/_6sdp"-->
+        <!--            android:text="Download Image" />-->
 
         <Button
             android:id="@+id/wallpaper"

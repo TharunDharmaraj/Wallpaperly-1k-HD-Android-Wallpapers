@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.WallpaperManager;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -34,9 +36,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class ImageViewActivity extends AppCompatActivity {
-    ImageButton shareBtn;
+    ImageButton shareBtn, downloadBtn;
     Button wallpaperBtn;
-    Button downloadBtn;
     private ImageView imageView;
     private ScaleGestureDetector scaleGestureDetector;
     private float scaleFactor = 1.0f;
@@ -113,23 +114,27 @@ public class ImageViewActivity extends AppCompatActivity {
 
                                 // Set the selected image as the wallpaper(s) based on the chosen options
                                 try {
-                                    WallpaperManager wallpaperManager = WallpaperManager.getInstance(ImageViewActivity.this);
-
                                     if (setHomeScreen && setLockScreen) {
+                                        WallpaperManager wallpaperManager = WallpaperManager.getInstance(ImageViewActivity.this);
                                         // Set the wallpaper for both home screen and lock screen
                                         wallpaperManager.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                            wallpaperManager.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()), null, true, WallpaperManager.FLAG_LOCK);
+                                            wallpaperManager.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
                                         }
                                         Toast.makeText(getApplicationContext(), "Wallpaper set for home screen and lock screen.", Toast.LENGTH_SHORT).show();
                                     } else if (setHomeScreen) {
+                                        WallpaperManager wallpaperManager1 = WallpaperManager.getInstance(ImageViewActivity.this);
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                            wallpaperManager1.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()), null, true, WallpaperManager.FLAG_SYSTEM);
+                                        }
                                         // Set the wallpaper for the home screen only
-                                        wallpaperManager.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
                                         Toast.makeText(getApplicationContext(), "Wallpaper set for home screen.", Toast.LENGTH_SHORT).show();
                                     } else if (setLockScreen) {
                                         // Set the wallpaper for the lock screen only
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                            wallpaperManager.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()), null, true, WallpaperManager.FLAG_LOCK);
+                                            WallpaperManager mm = WallpaperManager.getInstance(getApplicationContext());
+
+                                            mm.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()) , null, true, WallpaperManager.FLAG_LOCK);
                                             Toast.makeText(getApplicationContext(), "Wallpaper set for lock screen.", Toast.LENGTH_SHORT).show();
                                         }
                                     } else {
@@ -206,14 +211,14 @@ public class ImageViewActivity extends AppCompatActivity {
                 shareImage(file);
             }
         });
-        TextView nameTextView = findViewById(R.id.imageNameTextView);
+//        TextView nameTextView = findViewById(R.id.imageNameTextView);
 
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         Glide.with(this)
                 .load(imageUrl)
                 .into(imageView);
 
-        nameTextView.setText(imageName);
+//        nameTextView.setText(imageName);
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
     }
 
@@ -283,6 +288,7 @@ public class ImageViewActivity extends AppCompatActivity {
         // Start the share activity
         startActivity(Intent.createChooser(shareIntent, "Share Image"));
     }
+
 
     private void openMainActivity() {
         Intent intent = new Intent(ImageViewActivity.this, MainActivity.class);
