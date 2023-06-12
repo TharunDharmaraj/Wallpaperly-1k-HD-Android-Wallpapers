@@ -28,6 +28,13 @@
     android:layout_height="match_parent"
     android:id="@+id/container"/>
 
+    <View
+        android:id="@+id/viewLine"
+        android:layout_width="match_parent"
+        android:layout_height="0.000001in"
+        android:background="@color/shimmer"
+        app:layout_constraintBottom_toTopOf="@+id/navigation_rail"
+        tools:ignore="MissingConstraints" />
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation_rail"
         style="@style/BottomNavigationView"
@@ -36,5 +43,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/navigation_rail_menu"
-        app:menuGravity="center" />
+        app:itemIconSize="@dimen/design_bottom_navigation_icon_size"
+        app:menuGravity="center"
+        tools:ignore="PrivateResource" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,22 +1,23 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/home"
         android:enabled="true"
         android:icon="@drawable/ic_app_logo"
-        android:title="home"/>
+            android:title="Home"/>
     <item
         android:id="@+id/category"
         android:enabled="true"
         android:icon="@drawable/baseline_category_24"
-        android:title="category"/>
+        android:title="Category"/>
     <item
         android:id="@+id/fav"
         android:enabled="true"
         android:icon="@drawable/baseline_favorite_24"
-        android:title="fav"/>
+        android:title="Fav"/>
     <item
         android:id="@+id/downloads"
         android:enabled="true"
         android:icon="@drawable/baseline_download_24"
-        android:title="downloads"/>
+        android:title="Downloads"/>
 </menu>

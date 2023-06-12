@@ -34,6 +34,8 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     BottomNavigationView navRail;
     RecyclerView recyclerView;
+    View borderLine;    private boolean isBorderLineVisible = false;
+
     private boolean isNavBarVisible = false;
     private int animationDuration = 200;
     // TODO: Rename and change types of parameters
@@ -81,6 +83,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         List<String> imageUrls = new ArrayList<>();
         navRail = getActivity().findViewById(R.id.navigation_rail);
+        borderLine = getActivity().findViewById(R.id.viewLine);
 
         ImageAdapter adapter = new ImageAdapter(imageUrls);
         recyclerView.setAdapter(adapter);
@@ -114,6 +117,12 @@ public class HomeFragment extends Fragment {
                             .setDuration(animationDuration)
                             .start();
                     isNavBarVisible = true;
+                    borderLine.setVisibility(View.VISIBLE);
+                    borderLine.animate()
+                            .translationY(0)
+                            .setDuration(animationDuration)
+                            .start();
+                    isBorderLineVisible = true;
                 }
 
             }
@@ -131,6 +140,17 @@ public class HomeFragment extends Fragment {
                             })
                             .start();
                     isNavBarVisible = false;
+                    borderLine.animate()
+                            .translationY(navRail.getHeight())
+                            .setDuration(animationDuration)
+                            .withEndAction(new Runnable() {
+                                @Override
+                                public void run() {
+                                    navRail.setVisibility(View.GONE);
+                                }
+                            })
+                            .start();
+                    isBorderLineVisible = false;
                 }
             }
         });

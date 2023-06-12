@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="container_margin">@dimen/_10sdp</dimen>
     <dimen name="container_marginSide">@dimen/_12sdp</dimen>
     <dimen name="container_marginTopBottom">@dimen/_16sdp</dimen>
@@ -39,4 +39,6 @@
     <dimen name="_1sdp">1sp</dimen>
     <dimen name="_minus2sdp">-2sp</dimen>
     <dimen name="_17sdp">17sp</dimen>
+    <dimen name="design_bottom_navigation_icon_size" tools:override="true">25dp</dimen>
+
 </resources>

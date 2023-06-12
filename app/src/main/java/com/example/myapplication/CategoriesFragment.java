@@ -43,6 +43,8 @@ public class CategoriesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private GridView folderGridView;
+    View borderLine;
+    private boolean isBorderLineVisible = false;
 
     public CategoriesFragment() {
         // Required empty public constructor
@@ -82,6 +84,7 @@ public class CategoriesFragment extends Fragment {
         folderGridView = view.findViewById(R.id.folderGridView);
         folderList = new ArrayList<>();
         navRail = getActivity().findViewById(R.id.navigation_rail);
+        borderLine = getActivity().findViewById(R.id.viewLine);
 
         adapter = new coverImageAdapter(getContext(), folderList);
         folderGridView.setAdapter(adapter);
@@ -121,6 +124,12 @@ public class CategoriesFragment extends Fragment {
                             .setDuration(animationDuration)
                             .start();
                     isNavBarVisible = true;
+                    borderLine.setVisibility(View.VISIBLE);
+                    borderLine.animate()
+                            .translationY(0)
+                            .setDuration(animationDuration)
+                            .start();
+                    isBorderLineVisible = true;
                 }
 
             }
@@ -138,6 +147,17 @@ public class CategoriesFragment extends Fragment {
                             })
                             .start();
                     isNavBarVisible = false;
+                    borderLine.animate()
+                            .translationY(navRail.getHeight())
+                            .setDuration(animationDuration)
+                            .withEndAction(new Runnable() {
+                                @Override
+                                public void run() {
+                                    navRail.setVisibility(View.GONE);
+                                }
+                            })
+                            .start();
+                    isBorderLineVisible = false;
                 }
             }
         });
