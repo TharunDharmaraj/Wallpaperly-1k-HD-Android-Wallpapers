@@ -33,19 +33,20 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ImageViewActivity extends AppCompatActivity {
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences favSharedPreferences;
+    private SharedPreferences downloadSharedPreferences;
 
-    ImageButton shareBtn, downloadBtn;
+    ImageButton shareBtn, downloadBtn, favBtn;
     Button wallpaperBtn;
     private ImageView imageView;
     private ScaleGestureDetector scaleGestureDetector;
     private float scaleFactor = 1.0f;
     private GestureDetector gestureDetector;
     static final int NONE = 0;
-
-    // Remember some things for zooming
 
 
     @Override
@@ -56,11 +57,24 @@ public class ImageViewActivity extends AppCompatActivity {
         String imageName = getIntent().getStringExtra("image_name");
         gestureDetector = new GestureDetector(this, new SwipeGestureListener());
 
-        sharedPreferences = getApplicationContext().getSharedPreferences("image_urls", Context.MODE_PRIVATE);
+        downloadSharedPreferences = getApplicationContext().getSharedPreferences("image_urls", Context.MODE_PRIVATE);
+        favSharedPreferences = getApplicationContext().getSharedPreferences("favorites", Context.MODE_PRIVATE);
         imageView = findViewById(R.id.imageView);
         shareBtn = findViewById(R.id.shareBtn);
         downloadBtn = findViewById(R.id.download);
+        favBtn = findViewById(R.id.favBtn);
         wallpaperBtn = findViewById(R.id.wallpaper);
+
+        favBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                favBtn.setBackgroundResource(R.drawable.unfavourite);
+                String imageUrl = getIntent().getStringExtra("image_url");
+                String imageName = getIntent().getStringExtra("image_name");
+                storeImageUrlFav(imageUrl);
+                Toast.makeText(getApplicationContext(),"Added as Favourites",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         wallpaperBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +154,6 @@ public class ImageViewActivity extends AppCompatActivity {
                                         // Set the wallpaper for the lock screen only
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                             WallpaperManager mm = WallpaperManager.getInstance(getApplicationContext());
-
                                             mm.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()) , null, true, WallpaperManager.FLAG_LOCK);
                                             Toast.makeText(getApplicationContext(), "Wallpaper set for lock screen.", Toast.LENGTH_SHORT).show();
                                         }
@@ -173,6 +186,7 @@ public class ImageViewActivity extends AppCompatActivity {
 
             }
         });
+
 
         downloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -288,7 +302,6 @@ public class ImageViewActivity extends AppCompatActivity {
                 "com.example.myapplication.fileprovider",
                 imageFile
         );
-        Log.d("tharun", String.valueOf(imageUri));
         // Add the image URI to the intent as an extra
         shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
 
@@ -311,13 +324,22 @@ public class ImageViewActivity extends AppCompatActivity {
         else
             super.onBackPressed();
     }
-
-    private void storeImageUrl(String imageUrl, String position) {
-        String key = "image_" + position;
-        String storedUrl = sharedPreferences.getString(key, null);
+    private void storeImageUrlFav(String imageUrl) {
+        String key =  imageUrl;
+        String storedUrl = favSharedPreferences.getString(key, null);
 
         if (storedUrl == null || !storedUrl.equals(imageUrl)) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
+            SharedPreferences.Editor editor = favSharedPreferences.edit();
+            editor.putString(key, imageUrl);
+            editor.apply();
+        }
+    }
+    private void storeImageUrl(String imageUrl, String position) {
+        String key = "image_" + position;
+        String storedUrl = downloadSharedPreferences.getString(key, null);
+
+        if (storedUrl == null || !storedUrl.equals(imageUrl)) {
+            SharedPreferences.Editor editor = downloadSharedPreferences.edit();
             editor.putString(key, imageUrl);
             editor.apply();
         }

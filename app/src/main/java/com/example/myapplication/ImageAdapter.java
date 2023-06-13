@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
@@ -24,10 +25,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private List<String> imageUrls;
+    private SharedPreferences sharedPreferences;
 
     public ImageAdapter(List<String> imageUrls) {
         this.imageUrls = imageUrls;
@@ -58,15 +62,28 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView imageView;
-        public ImageButton shareBtn;
+        public ImageButton shareBtn, favBtn;
+        public SharedPreferences sharedPreferences;
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
             CardView cardView = itemView.findViewById(R.id.cardView);
             imageView = itemView.findViewById(R.id.imageView);
             shareBtn = itemView.findViewById(R.id.shareBtn);
+            favBtn = itemView.findViewById(R.id.favBtn);
             itemView.setOnClickListener(this);
+            sharedPreferences = itemView.getContext().getSharedPreferences("favorites", Context.MODE_PRIVATE);
+
             cardView.setRadius(itemView.getContext().getResources().getDimensionPixelSize(R.dimen.card_corner_radius));
+
+            favBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String imageUrl = imageUrls.get(getAdapterPosition());
+                    storeImageUrlFav(imageUrl);
+                    Toast.makeText(v.getContext(),"Added as Favourites",Toast.LENGTH_SHORT).show();
+                }
+            });
             shareBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -175,7 +192,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 return toTitleCase(fileName);
             }
         }
+        private void storeImageUrlFav(String imageUrl) {
+            String key = "image_" + imageUrl;
+            String storedUrl = sharedPreferences.getString(key, null);
 
+            if (storedUrl == null || !storedUrl.equals(imageUrl)) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(key, imageUrl);
+                editor.apply();
+            }
+        }
         public String toTitleCase(String input) {
             StringBuilder titleCase = new StringBuilder(input.length());
             boolean nextTitleCase = true;
