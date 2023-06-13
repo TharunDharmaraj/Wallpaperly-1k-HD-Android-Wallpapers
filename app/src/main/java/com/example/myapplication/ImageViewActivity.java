@@ -32,7 +32,6 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class ImageViewActivity extends AppCompatActivity {
     static final int NONE = 0;
@@ -366,9 +365,6 @@ public class ImageViewActivity extends AppCompatActivity {
         private static final int SWIPE_DISTANCE_THRESHOLD = 400;
         private static final int SWIPE_VELOCITY_THRESHOLD = 500;
 
-        private static final int RIGHT_SWIPE_DISTANCE_THRESHOLD = 100;
-        private static final int RIGHT_SWIPE_VELOCITY_THRESHOLD = 100;
-
         @Override
         public boolean onDown(MotionEvent e) {
             return true;
@@ -383,9 +379,9 @@ public class ImageViewActivity extends AppCompatActivity {
                     && Math.abs(distanceX) > SWIPE_DISTANCE_THRESHOLD
                     && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                 if (distanceX > 0) {
-//                    switchToNextImage(false);
+                    // Right swipe (optional)
                 } else {
-//                    switchToNextImage(true);
+                    // Left swipe (optional)
                 }
             } else if (Math.abs(distanceY) > Math.abs(distanceX)
                     && Math.abs(distanceY) > SWIPE_DISTANCE_THRESHOLD
@@ -400,32 +396,5 @@ public class ImageViewActivity extends AppCompatActivity {
             return super.onFling(e1, e2, velocityX, velocityY);
         }
     }
-//    private void switchToNextImage(boolean goToNext) {
-//        // Retrieve the list of image URLs from the intent
-//        ArrayList<String> imageUrls = getIntent().getStringArrayListExtra("image_urls");
-//
-//        // Retrieve the current image URL and index
-//        String currentImageUrl = getIntent().getStringExtra("image_url");
-//        int currentIndex = imageUrls.indexOf(currentImageUrl);
-//
-//        // Calculate the index of the next image
-//        int nextIndex;
-//        if (goToNext) {
-//            nextIndex = (currentIndex + 1) % imageUrls.size();
-//        } else {
-//            nextIndex = (currentIndex - 1 + imageUrls.size()) % imageUrls.size();
-//        }
-//
-//        // Retrieve the next image URL
-//        String nextImageUrl = imageUrls.get(nextIndex);
-//
-//        // Create a new intent with the next image URL and start the activity again
-//        Intent intent = new Intent(ImageViewActivity.this, ImageViewActivity.class);
-//        intent.putExtra("image_urls", imageUrls);
-//        intent.putExtra("image_url", nextImageUrl);
-//        startActivity(intent);
-//
-//        // Finish the current activity
-//        finish();
-//    }
+
 }

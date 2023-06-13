@@ -100,6 +100,8 @@ public class HomeFragment extends Fragment {
         final SwipeRefreshLayout pullToRefresh = view.findViewById(R.id.pullToRefresh);
         int myColor = Color.parseColor("#00668B");
         pullToRefresh.setProgressBackgroundColorSchemeColor(myColor);
+        pullToRefresh.setColorSchemeResources(R.color.white);
+
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
