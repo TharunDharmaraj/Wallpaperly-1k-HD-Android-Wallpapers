@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/_12sdp"
     app:layout_constraintCircleRadius="@dimen/_16sdp"
     tools:context=".ImageViewActivity">
 
@@ -11,7 +10,7 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|center_horizontal|center_vertical"
+        android:layout_gravity="center_horizontal|center_vertical"
         android:adjustViewBounds="true"
         android:focusable="true"
         android:scaleType="fitCenter"
@@ -30,6 +29,7 @@
             android:layout_height="50dp"
             android:layout_gravity="bottom|right"
             android:layout_margin="@dimen/_6sdp"
+            android:contextClickable="true"
             android:adjustViewBounds="true"
             android:background="@null"
             android:src="@drawable/baseline_favorite_24"
@@ -90,8 +90,9 @@
             android:id="@+id/wallpaper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:layout_alignBottom="@+id/download"
-            android:layout_marginBottom="@dimen/_6sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:text="Set as Wallpaper" />
     </LinearLayout>
 
