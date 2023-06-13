@@ -24,17 +24,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
+            android:layout_margin="@dimen/_6sdp"
             android:adjustViewBounds="true"
             android:background="@null"
-            android:layout_margin="@dimen/_6sdp"
             android:src="@drawable/baseline_favorite_24" />
 
         <ImageButton
             android:id="@+id/shareBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_6sdp"
             android:layout_gravity="top|right"
+            android:layout_margin="@dimen/_6sdp"
             android:adjustViewBounds="true"
             android:background="@null"
             android:src="@drawable/baseline_share_24" />

@@ -19,8 +19,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +33,8 @@ public class CategoriesFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     BottomNavigationView navRail;
+    View borderLine;
+    TextView heading;
     private ListView folderListView;
     private boolean isNavBarVisible = false;
     private int animationDuration = 200;
@@ -46,8 +46,6 @@ public class CategoriesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private GridView folderGridView;
-    View borderLine;
-    TextView heading;
     private boolean isBorderLineVisible = false;
 
     public CategoriesFragment() {

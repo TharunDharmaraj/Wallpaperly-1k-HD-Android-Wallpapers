@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -32,22 +31,17 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 public class ImageViewActivity extends AppCompatActivity {
-    private SharedPreferences favSharedPreferences;
-    private SharedPreferences downloadSharedPreferences;
-
+    static final int NONE = 0;
     ImageButton shareBtn, downloadBtn, favBtn;
     Button wallpaperBtn;
+    private SharedPreferences favSharedPreferences;
+    private SharedPreferences downloadSharedPreferences;
     private ImageView imageView;
     private ScaleGestureDetector scaleGestureDetector;
     private float scaleFactor = 1.0f;
     private GestureDetector gestureDetector;
-    static final int NONE = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +66,7 @@ public class ImageViewActivity extends AppCompatActivity {
                 String imageUrl = getIntent().getStringExtra("image_url");
                 String imageName = getIntent().getStringExtra("image_name");
                 storeImageUrlFav(imageUrl);
-                Toast.makeText(getApplicationContext(),"Added as Favourites",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Added as Favourites", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -154,7 +148,7 @@ public class ImageViewActivity extends AppCompatActivity {
                                         // Set the wallpaper for the lock screen only
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                             WallpaperManager mm = WallpaperManager.getInstance(getApplicationContext());
-                                            mm.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()) , null, true, WallpaperManager.FLAG_LOCK);
+                                            mm.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()), null, true, WallpaperManager.FLAG_LOCK);
                                             Toast.makeText(getApplicationContext(), "Wallpaper set for lock screen.", Toast.LENGTH_SHORT).show();
                                         }
                                     } else {
@@ -324,8 +318,9 @@ public class ImageViewActivity extends AppCompatActivity {
         else
             super.onBackPressed();
     }
+
     private void storeImageUrlFav(String imageUrl) {
-        String key =  imageUrl;
+        String key = imageUrl;
         String storedUrl = favSharedPreferences.getString(key, null);
 
         if (storedUrl == null || !storedUrl.equals(imageUrl)) {
@@ -334,6 +329,7 @@ public class ImageViewActivity extends AppCompatActivity {
             editor.apply();
         }
     }
+
     private void storeImageUrl(String imageUrl, String position) {
         String key = "image_" + position;
         String storedUrl = downloadSharedPreferences.getString(key, null);

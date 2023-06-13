@@ -25,9 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private List<String> imageUrls;
@@ -81,7 +79,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 public void onClick(View v) {
                     String imageUrl = imageUrls.get(getAdapterPosition());
                     storeImageUrlFav(imageUrl);
-                    Toast.makeText(v.getContext(),"Added as Favourites",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "Added as Favourites", Toast.LENGTH_SHORT).show();
                 }
             });
             shareBtn.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +115,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                             // Do something after 5s = 5000ms
                         }
                     }, 5000);
-                    shareImage(file,v);
+                    shareImage(file, v);
                 }
             });
             // Get the device screen width
@@ -148,7 +146,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             intent.putExtra("image_name", imageName);
             v.getContext().startActivity(intent);
         }
-        private void shareImage(File imageFile,View v) {
+
+        private void shareImage(File imageFile, View v) {
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -178,6 +177,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             // Start the share activity
             v.getContext().startActivity(Intent.createChooser(shareIntent, "Share Image"));
         }
+
         private String getImageNameFromUrl(String imageUrl) {
             // Extract the image name from the URL
             Uri uri = Uri.parse(imageUrl);
@@ -192,6 +192,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 return toTitleCase(fileName);
             }
         }
+
         private void storeImageUrlFav(String imageUrl) {
             String key = "image_" + imageUrl;
             String storedUrl = sharedPreferences.getString(key, null);
@@ -202,6 +203,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 editor.apply();
             }
         }
+
         public String toTitleCase(String input) {
             StringBuilder titleCase = new StringBuilder(input.length());
             boolean nextTitleCase = true;

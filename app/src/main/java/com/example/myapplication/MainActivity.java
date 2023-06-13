@@ -15,39 +15,23 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.android.gms.common.internal.Constants;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.Calendar;
-
 public class MainActivity extends AppCompatActivity {
+    private static final long INTERVAL_ONE_WEEK = 7 * 24 * 60 * 60 * 1000; // One week in milliseconds
     BottomNavigationView navRail;
     FrameLayout recyclerView;
     ShimmerFrameLayout shimmerFrameLayout;
     View borderLine;
-    private static final long INTERVAL_ONE_WEEK = 7 * 24 * 60 * 60 * 1000; // One week in milliseconds
-    private BroadcastReceiver shutdownReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (Intent.ACTION_SHUTDOWN.equals(intent.getAction())) {
-                // Schedule cache clearing when the application is closed
-                scheduleCacheClear(context);
-            }
-        }
-    };
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -68,6 +52,15 @@ public class MainActivity extends AppCompatActivity {
                     return false;
                 }
             };
+    private BroadcastReceiver shutdownReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Intent.ACTION_SHUTDOWN.equals(intent.getAction())) {
+                // Schedule cache clearing when the application is closed
+                scheduleCacheClear(context);
+            }
+        }
+    };
     private boolean isNavBarVisible = false;
     private int animationDuration = 200;
 
@@ -87,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             navRail = findViewById(R.id.navigation_rail);
             navRail.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
             openFragment(HomeFragment.newInstance("", ""));
-        }else{
+        } else {
             try {
                 AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this, R.style.CustomAlertDialog).create();
                 alertDialog.setTitle("No Internet !");
@@ -100,29 +93,30 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 alertDialog.show();
-            }
-            catch(Exception e)
-            {
-                Log.d("Tag", "Show Dialog: "+e.getMessage());
+            } catch (Exception e) {
+                Log.d("Tag", "Show Dialog: " + e.getMessage());
             }
         }
     }
+
     public boolean isOnline() {
         ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
 
-        if(netInfo == null || !netInfo.isConnected() || !netInfo.isAvailable()){
+        if (netInfo == null || !netInfo.isConnected() || !netInfo.isAvailable()) {
 //            Toast.makeText(getApplicationContext(), "No Internet connection!", Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
     }
+
     public void openFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

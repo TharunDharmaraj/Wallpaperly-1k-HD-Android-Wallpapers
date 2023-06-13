@@ -45,24 +45,24 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"/>
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
     </LinearLayout>
 
-<!--    <com.facebook.shimmer.ShimmerFrameLayout-->
-<!--        android:id="@+id/shimmer"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
+    <!--    <com.facebook.shimmer.ShimmerFrameLayout-->
+    <!--        android:id="@+id/shimmer"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="vertical">-->
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:orientation="vertical">-->
 
 
-<!--            <include layout="@layout/shimmer_layout">-->
-<!--            </include>-->
-<!--        </LinearLayout>-->
-<!--    </com.facebook.shimmer.ShimmerFrameLayout>-->
+    <!--            <include layout="@layout/shimmer_layout">-->
+    <!--            </include>-->
+    <!--        </LinearLayout>-->
+    <!--    </com.facebook.shimmer.ShimmerFrameLayout>-->
 
 
     <View
@@ -72,15 +72,16 @@
         android:background="@color/shimmer"
         app:layout_constraintBottom_toTopOf="@+id/navigation_rail"
         tools:ignore="MissingConstraints" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation_rail"
         style="@style/BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:itemIconSize="@dimen/design_bottom_navigation_icon_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/navigation_rail_menu"
-        app:itemIconSize="@dimen/design_bottom_navigation_icon_size"
         app:menuGravity="center"
         tools:ignore="PrivateResource" />
 </androidx.constraintlayout.widget.ConstraintLayout>

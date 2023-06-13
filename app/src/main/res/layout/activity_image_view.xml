@@ -11,12 +11,11 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center|center_horizontal|center_vertical"
         android:adjustViewBounds="true"
         android:focusable="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/container"
-        android:layout_gravity="center|center_horizontal|center_vertical"
-        />
+        android:src="@drawable/container" />
 
 
     <LinearLayout
