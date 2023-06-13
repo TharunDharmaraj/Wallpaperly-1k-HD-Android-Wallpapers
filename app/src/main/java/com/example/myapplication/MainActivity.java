@@ -27,7 +27,6 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-    private static final long INTERVAL_ONE_WEEK = 7 * 24 * 60 * 60 * 1000; // One week in milliseconds
     BottomNavigationView navRail;
     FrameLayout recyclerView;
     ShimmerFrameLayout shimmerFrameLayout;
@@ -127,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void scheduleCacheClear(Context context) {
         Intent intent = new Intent(context, CacheClearReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
         // Schedule the cache clearing alarm
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

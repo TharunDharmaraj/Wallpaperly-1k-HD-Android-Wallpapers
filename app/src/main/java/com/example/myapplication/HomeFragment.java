@@ -25,6 +25,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -182,9 +183,16 @@ public class HomeFragment extends Fragment {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-
+        ArrayList<String> al = new ArrayList<>();
+        al.add("Trending");
+        al.add("Trending1");
+        al.add("Trending2");
+        al.add("Trending3");
+        al.add("Trending4");
+        al.add("Trending5");
+        int randomNum = ThreadLocalRandom.current().nextInt(0, 5 + 1);
         // Assuming you have a "images" folder in your Firebase Storage
-        StorageReference imagesRef = storageRef.child("Trending");
+        StorageReference imagesRef = storageRef.child(al.get(randomNum));
 
         imagesRef.listAll()
                 .addOnSuccessListener(new OnSuccessListener<ListResult>() {
