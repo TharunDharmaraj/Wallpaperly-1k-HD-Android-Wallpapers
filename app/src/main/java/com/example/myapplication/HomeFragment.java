@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -21,6 +23,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +38,7 @@ public class HomeFragment extends Fragment {
     BottomNavigationView navRail;
     RecyclerView recyclerView;
     View borderLine;
+    TextView heading;
     private boolean isBorderLineVisible = false;
 
     private boolean isNavBarVisible = false;
@@ -78,8 +82,10 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false); //pass the correct layout name for the fragment
-
+        View view = inflater.inflate(R.layout.fragment_home, requireActivity().findViewById(R.id.container), false); //pass the correct layout name for the fragment
+        LinearLayout ll = getActivity().findViewById(R.id.linearLayout);
+        heading = getActivity().findViewById(R.id.heading);
+        heading.setText("Trending");
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         List<String> imageUrls = new ArrayList<>();
@@ -166,7 +172,7 @@ public class HomeFragment extends Fragment {
         StorageReference storageRef = storage.getReference();
 
         // Assuming you have a "images" folder in your Firebase Storage
-        StorageReference imagesRef = storageRef.child("Christmas");
+        StorageReference imagesRef = storageRef.child("Trending");
 
         imagesRef.listAll()
                 .addOnSuccessListener(new OnSuccessListener<ListResult>() {

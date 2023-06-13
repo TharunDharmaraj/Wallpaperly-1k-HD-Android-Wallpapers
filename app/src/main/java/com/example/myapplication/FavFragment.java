@@ -14,6 +14,8 @@
 
     import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+    import org.w3c.dom.Text;
+
     import java.util.ArrayList;
     import java.util.HashSet;
     import java.util.List;
@@ -35,6 +37,7 @@
         private String mParam1;
         private String mParam2;
         BottomNavigationView navRail;
+        TextView heading;
         private RecyclerView recyclerView;
         private ImageAdapter adapter;
         private SharedPreferences sharedPreferences;
@@ -78,11 +81,13 @@
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_fav, container, false);
+            View view = inflater.inflate(R.layout.fragment_fav, requireActivity().findViewById(R.id.container), false);
             navRail = getActivity().findViewById(R.id.navigation_rail);
             borderLine = getActivity().findViewById(R.id.viewLine);
             recyclerView = view.findViewById(R.id.recyclerView);
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+            heading = getActivity().findViewById(R.id.heading);
+            heading.setText("Favourites");
             List<String> imageUrls = new ArrayList<>();
             ImageAdapter adapter = new ImageAdapter(imageUrls);
             recyclerView.setAdapter(adapter);

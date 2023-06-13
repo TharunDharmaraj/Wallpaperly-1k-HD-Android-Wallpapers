@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -17,6 +18,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +47,7 @@ public class CategoriesFragment extends Fragment {
     private String mParam2;
     private GridView folderGridView;
     View borderLine;
+    TextView heading;
     private boolean isBorderLineVisible = false;
 
     public CategoriesFragment() {
@@ -80,8 +84,10 @@ public class CategoriesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_categories, container, false); //pass the correct layout name for the fragment
+        View view = inflater.inflate(R.layout.fragment_categories, requireActivity().findViewById(R.id.container), false); //pass the correct layout name for the fragment
         folderGridView = view.findViewById(R.id.folderGridView);
+        heading = getActivity().findViewById(R.id.heading);
+        heading.setText("Categories");
         folderList = new ArrayList<>();
         navRail = getActivity().findViewById(R.id.navigation_rail);
         borderLine = getActivity().findViewById(R.id.viewLine);

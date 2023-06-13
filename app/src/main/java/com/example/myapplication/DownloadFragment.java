@@ -40,7 +40,7 @@ public class DownloadFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private TextView storedUrlsTextView;
+    private TextView heading;
     private SharedPreferences sharedPreferences;
 
     public DownloadFragment() {
@@ -77,12 +77,14 @@ public class DownloadFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_download, container, false); //pass the correct layout name for the fragment
+        View view = inflater.inflate(R.layout.fragment_download, requireActivity().findViewById(R.id.container), false); //pass the correct layout name for the fragment
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         List<String> imageUrls = new ArrayList<>();
         navRail = getActivity().findViewById(R.id.navigation_rail);
         borderLine = getActivity().findViewById(R.id.viewLine);
+        heading = getActivity().findViewById(R.id.heading);
+        heading.setText("Downloads");
 
         ImageAdapter adapter = new ImageAdapter(imageUrls);
         recyclerView.setAdapter(adapter);
@@ -153,7 +155,6 @@ public class DownloadFragment extends Fragment {
             }
         });
         // Inflate the layout for this fragment
-        storedUrlsTextView = view.findViewById(R.id.nonenew);
         sharedPreferences = getActivity().getSharedPreferences("image_urls", Context.MODE_PRIVATE);
 
 

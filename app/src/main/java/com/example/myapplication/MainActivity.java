@@ -1,8 +1,13 @@
 package com.example.myapplication;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -26,12 +31,23 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.common.internal.Constants;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView navRail;
     FrameLayout recyclerView;
     ShimmerFrameLayout shimmerFrameLayout;
     View borderLine;
-
+    private static final long INTERVAL_ONE_WEEK = 7 * 24 * 60 * 60 * 1000; // One week in milliseconds
+    private BroadcastReceiver shutdownReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Intent.ACTION_SHUTDOWN.equals(intent.getAction())) {
+                // Schedule cache clearing when the application is closed
+                scheduleCacheClear(context);
+            }
+        }
+    };
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -61,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        // Register the shutdown receiver
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SHUTDOWN);
+        registerReceiver(shutdownReceiver, filter);
         if (isOnline()) {
 //        shimmerFrameLayout = findViewById(R.id.shimmer);
 //        shimmerFrameLayout.startShimmer();
@@ -105,5 +123,24 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
+        // Unregister the shutdown receiver
+        unregisterReceiver(shutdownReceiver);
+    }
+
+    private void scheduleCacheClear(Context context) {
+        Intent intent = new Intent(context, CacheClearReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+
+        // Schedule the cache clearing alarm
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        long oneWeekInMillis = 7 * 24 * 60 * 60 * 1000; // 1 week in milliseconds
+        long triggerTime = System.currentTimeMillis() + oneWeekInMillis;
+        if (alarmManager != null) {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
+        }
+    }
 }
