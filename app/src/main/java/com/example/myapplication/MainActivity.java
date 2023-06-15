@@ -22,7 +22,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -31,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView navRail;
     FrameLayout recyclerView;
     ShimmerFrameLayout shimmerFrameLayout;
-
     View borderLine;
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -79,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 //        hideStatusBar();
         // Register the shutdown receiver
         IntentFilter filter = new IntentFilter(Intent.ACTION_SHUTDOWN);
