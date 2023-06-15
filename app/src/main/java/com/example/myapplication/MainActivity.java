@@ -29,12 +29,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView navRail;
-    private long backPressedTime;
-
     FrameLayout recyclerView;
     ShimmerFrameLayout shimmerFrameLayout;
     View borderLine;
-
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -54,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+    private long backPressedTime;
 
 //    BottomNavigationView.OnNavigationItemReselectedListener navigationItemReSelectedListener =
 //            new BottomNavigationView.OnNavigationItemReselectedListener() {
@@ -62,8 +60,7 @@ public class MainActivity extends AppCompatActivity {
 //           return ;
 //        }
 //    };
-
-    private BroadcastReceiver shutdownReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver shutdownReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (Intent.ACTION_SHUTDOWN.equals(intent.getAction())) {
@@ -72,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-    private boolean isNavBarVisible = false;
-    private int animationDuration = 200;
+    private final boolean isNavBarVisible = false;
+    private final int animationDuration = 200;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
@@ -123,11 +120,8 @@ public class MainActivity extends AppCompatActivity {
         ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
 
-        if (netInfo == null || !netInfo.isConnected() || !netInfo.isAvailable()) {
-//            Toast.makeText(getApplicationContext(), "No Internet connection!", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        return true;
+        //            Toast.makeText(getApplicationContext(), "No Internet connection!", Toast.LENGTH_LONG).show();
+        return netInfo != null && netInfo.isConnected() && netInfo.isAvailable();
     }
 
     //    private void hideStatusBar() {
@@ -181,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
             // Get the current time
             long currentTime = System.currentTimeMillis();
 
-             if (backPressedTime == 0 || currentTime - backPressedTime > 2000) {
+            if (backPressedTime == 0 || currentTime - backPressedTime > 2000) {
                 // First back press or time difference greater than 2 seconds
                 backPressedTime = currentTime;
                 Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();

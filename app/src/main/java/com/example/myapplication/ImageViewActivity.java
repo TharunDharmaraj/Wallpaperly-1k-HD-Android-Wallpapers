@@ -70,7 +70,7 @@ public class ImageViewActivity extends AppCompatActivity {
 //                favBtn.setBackgroundResource(R.drawable.unfavourite);
                 String imageUrl = getIntent().getStringExtra("image_url");
                 String imageName = getIntent().getStringExtra("image_name");
-                storeImageUrlFav(imageUrl,v);
+                storeImageUrlFav(imageUrl, v);
                 Toast.makeText(getApplicationContext(), "Added as Favourites", Toast.LENGTH_SHORT).show();
             }
         });
@@ -322,7 +322,7 @@ public class ImageViewActivity extends AppCompatActivity {
             super.onBackPressed();
     }
 
-    private void storeImageUrlFav(String imageUrl,View v) {
+    private void storeImageUrlFav(String imageUrl, View v) {
         String key = imageUrl;
         String storedUrl = favSharedPreferences.getString(key, null);
 
@@ -332,15 +332,16 @@ public class ImageViewActivity extends AppCompatActivity {
             editor.apply();
             Toast.makeText(v.getContext(), "Added as Favourites", Toast.LENGTH_SHORT).show();
             favBtn.setImageResource(R.drawable.unfavourite);
-        }else {
+        } else {
             // Image is already in favorites, remove it
             SharedPreferences.Editor editor = favSharedPreferences.edit();
             editor.remove(key);
             editor.apply();
-            showSnackbarWithUndo(imageUrl,v);
+            showSnackbarWithUndo(imageUrl, v);
         }
     }
-    private void showSnackbarWithUndo(final String imageUrl,View v) {
+
+    private void showSnackbarWithUndo(final String imageUrl, View v) {
         Snackbar snackbar = Snackbar.make(v, "Removed from Favorites", Snackbar.LENGTH_SHORT);
         favBtn.setImageResource(R.drawable.baseline_favorite_24);
 
@@ -359,6 +360,7 @@ public class ImageViewActivity extends AppCompatActivity {
         snackbar.show();
         // Notify the fragment to reload
     }
+
     private void storeImageUrl(String imageUrl, String position) {
         String key = "image_" + position;
         String storedUrl = downloadSharedPreferences.getString(key, null);
@@ -384,11 +386,7 @@ public class ImageViewActivity extends AppCompatActivity {
             imageView.setScaleY(scaleFactor);
             // Disable the status bar while zooming
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                if (scaleFactor != 1.0f) {
-                    getWindow().setDecorFitsSystemWindows(false);
-                } else {
-                    getWindow().setDecorFitsSystemWindows(true);
-                }
+                getWindow().setDecorFitsSystemWindows(scaleFactor == 1.0f);
             }
             return true;
         }

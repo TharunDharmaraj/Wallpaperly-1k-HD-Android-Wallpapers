@@ -10,15 +10,22 @@
     <TextView
         android:id="@+id/textview"
         android:layout_width="wrap_content"
-        android:textColor="@color/offStateColor4"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
 
-        android:layout_gravity="center_vertical|center_horizontal"        android:visibility="visible"
-        android:text="Currently No Favourites" />
+        android:text="Currently No Favourites"
+        android:textColor="@color/offStateColor4"
+        android:visibility="visible" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </FrameLayout>

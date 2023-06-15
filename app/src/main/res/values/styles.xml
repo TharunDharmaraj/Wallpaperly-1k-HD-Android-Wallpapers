@@ -16,12 +16,14 @@
         <item name="colorSecondary">@color/colorAccent</item>
         <item name="colorTertiary">@color/colorAccent</item>
     </style>
+
     <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!-- Customize the attributes of the AlertDialog -->
         <item name="android:windowBackground">@color/colorAccent</item>
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:textColorPrimary">@android:color/white</item>
     </style>
+
     <style name="LightPickerDialogTitleStyle">
         <item name="android:maxLines">1</item>
         <item name="android:scrollHorizontally">true</item>
@@ -32,9 +34,9 @@
     </style>
 
     <style name="SeekBar.Iconify" parent="Widget.Material3.Slider">
-<!--        <item name="android:progressBackgroundTint">@null</item>-->
-<!--        <item name="android:progressTint">@null</item>-->
-<!--        <item name="android:thumbTint">@null</item>-->
+        <!--        <item name="android:progressBackgroundTint">@null</item>-->
+        <!--        <item name="android:progressTint">@null</item>-->
+        <!--        <item name="android:thumbTint">@null</item>-->
     </style>
 
     <style name="MenuLightTheme" parent="Theme.Material3.Light.NoActionBar">
@@ -67,13 +69,12 @@
     </style>
 
 
-
     <style name="customSeekBar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/container_padding</item>
         <item name="android:layout_marginBottom">8dp</item>
-<!--        <item name="android:background">@null</item>-->
+        <!--        <item name="android:background">@null</item>-->
         <item name="android:hapticFeedbackEnabled">true</item>
         <item name="android:splitTrack">false</item>
         <item name="android:theme">@style/SeekBar.Iconify</item>
@@ -92,7 +93,7 @@
         <item name="android:paddingEnd">@dimen/container_paddingSide</item>
         <item name="android:layout_marginTop">@dimen/_4sdp</item>
         <item name="android:layout_marginBottom">@dimen/_4sdp</item>
-<!--        <item name="android:button">@null</item>-->
+        <!--        <item name="android:button">@null</item>-->
         <item name="android:background">@drawable/radio_sb_button_bg</item>
         <item name="android:textColor">@drawable/radio_sb_text_color</item>
         <item name="android:textSize">@dimen/cont_desc_size</item>
@@ -108,8 +109,8 @@
         <item name="android:paddingTop">@dimen/_6sdp</item>
         <item name="android:paddingEnd">@dimen/_28sdp</item>
         <item name="android:paddingBottom">@dimen/_6sdp</item>
-<!--        <item name="android:stateListAnimator">@null</item>-->
-<!--        <item name="backgroundTint">@null</item>-->
+        <!--        <item name="android:stateListAnimator">@null</item>-->
+        <!--        <item name="backgroundTint">@null</item>-->
     </style>
 
     <style name="buttonMain">
@@ -125,10 +126,10 @@
         <item name="android:paddingTop">@dimen/_6sdp</item>
         <item name="android:paddingEnd">@dimen/_28sdp</item>
         <item name="android:paddingBottom">@dimen/_9sdp</item>
-<!--        <item name="android:stateListAnimator">@null</item>-->
+        <!--        <item name="android:stateListAnimator">@null</item>-->
         <item name="android:minHeight">0dp</item>
         <item name="android:minWidth">0dp</item>
-<!--        <item name="backgroundTint">@null</item>-->
+        <!--        <item name="backgroundTint">@null</item>-->
     </style>
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Material3.ActionBar.Title">
@@ -182,7 +183,7 @@
         <item name="android:buttonTint">@color/color_radio_button_circle</item>
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textSize">@dimen/_11sdp</item>
-<!--        <item name="android:drawableRight">@null</item>-->
+        <!--        <item name="android:drawableRight">@null</item>-->
     </style>
 
     <style name="BottomNavigationView" parent="Widget.Material3.BottomNavigationView">

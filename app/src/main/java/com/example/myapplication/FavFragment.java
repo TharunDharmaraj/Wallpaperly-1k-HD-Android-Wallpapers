@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +12,13 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,17 +33,17 @@ public class FavFragment extends Fragment {
     BottomNavigationView navRail;
     TextView heading;
     View borderLine;
+    TextView favText;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private RecyclerView recyclerView;
     private ImageAdapter adapter;
-    TextView favText;
     private SharedPreferences sharedPreferences;
     private boolean isBorderLineVisible = false;
 
     private boolean isNavBarVisible = false;
-    private int animationDuration = 200;
+    private final int animationDuration = 200;
 
     // TODO: Rename and change types of parameters
     public FavFragment() {
@@ -87,11 +87,26 @@ public class FavFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         heading = getActivity().findViewById(R.id.heading);
         heading.setText("Favourites");
+//        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//        Fragment favFragment = this;
         List<String> imageUrls = new ArrayList<>();
         ImageAdapter adapter = new ImageAdapter(imageUrls);
+//        ImageAdapter adapter = new ImageAdapter(imageUrls, fragmentManager, favFragment);
         recyclerView.setAdapter(adapter);
+        final SwipeRefreshLayout pullToRefresh = view.findViewById(R.id.pullToRefresh);
+        int myColor = Color.parseColor("#00668B");
+        pullToRefresh.setProgressBackgroundColorSchemeColor(myColor);
+        pullToRefresh.setColorSchemeResources(R.color.white);
+
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                displayStoredUrls(view); // your code
+                pullToRefresh.setRefreshing(false);
+            }
+        });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            private int previousScrollPosition = 0;
+            private final int previousScrollPosition = 0;
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

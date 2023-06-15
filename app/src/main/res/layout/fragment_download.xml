@@ -10,13 +10,16 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     tools:context=".DownloadFragment">
+
     <TextView
         android:id="@+id/heading"
         android:layout_width="wrap_content"
-        android:textColor="@color/offStateColor4"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"        android:visibility="visible"
-        android:text="Currently No Downloads" />
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:text="Currently No Downloads"
+        android:textColor="@color/offStateColor4"
+        android:visibility="visible" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

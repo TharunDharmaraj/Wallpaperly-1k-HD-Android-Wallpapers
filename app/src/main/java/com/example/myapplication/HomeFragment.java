@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
     private boolean isBorderLineVisible = false;
 
     private boolean isNavBarVisible = false;
-    private int animationDuration = 200;
+    private final int animationDuration = 200;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -109,7 +109,7 @@ public class HomeFragment extends Fragment {
             }
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            private int previousScrollPosition = 0;
+            private final int previousScrollPosition = 0;
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

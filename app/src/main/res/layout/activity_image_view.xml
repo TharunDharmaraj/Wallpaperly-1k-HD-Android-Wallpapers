@@ -29,9 +29,9 @@
             android:layout_height="50dp"
             android:layout_gravity="bottom|right"
             android:layout_margin="@dimen/_6sdp"
-            android:contextClickable="true"
             android:adjustViewBounds="true"
             android:background="@null"
+            android:contextClickable="true"
             android:src="@drawable/baseline_favorite_24"
             android:tooltipText="Add To Fav" />
 
@@ -90,9 +90,9 @@
             android:id="@+id/wallpaper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_alignBottom="@+id/download"
             android:layout_marginBottom="@dimen/_10sdp"
+            android:gravity="center"
             android:text="Set as Wallpaper" />
     </LinearLayout>
 

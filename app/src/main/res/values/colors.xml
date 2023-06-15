@@ -8,7 +8,7 @@
 
     <color name="red">#FFFF6565</color>
     <color name="pink">#FFEE5166</color>
-    <color name="transparent"  tools:targetApi="s">#00000000</color>
+    <color name="transparent" tools:targetApi="s">#00000000</color>
     <color name="colorAccent" tools:targetApi="s">#FF2C7873</color>
     <color name="colorAccentVariant" tools:targetApi="s">@android:color/system_accent3_600</color>
     <color name="rippleAccent">@color/color_container_overlay_light</color>
@@ -24,7 +24,8 @@
     <color name="textColorPrimaryInverse">#FFFFFFFF</color>
     <color name="textColorSecondary">#CC000000</color>
     <color name="textColorSecondaryInverse">#CCFFFFFF</color>
-    <color name="textColorSecondaryLight" tools:targetApi="s">@android:color/system_neutral1_800</color>
+    <color name="textColorSecondaryLight" tools:targetApi="s">@android:color/system_neutral1_800
+    </color>
     <color name="colorSuccess" tools:targetApi="s">@android:color/system_accent1_400</color>
     <color name="colorBackground2">#14000000</color>
     <color name="offStateColor" tools:targetApi="s">@android:color/system_neutral2_10</color>
@@ -36,8 +37,10 @@
     <color name="neumorph_outline_end">#FFF0F0F0</color>
     <color name="pixel_black_bg" tools:targetApi="s">@android:color/system_neutral2_900</color>
     <color name="splash_logo">@color/colorAccent</color>
-    <color name="switch_track_inactive" tools:targetApi="s">@android:color/system_neutral2_100</color>
-    <color name="switch_thumb_inactive" tools:targetApi="s">@android:color/system_neutral2_600</color>
+    <color name="switch_track_inactive" tools:targetApi="s">@android:color/system_neutral2_100
+    </color>
+    <color name="switch_thumb_inactive" tools:targetApi="s">@android:color/system_neutral2_600
+    </color>
     <color name="navbarSelectedBackground">@color/color_navbar_selected_bg_light</color>
     <color name="landing_page_one_background">#FFFFF0F3</color>
     <color name="landing_page_two_background">#FFEFF7FA</color>

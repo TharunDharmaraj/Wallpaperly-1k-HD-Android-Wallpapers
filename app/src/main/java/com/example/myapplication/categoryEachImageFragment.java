@@ -29,12 +29,11 @@ import java.util.List;
  */
 public class categoryEachImageFragment extends Fragment {
     BottomNavigationView navRail;
-    private boolean doubleBackToExitPressedOnce;
     List<String> imageUrls = new ArrayList<>();
-
     RecyclerView recyclerView;
+    private boolean doubleBackToExitPressedOnce;
     private boolean isNavBarVisible = false;
-    private int animationDuration = 200;
+    private final int animationDuration = 200;
     private String folderName;
 
     public categoryEachImageFragment() {
@@ -69,7 +68,7 @@ public class categoryEachImageFragment extends Fragment {
         ImageAdapter adapter = new ImageAdapter(imageUrls);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            private int previousScrollPosition = 0;
+            private final int previousScrollPosition = 0;
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -159,7 +158,7 @@ public class categoryEachImageFragment extends Fragment {
                             });
                         }
                         TextView heading = getActivity().findViewById(R.id.heading);
-                        heading.setText("Categories > "+folderName+" ("+imageRefs.size()+")");
+                        heading.setText("Categories > " + folderName + " (" + imageRefs.size() + ")");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

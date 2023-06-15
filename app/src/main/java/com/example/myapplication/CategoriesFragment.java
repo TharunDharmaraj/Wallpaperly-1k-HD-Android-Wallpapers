@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -41,10 +37,10 @@ public class CategoriesFragment extends Fragment {
     TextView heading;
     private ListView folderListView;
     private boolean isNavBarVisible = false;
-    private int animationDuration = 200;
+    private final int animationDuration = 200;
     private ArrayAdapter<String> adapter;
-    private int previousVisibleItem = 0;
-    private boolean isScrollingUp = false;
+    private final int previousVisibleItem = 0;
+    private final boolean isScrollingUp = false;
     private List<String> folderList;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -73,10 +69,6 @@ public class CategoriesFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-
-
-
 
 
     @Override
@@ -186,13 +178,13 @@ public class CategoriesFragment extends Fragment {
         storageRef.listAll().addOnSuccessListener(listResult -> {
             for (StorageReference prefix : listResult.getPrefixes()) {
 
-                if(!prefix.getName().startsWith("Trending")) {
+                if (!prefix.getName().startsWith("Trending")) {
                     // Add the folder name to the list
                     folderList.add(prefix.getName());
                 }
             }
             adapter.notifyDataSetChanged();
-            heading.setText("Categories ("+folderList.size()+")");
+            heading.setText("Categories (" + folderList.size() + ")");
 
         }).addOnFailureListener(e -> {
             // Handle the error

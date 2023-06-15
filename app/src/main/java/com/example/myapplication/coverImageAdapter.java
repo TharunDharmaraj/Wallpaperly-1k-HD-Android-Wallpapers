@@ -23,9 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 public class coverImageAdapter extends ArrayAdapter<String> {
-    private List<String> folderList;
-    private LayoutInflater inflater;
-    private Map<String, String> folderCoverMap; // Map to store folder cover image URLs
+    private final List<String> folderList;
+    private final LayoutInflater inflater;
+    private final Map<String, String> folderCoverMap; // Map to store folder cover image URLs
 
     public coverImageAdapter(Context context, List<String> folderList) {
         super(context, 0, folderList);
