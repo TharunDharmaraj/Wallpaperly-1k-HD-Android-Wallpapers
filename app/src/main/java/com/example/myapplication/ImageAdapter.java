@@ -104,9 +104,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                     DownloadManager downloadManager = (DownloadManager) v.getContext().getSystemService(Context.DOWNLOAD_SERVICE);
                     if (downloadManager != null) {
                         downloadManager.enqueue(request);
-                        Toast.makeText(v.getContext(), "Image Downloaded", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(v.getContext(), "Image Downloaded", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(v.getContext(), "Failed to download image", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(v.getContext(), "Failed to Share image", Toast.LENGTH_SHORT).show();
                     }
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -159,7 +159,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
             // Set the type of the content to "image/png"
             shareIntent.setType("image/png");
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "Made in India");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "View The Source Code at https://github.com/TharunDharmaraj/Wallpaperly");
 
             // Get the URI of the image file using FileProvider
             Uri imageUri = FileProvider.getUriForFile(

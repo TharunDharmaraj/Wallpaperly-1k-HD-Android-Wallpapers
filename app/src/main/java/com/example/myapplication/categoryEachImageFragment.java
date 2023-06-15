@@ -2,7 +2,6 @@ package com.example.myapplication;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,7 +125,6 @@ public class categoryEachImageFragment extends Fragment {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
-        // Assuming you have a "images" folder in your Firebase Storage
         StorageReference imagesRef = storageRef.child(folderName);
 
         imagesRef.listAll()
@@ -136,6 +134,11 @@ public class categoryEachImageFragment extends Fragment {
                         List<StorageReference> imageRefs = listResult.getItems();
                         List<String> imageUrls = new ArrayList<>();
 
+                        // Initialize the RecyclerView adapter
+                        ImageAdapter adapter = new ImageAdapter(imageUrls);
+                        recyclerView.setAdapter(adapter);
+
+                        // Load and display each image one by one
                         for (StorageReference imageRef : imageRefs) {
                             imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
@@ -144,14 +147,8 @@ public class categoryEachImageFragment extends Fragment {
                                     String imageName = imageRef.getName(); // Retrieve the image name
                                     imageUrls.add(imageUrl);
 
-                                    // Check if all images have been retrieved
-                                    if (imageUrls.size() == imageRefs.size()) {
-
-                                        // Pass the imageUrls list to your RecyclerView adapter
-                                        ImageAdapter adapter = new ImageAdapter(imageUrls);
-                                        Log.d("IMAGEURL", imageUrl);
-                                        recyclerView.setAdapter(adapter);
-                                    }
+                                    // Notify the adapter that a new image has been added
+                                    adapter.notifyItemInserted(imageUrls.size() - 1);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -160,7 +157,6 @@ public class categoryEachImageFragment extends Fragment {
                                 }
                             });
                         }
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

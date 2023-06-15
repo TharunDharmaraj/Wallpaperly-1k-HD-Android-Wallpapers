@@ -3,7 +3,6 @@ package com.example.myapplication;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -202,6 +201,8 @@ public class HomeFragment extends Fragment {
                     public void onSuccess(ListResult listResult) {
                         List<StorageReference> imageRefs = listResult.getItems();
                         List<String> imageUrls = new ArrayList<>();
+                        ImageAdapter adapter = new ImageAdapter(imageUrls);
+                        recyclerView.setAdapter(adapter);
 
                         for (StorageReference imageRef : imageRefs) {
                             imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -211,14 +212,9 @@ public class HomeFragment extends Fragment {
                                     String imageName = imageRef.getName(); // Retrieve the image name
                                     imageUrls.add(imageUrl);
 
-                                    // Check if all images have been retrieved
-                                    if (imageUrls.size() == imageRefs.size()) {
+                                    adapter.notifyItemInserted(imageUrls.size() - 1);
 
-                                        // Pass the imageUrls list to your RecyclerView adapter
-                                        ImageAdapter adapter = new ImageAdapter(imageUrls);
-                                        Log.d("IMAGEURL", imageUrl);
-                                        recyclerView.setAdapter(adapter);
-                                    }
+
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override

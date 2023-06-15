@@ -28,7 +28,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -356,14 +355,21 @@ public class ImageViewActivity extends AppCompatActivity {
             // Apply the scale factor to the ImageView
             imageView.setScaleX(scaleFactor);
             imageView.setScaleY(scaleFactor);
-
+            // Disable the status bar while zooming
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (scaleFactor != 1.0f) {
+                    getWindow().setDecorFitsSystemWindows(false);
+                } else {
+                    getWindow().setDecorFitsSystemWindows(true);
+                }
+            }
             return true;
         }
     }
 
     private class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
-        private static final int SWIPE_DISTANCE_THRESHOLD = 400;
-        private static final int SWIPE_VELOCITY_THRESHOLD = 500;
+        private static final int SWIPE_DISTANCE_THRESHOLD = 300;
+        private static final int SWIPE_VELOCITY_THRESHOLD = 300;
 
         @Override
         public boolean onDown(MotionEvent e) {

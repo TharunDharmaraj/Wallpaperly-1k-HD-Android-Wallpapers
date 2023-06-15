@@ -13,7 +13,6 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -32,26 +31,34 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout recyclerView;
     ShimmerFrameLayout shimmerFrameLayout;
     View borderLine;
-    BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    if (item.getItemId() == R.id.home) {
-                        openFragment(HomeFragment.newInstance("", ""));
-                        return true;
-                    } else if (item.getItemId() == R.id.category) {
-                        openFragment(CategoriesFragment.newInstance("", ""));
-                        return true;
-                    } else if (item.getItemId() == R.id.fav) {
-                        openFragment(FavFragment.newInstance("", ""));
-                        return true;
-                    } else if (item.getItemId() == R.id.downloads) {
-                        openFragment(DownloadFragment.newInstance("", ""));
-                        return true;
-                    }
-                    return false;
-                }
-            };
+    BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            if (item.getItemId() == R.id.home) {
+                openFragment(HomeFragment.newInstance("", ""));
+                return true;
+            } else if (item.getItemId() == R.id.category) {
+                openFragment(CategoriesFragment.newInstance("", ""));
+                return true;
+            } else if (item.getItemId() == R.id.fav) {
+                openFragment(FavFragment.newInstance("", ""));
+                return true;
+            } else if (item.getItemId() == R.id.downloads) {
+                openFragment(DownloadFragment.newInstance("", ""));
+                return true;
+            }
+            return false;
+        }
+    };
+
+//    BottomNavigationView.OnNavigationItemReselectedListener navigationItemReSelectedListener =
+//            new BottomNavigationView.OnNavigationItemReselectedListener() {
+//        @Override
+//        public void onNavigationItemReselected(@NonNull MenuItem item) {
+//           return ;
+//        }
+//    };
+
     private BroadcastReceiver shutdownReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -70,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        hideStatusBar();
         // Register the shutdown receiver
         IntentFilter filter = new IntentFilter(Intent.ACTION_SHUTDOWN);
         registerReceiver(shutdownReceiver, filter);
@@ -79,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             borderLine = findViewById(R.id.viewLine);
             navRail = findViewById(R.id.navigation_rail);
             navRail.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+//            navRail.setOnNavigationItemReselectedListener(navigationItemReSelectedListener);
             openFragment(HomeFragment.newInstance("", ""));
         } else {
             try {
@@ -115,6 +124,20 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    //    private void hideStatusBar() {
+//        // Hide the status bar for devices running on Android 11 (API level 30) or above
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//            getWindow().getDecorView().getWindowInsetsController().hide(
+//                    WindowInsets.Type.statusBars()
+//            );
+//        } else {
+//            // Hide the status bar for devices running below Android 11
+//            getWindow().setFlags(
+//                    WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                    WindowManager.LayoutParams.FLAG_FULLSCREEN
+//            );
+//        }
+//    }
     public void openFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
