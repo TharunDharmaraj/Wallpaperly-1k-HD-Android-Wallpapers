@@ -25,7 +25,7 @@
             android:layout_marginRight="@dimen/_12sdp"
             android:layout_marginBottom="@dimen/_12sdp"
             android:text="Hello"
-            android:textColor="@color/white"
+            android:textColor="@color/colorAccent"
             android:textSize="@dimen/_24sdp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -69,7 +69,7 @@
         android:id="@+id/viewLine"
         android:layout_width="match_parent"
         android:layout_height="0.000001in"
-        android:background="@color/shimmer"
+        android:background="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/navigation_rail"
         tools:ignore="MissingConstraints" />
 
@@ -79,6 +79,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:itemIconSize="@dimen/design_bottom_navigation_icon_size"
+        app:itemTextColor="@color/colorAccent"
+        app:itemIconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/navigation_rail_menu"

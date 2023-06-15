@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="black">#FF000000</color>
+    <color name="black">#FF021C1E</color>
     <color name="shimmer">#BFBDBD</color>
     <color name="white">#FFFFFFFF</color>
     <color name="offwhite">#BFFFFFFF</color>
+    <color name="activeIndicator">#FF66A5AD</color>
+
     <color name="red">#FFFF6565</color>
     <color name="pink">#FFEE5166</color>
     <color name="transparent"  tools:targetApi="s">#00000000</color>
-    <color name="colorAccent" tools:targetApi="s">@android:color/system_accent1_600</color>
+    <color name="colorAccent" tools:targetApi="s">#FF2C7873</color>
     <color name="colorAccentVariant" tools:targetApi="s">@android:color/system_accent3_600</color>
     <color name="rippleAccent">@color/color_container_overlay_light</color>
     <color name="rippleDark">#1A000000</color>

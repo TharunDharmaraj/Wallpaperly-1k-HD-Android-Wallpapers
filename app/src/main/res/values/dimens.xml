@@ -39,6 +39,6 @@
     <dimen name="_1sdp">1sp</dimen>
     <dimen name="_minus2sdp">-2sp</dimen>
     <dimen name="_17sdp">17sp</dimen>
-    <dimen name="design_bottom_navigation_icon_size" tools:override="true">25dp</dimen>
+    <dimen name="design_bottom_navigation_icon_size" tools:override="true">28sp</dimen>
 
 </resources>

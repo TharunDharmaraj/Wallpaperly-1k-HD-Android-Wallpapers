@@ -13,6 +13,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -85,12 +86,17 @@ public class MainActivity extends AppCompatActivity {
                 alertDialog.setTitle("No Internet !");
                 alertDialog.setMessage("Internet not available, Cross check your internet connectivity and try again");
                 alertDialog.setIcon(R.drawable.ic_app_logo);
-                alertDialog.setButton("Try Again", new DialogInterface.OnClickListener() {
+
+                alertDialog.setButton2("Retry", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         recreate();
                     }
                 });
-
+                alertDialog.setButton("Exit", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
                 alertDialog.show();
             } catch (Exception e) {
                 Log.d("Tag", "Show Dialog: " + e.getMessage());
