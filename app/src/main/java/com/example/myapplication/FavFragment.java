@@ -86,7 +86,6 @@ public class FavFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         heading = getActivity().findViewById(R.id.heading);
-        heading.setText("Favourites");
 //        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
 //        Fragment favFragment = this;
         List<String> imageUrls = new ArrayList<>();
@@ -190,6 +189,8 @@ public class FavFragment extends Fragment {
             ImageAdapter adapter = new ImageAdapter(imageUrls);
             recyclerView.setAdapter(adapter);
         }
+        heading.setText("Favourites ("+allEntries.size()+")");
+
     }
 //        public void addUrlToFavorites(String url) {
 //            Set<String> favoriteUrls = getFavoriteUrls();

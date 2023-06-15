@@ -83,8 +83,6 @@ public class DownloadFragment extends Fragment {
         List<String> imageUrls = new ArrayList<>();
         navRail = getActivity().findViewById(R.id.navigation_rail);
         borderLine = getActivity().findViewById(R.id.viewLine);
-        heading = getActivity().findViewById(R.id.heading);
-        heading.setText("Downloads");
 
         ImageAdapter adapter = new ImageAdapter(imageUrls);
         recyclerView.setAdapter(adapter);
@@ -181,6 +179,9 @@ public class DownloadFragment extends Fragment {
             Log.d("IMAGEURL", imageUrl);
             recyclerView.setAdapter(adapter);
         }
+        heading = getActivity().findViewById(R.id.heading);
+        heading.setText("Downloads ("+imageUrls.size()+")");
+
 //        Log.d("storedUrlsTextView", "inside Download");
 
 //        storedUrlsTextView.setText(urlsBuilder.toString());
