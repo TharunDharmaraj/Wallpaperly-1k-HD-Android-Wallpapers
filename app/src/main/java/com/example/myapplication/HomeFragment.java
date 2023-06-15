@@ -211,10 +211,7 @@ public class HomeFragment extends Fragment {
                                     String imageUrl = uri.toString();
                                     String imageName = imageRef.getName(); // Retrieve the image name
                                     imageUrls.add(imageUrl);
-
                                     adapter.notifyItemInserted(imageUrls.size() - 1);
-
-
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override

@@ -83,8 +83,7 @@ public class DownloadFragment extends Fragment {
         List<String> imageUrls = new ArrayList<>();
         navRail = getActivity().findViewById(R.id.navigation_rail);
         borderLine = getActivity().findViewById(R.id.viewLine);
-        heading = getActivity().findViewById(R.id.heading);
-        heading.setText("Downloads");
+
 
         ImageAdapter adapter = new ImageAdapter(imageUrls);
         recyclerView.setAdapter(adapter);
@@ -158,20 +157,22 @@ public class DownloadFragment extends Fragment {
         sharedPreferences = getActivity().getSharedPreferences("image_urls", Context.MODE_PRIVATE);
 
 
-        displayStoredUrls();
+        displayStoredUrls(view);
 
         // Set the URLs as text in the TextView
 //        storedUrlsTextView.setText(urlsBuilder.toString());
         return view;
     }
 
-    private void displayStoredUrls() {
+    private void displayStoredUrls(View view) {
         StringBuilder urlsBuilder = new StringBuilder();
         List<String> imageUrls = new ArrayList<>();
 
         // Loop through the stored URLs and append them to the StringBuilder
         Map<String, ?> allEntries = sharedPreferences.getAll();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            heading = view.findViewById(R.id.heading);
+            heading.setVisibility(View.GONE);
             String imageUrl = entry.getValue().toString();
             urlsBuilder.append(imageUrl).append("\n");
             imageUrls.add(imageUrl);

@@ -30,7 +30,6 @@ public class FavFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    TextView tv;
     BottomNavigationView navRail;
     TextView heading;
     View borderLine;
@@ -39,6 +38,7 @@ public class FavFragment extends Fragment {
     private String mParam2;
     private RecyclerView recyclerView;
     private ImageAdapter adapter;
+    TextView favText;
     private SharedPreferences sharedPreferences;
     private boolean isBorderLineVisible = false;
 
@@ -157,7 +157,7 @@ public class FavFragment extends Fragment {
             }
         });
         sharedPreferences = getActivity().getSharedPreferences("favorites", Context.MODE_PRIVATE);
-        displayStoredUrls();
+        displayStoredUrls(view);
 
         return view;
     }
@@ -172,12 +172,13 @@ public class FavFragment extends Fragment {
         editor.apply();
     }
 
-    private void displayStoredUrls() {
+    private void displayStoredUrls(View view) {
         StringBuilder urlsBuilder = new StringBuilder();
         List<String> imageUrls = new ArrayList<>();
-
         Map<String, ?> allEntries = sharedPreferences.getAll();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            favText = view.findViewById(R.id.textview);
+            favText.setVisibility(View.GONE);
             String imageUrl = entry.getValue().toString();
             urlsBuilder.append(imageUrl).append("\n");
             imageUrls.add(imageUrl);
