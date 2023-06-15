@@ -28,6 +28,8 @@ import java.util.List;
  */
 public class categoryEachImageFragment extends Fragment {
     BottomNavigationView navRail;
+    private boolean doubleBackToExitPressedOnce;
+
     RecyclerView recyclerView;
     private boolean isNavBarVisible = false;
     private int animationDuration = 200;
@@ -176,4 +178,5 @@ public class categoryEachImageFragment extends Fragment {
 //        shimmerFrameLayout.setVisibility(View.GONE);
 //        recyclerView.setVisibility(View.VISIBLE);
     }
+
 }

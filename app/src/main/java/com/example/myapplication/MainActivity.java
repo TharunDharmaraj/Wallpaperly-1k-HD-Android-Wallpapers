@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -28,9 +29,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView navRail;
+    private long backPressedTime;
+
     FrameLayout recyclerView;
     ShimmerFrameLayout shimmerFrameLayout;
     View borderLine;
+
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -95,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
                 alertDialog.setTitle("No Internet !");
                 alertDialog.setMessage("Internet not available, Cross check your internet connectivity and try again");
                 alertDialog.setIcon(R.drawable.ic_app_logo);
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.setCancelable(false);
 
                 alertDialog.setButton2("Retry", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -165,4 +171,26 @@ public class MainActivity extends AppCompatActivity {
             alarmManager.set(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        if (fragment instanceof categoryEachImageFragment) {
+            super.onBackPressed(); // Allow normal back button behavior for categoryEachImageFragment
+        } else {
+            // Get the current time
+            long currentTime = System.currentTimeMillis();
+
+            // Check if it's the first back press or the time difference is greater than 2 seconds
+            if (backPressedTime == 0 || currentTime - backPressedTime > 2000) {
+                // First back press or time difference greater than 2 seconds
+                backPressedTime = currentTime;
+                Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+            } else {
+                // Second back press within 2 seconds, exit the activity
+                finish();
+            }
+        }
+    }
+
 }
