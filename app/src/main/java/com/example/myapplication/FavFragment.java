@@ -162,16 +162,6 @@ public class FavFragment extends Fragment {
         return view;
     }
 
-    private Set<String> getFavoriteUrls() {
-        return sharedPreferences.getStringSet("favoriteUrls", new HashSet<>());
-    }
-
-    private void saveFavoriteUrls(Set<String> favoriteUrls) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putStringSet("favoriteUrls", favoriteUrls);
-        editor.apply();
-    }
-
     private void displayStoredUrls(View view) {
         StringBuilder urlsBuilder = new StringBuilder();
         List<String> imageUrls = new ArrayList<>();

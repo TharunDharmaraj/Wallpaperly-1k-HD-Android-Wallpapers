@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,7 +70,7 @@ public class ImageViewActivity extends AppCompatActivity {
 //                favBtn.setBackgroundResource(R.drawable.unfavourite);
                 String imageUrl = getIntent().getStringExtra("image_url");
                 String imageName = getIntent().getStringExtra("image_name");
-                storeImageUrlFav(imageUrl);
+                storeImageUrlFav(imageUrl,v);
                 Toast.makeText(getApplicationContext(), "Added as Favourites", Toast.LENGTH_SHORT).show();
             }
         });
@@ -321,7 +322,7 @@ public class ImageViewActivity extends AppCompatActivity {
             super.onBackPressed();
     }
 
-    private void storeImageUrlFav(String imageUrl) {
+    private void storeImageUrlFav(String imageUrl,View v) {
         String key = imageUrl;
         String storedUrl = favSharedPreferences.getString(key, null);
 
@@ -329,9 +330,35 @@ public class ImageViewActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = favSharedPreferences.edit();
             editor.putString(key, imageUrl);
             editor.apply();
+            Toast.makeText(v.getContext(), "Added as Favourites", Toast.LENGTH_SHORT).show();
+            favBtn.setImageResource(R.drawable.unfavourite);
+        }else {
+            // Image is already in favorites, remove it
+            SharedPreferences.Editor editor = favSharedPreferences.edit();
+            editor.remove(key);
+            editor.apply();
+            showSnackbarWithUndo(imageUrl,v);
         }
     }
+    private void showSnackbarWithUndo(final String imageUrl,View v) {
+        Snackbar snackbar = Snackbar.make(v, "Removed from Favorites", Snackbar.LENGTH_SHORT);
+        favBtn.setImageResource(R.drawable.baseline_favorite_24);
 
+        snackbar.setAction("Undo", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Remove the image from favorites
+                SharedPreferences.Editor editor = favSharedPreferences.edit();
+                editor.putString("image_" + imageUrl, imageUrl);
+                favBtn.setImageResource(R.drawable.unfavourite);
+                editor.apply();
+                Toast.makeText(v.getContext(), "Added again from Favorites", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        snackbar.show();
+        // Notify the fragment to reload
+    }
     private void storeImageUrl(String imageUrl, String position) {
         String key = "image_" + position;
         String storedUrl = downloadSharedPreferences.getString(key, null);

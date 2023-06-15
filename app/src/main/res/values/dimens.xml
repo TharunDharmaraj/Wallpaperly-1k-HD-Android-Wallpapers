@@ -6,7 +6,7 @@
     <dimen name="container_padding">@dimen/_16sdp</dimen>
     <dimen name="container_paddingSide">@dimen/_18sdp</dimen>
     <dimen name="cont_title_size">@dimen/_12sdp</dimen>
-    <dimen name="cont_desc_size">@dimen/_10sdp</dimen>
+    <dimen name="cont_desc_size">@dimen/_12sdp</dimen>
     <dimen name="preview_margin">@dimen/_2sdp</dimen>
     <dimen name="preview_icon_size">@dimen/_14sdp</dimen>
     <dimen name="cont_corner_radius">24dp</dimen>
@@ -22,6 +22,7 @@
     <dimen name="_14sdp">14sp</dimen>
     <dimen name="_18sdp">18sp</dimen>
     <dimen name="_28sdp">28sp</dimen>
+    <dimen name="_34sdp">34sp</dimen>
     <dimen name="_6sdp">6sp</dimen>
     <dimen name="_60sdp">60sp</dimen>
     <dimen name="_4sdp">4sp</dimen>
@@ -39,6 +40,6 @@
     <dimen name="_1sdp">1sp</dimen>
     <dimen name="_minus2sdp">-2sp</dimen>
     <dimen name="_17sdp">17sp</dimen>
-    <dimen name="design_bottom_navigation_icon_size" tools:override="true">28sp</dimen>
+    <dimen name="design_bottom_navigation_icon_size" tools:override="true">24sp</dimen>
 
 </resources>

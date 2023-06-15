@@ -181,8 +181,7 @@ public class MainActivity extends AppCompatActivity {
             // Get the current time
             long currentTime = System.currentTimeMillis();
 
-            // Check if it's the first back press or the time difference is greater than 2 seconds
-            if (backPressedTime == 0 || currentTime - backPressedTime > 2000) {
+             if (backPressedTime == 0 || currentTime - backPressedTime > 2000) {
                 // First back press or time difference greater than 2 seconds
                 backPressedTime = currentTime;
                 Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();

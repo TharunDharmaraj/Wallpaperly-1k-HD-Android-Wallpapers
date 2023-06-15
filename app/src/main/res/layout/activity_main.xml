@@ -77,7 +77,7 @@
         android:id="@+id/navigation_rail"
         style="@style/BottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         app:itemIconSize="@dimen/design_bottom_navigation_icon_size"
         app:itemTextColor="@color/colorAccent"
         app:itemIconTint="@color/white"

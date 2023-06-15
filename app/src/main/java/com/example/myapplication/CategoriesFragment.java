@@ -84,12 +84,10 @@ public class CategoriesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_categories, requireActivity().findViewById(R.id.container), false); //pass the correct layout name for the fragment
         folderGridView = view.findViewById(R.id.folderGridView);
-        heading = getActivity().findViewById(R.id.heading);
-        heading.setText("Categories");
         folderList = new ArrayList<>();
         navRail = getActivity().findViewById(R.id.navigation_rail);
         borderLine = getActivity().findViewById(R.id.viewLine);
-
+        heading = getActivity().findViewById(R.id.heading);
         adapter = new coverImageAdapter(getContext(), folderList);
         folderGridView.setAdapter(adapter);
 
@@ -184,20 +182,26 @@ public class CategoriesFragment extends Fragment {
 
         // Retrieve the reference to the root folder in Firebase Storage
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-
         // List all the items (folders and files) inside the root folder
         storageRef.listAll().addOnSuccessListener(listResult -> {
             for (StorageReference prefix : listResult.getPrefixes()) {
-                // Add the folder name to the list
-                folderList.add(prefix.getName());
+
+                if(!prefix.getName().startsWith("Trending")) {
+                    // Add the folder name to the list
+                    folderList.add(prefix.getName());
+                }
             }
             adapter.notifyDataSetChanged();
+            heading.setText("Categories ("+folderList.size()+")");
+
         }).addOnFailureListener(e -> {
             // Handle the error
             // TODO: Add error handling
         });
+
         int numColumns = 2; // Number of columns in the grid
         folderGridView.setNumColumns(numColumns);
+
         return view;
     }
 

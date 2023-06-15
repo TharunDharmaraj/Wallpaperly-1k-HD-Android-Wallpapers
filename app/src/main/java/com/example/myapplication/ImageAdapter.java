@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -20,9 +21,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.util.List;
@@ -30,7 +35,6 @@ import java.util.List;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private List<String> imageUrls;
     private SharedPreferences sharedPreferences;
-
     public ImageAdapter(List<String> imageUrls) {
         this.imageUrls = imageUrls;
     }
@@ -68,6 +72,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             CardView cardView = itemView.findViewById(R.id.cardView);
             imageView = itemView.findViewById(R.id.imageView);
             shareBtn = itemView.findViewById(R.id.shareBtn);
+
             favBtn = itemView.findViewById(R.id.favBtn);
             itemView.setOnClickListener(this);
             sharedPreferences = itemView.getContext().getSharedPreferences("favorites", Context.MODE_PRIVATE);
@@ -78,8 +83,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 @Override
                 public void onClick(View v) {
                     String imageUrl = imageUrls.get(getAdapterPosition());
-                    storeImageUrlFav(imageUrl);
-                    Toast.makeText(v.getContext(), "Added as Favourites", Toast.LENGTH_SHORT).show();
+                    storeImageUrlFav(imageUrl,v);
                 }
             });
             shareBtn.setOnClickListener(new View.OnClickListener() {
@@ -193,7 +197,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             }
         }
 
-        private void storeImageUrlFav(String imageUrl) {
+        private void storeImageUrlFav(String imageUrl,View v) {
             String key = "image_" + imageUrl;
             String storedUrl = sharedPreferences.getString(key, null);
 
@@ -201,8 +205,37 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(key, imageUrl);
                 editor.apply();
+                Toast.makeText(v.getContext(), "Added as Favourites", Toast.LENGTH_SHORT).show();
+                favBtn.setImageResource(R.drawable.unfavourite);
+            }else {
+                // Image is already in favorites, remove it
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove(key);
+                editor.apply();
+                showSnackbarWithUndo(imageUrl,v);
             }
         }
+        private void showSnackbarWithUndo(final String imageUrl,View v) {
+            Snackbar snackbar = Snackbar.make(v, "Removed from Favorites", Snackbar.LENGTH_SHORT);
+            favBtn.setImageResource(R.drawable.baseline_favorite_24);
+
+            snackbar.setAction("Undo", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Remove the image from favorites
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("image_" + imageUrl, imageUrl);
+                    favBtn.setImageResource(R.drawable.unfavourite);
+                    editor.apply();
+                    Toast.makeText(v.getContext(), "Added again from Favorites", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            snackbar.show();
+            // Notify the fragment to reload
+//            reload();
+        }
+
 
         public String toTitleCase(String input) {
             StringBuilder titleCase = new StringBuilder(input.length());
@@ -219,7 +252,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 titleCase.append(c);
             }
             return titleCase.toString();
-
         }
     }
 }

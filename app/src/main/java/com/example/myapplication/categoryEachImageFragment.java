@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -29,6 +30,7 @@ import java.util.List;
 public class categoryEachImageFragment extends Fragment {
     BottomNavigationView navRail;
     private boolean doubleBackToExitPressedOnce;
+    List<String> imageUrls = new ArrayList<>();
 
     RecyclerView recyclerView;
     private boolean isNavBarVisible = false;
@@ -64,7 +66,6 @@ public class categoryEachImageFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         List<String> imageUrls = new ArrayList<>();
         navRail = getActivity().findViewById(R.id.navigation_rail);
-
         ImageAdapter adapter = new ImageAdapter(imageUrls);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -134,7 +135,6 @@ public class categoryEachImageFragment extends Fragment {
                     @Override
                     public void onSuccess(ListResult listResult) {
                         List<StorageReference> imageRefs = listResult.getItems();
-                        List<String> imageUrls = new ArrayList<>();
 
                         // Initialize the RecyclerView adapter
                         ImageAdapter adapter = new ImageAdapter(imageUrls);
@@ -146,7 +146,6 @@ public class categoryEachImageFragment extends Fragment {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String imageUrl = uri.toString();
-                                    String imageName = imageRef.getName(); // Retrieve the image name
                                     imageUrls.add(imageUrl);
 
                                     // Notify the adapter that a new image has been added
@@ -159,6 +158,8 @@ public class categoryEachImageFragment extends Fragment {
                                 }
                             });
                         }
+                        TextView heading = getActivity().findViewById(R.id.heading);
+                        heading.setText("Categories > "+folderName+" ("+imageRefs.size()+")");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
