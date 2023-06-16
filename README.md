@@ -11,7 +11,7 @@
 7. Stores images in cache for faster access time
 8. Strictly Requires Internet
 
-<b>GET APK  [Here](https://github.com/TharunDharmaraj/TharunDharmaraj/raw/main/wallx-ly.apk)</b>
+<b>GET APK  [Here](https://github.com/TharunDharmaraj/TharunDharmaraj/raw/main/Wallpaperly..apk)</b>
 
 
 # ScreenShots
