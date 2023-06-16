@@ -186,7 +186,7 @@ public class FavFragment extends Fragment {
             String imageUrl = entry.getValue().toString();
             urlsBuilder.append(imageUrl).append("\n");
             imageUrls.add(imageUrl);
-            ImageAdapter adapter = new ImageAdapter(imageUrls);
+            ImageAdapterFav adapter = new ImageAdapterFav(imageUrls);
             recyclerView.setAdapter(adapter);
         }
         heading.setText("Favourites ("+allEntries.size()+")");
