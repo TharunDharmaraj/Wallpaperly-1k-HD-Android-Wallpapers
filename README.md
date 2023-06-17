@@ -1,5 +1,6 @@
 # [Wallpaperly](https://github.com/TharunDharmaraj/TharunDharmaraj/raw/main/wallx-ly.apk)
 
+<h1><i>Android Wallpaper App</i> that uses Firebase Storage for image store</h1>
 
 0. Material You Themed
 1. Set as Home screen, Lock Screen wallpapers
