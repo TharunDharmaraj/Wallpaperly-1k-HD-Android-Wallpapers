@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_constraintCircleRadius="@dimen/_16sdp"
-    tools:context=".ImageViewActivity">
+    tools:context=".ImageViewActivityFav">
 
     <ImageView
         android:id="@+id/imageView"
@@ -43,7 +43,7 @@
             android:adjustViewBounds="true"
             android:background="@null"
             android:contextClickable="true"
-            android:src="@drawable/baseline_favorite_24"
+            android:src="@drawable/unfavourite"
             android:tooltipText="Add To Fav" />
 
         <ImageButton
@@ -54,7 +54,6 @@
             android:layout_margin="@dimen/_6sdp"
             android:adjustViewBounds="true"
             android:background="@null"
-
             android:src="@drawable/baseline_download_24"
             android:tooltipText="Download" />
 

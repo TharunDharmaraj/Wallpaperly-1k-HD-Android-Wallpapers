@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.WallpaperManager;
@@ -34,7 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ImageViewActivity extends AppCompatActivity {
+public class ImageViewActivityFav extends AppCompatActivity {
     static final int NONE = 0;
     int position;
     ImageButton shareBtn, downloadBtn, favBtn, rotateBtn;
@@ -51,7 +52,7 @@ public class ImageViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_view);
+        setContentView(R.layout.activity_image_view_fav);
         imageUrls = getIntent().getStringArrayListExtra("image_url_list");
         imageUrl = getIntent().getStringExtra("image_url");
         gestureDetector = new GestureDetector(this, new SwipeGestureListener());
@@ -84,7 +85,7 @@ public class ImageViewActivity extends AppCompatActivity {
                 String imageUrl = getIntent().getStringExtra("image_url");
                 String imageName = getIntent().getStringExtra("image_name");
                 storeImageUrlFav(imageUrl, v);
-                Toast.makeText(getApplicationContext(), "Added as Favourites", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Removed From Favourites", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -121,11 +122,11 @@ public class ImageViewActivity extends AppCompatActivity {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ImageViewActivity.this, R.style.CustomAlertDialog);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ImageViewActivityFav.this, R.style.CustomAlertDialog);
                         builder.setTitle("Set Wallpaper Options");
 
                         // Inflate the custom layout for the dialog
-                        View dialogView = LayoutInflater.from(ImageViewActivity.this).inflate(R.layout.dialog_set_as_wallpaper, null);
+                        View dialogView = LayoutInflater.from(ImageViewActivityFav.this).inflate(R.layout.dialog_set_as_wallpaper, null);
 
                         // Find the checkboxes in the dialog layout
                         CheckBox checkBoxHomeScreen = dialogView.findViewById(R.id.checkBoxHomeScreen);
@@ -148,7 +149,7 @@ public class ImageViewActivity extends AppCompatActivity {
                                 // Set the selected image as the wallpaper(s) based on the chosen options
                                 try {
                                     if (setHomeScreen && setLockScreen) {
-                                        WallpaperManager wallpaperManager = WallpaperManager.getInstance(ImageViewActivity.this);
+                                        WallpaperManager wallpaperManager = WallpaperManager.getInstance(ImageViewActivityFav.this);
                                         // Set the wallpaper for both home screen and lock screen
                                         wallpaperManager.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -156,7 +157,7 @@ public class ImageViewActivity extends AppCompatActivity {
                                         }
                                         Toast.makeText(getApplicationContext(), "Wallpaper set for home screen and lock screen.", Toast.LENGTH_SHORT).show();
                                     } else if (setHomeScreen) {
-                                        WallpaperManager wallpaperManager1 = WallpaperManager.getInstance(ImageViewActivity.this);
+                                        WallpaperManager wallpaperManager1 = WallpaperManager.getInstance(ImageViewActivityFav.this);
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                             wallpaperManager1.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()), null, true, WallpaperManager.FLAG_SYSTEM);
                                         }
@@ -330,7 +331,7 @@ public class ImageViewActivity extends AppCompatActivity {
     private void leftImageSwipe(ArrayList<String> imagrUrls, String imageUrl, int size) {
         position = imagrUrls.indexOf(imageUrl);
         String leftURL = imagrUrls.get((position - 1 < 0) ? size - 1 : position - 1);
-        Intent intent = new Intent(this, ImageViewActivity.class);
+        Intent intent = new Intent(this, ImageViewActivityFav.class);
         intent.putStringArrayListExtra("image_url_list", (ArrayList<String>) imageUrls);
         intent.putExtra("image_url", leftURL);
         intent.putExtra("image_name", leftURL);
@@ -343,7 +344,7 @@ public class ImageViewActivity extends AppCompatActivity {
     private void rightImageSwipe(ArrayList<String> imagrUrls, String imageUrl, int size) {
         position = imagrUrls.indexOf(imageUrl);
         String rightUrl = imagrUrls.get((position + 1) % size);
-        Intent intent = new Intent(this, ImageViewActivity.class);
+        Intent intent = new Intent(this, ImageViewActivityFav.class);
         intent.putStringArrayListExtra("image_url_list", (ArrayList<String>) imageUrls);
         intent.putExtra("image_url", rightUrl);
         intent.putExtra("image_name", rightUrl);

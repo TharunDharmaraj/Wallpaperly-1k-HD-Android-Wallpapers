@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ImageAdapterFav extends RecyclerView.Adapter<ImageAdapterFav.ImageViewHolder> {
@@ -69,6 +70,7 @@ public class ImageAdapterFav extends RecyclerView.Adapter<ImageAdapterFav.ImageV
         public ImageView imageView;
         public ImageButton shareBtn, favBtn;
         CardView cardView;
+
         public SharedPreferences sharedPreferences;
 
         public ImageViewHolder(@NonNull View itemView) {
@@ -166,7 +168,8 @@ public class ImageAdapterFav extends RecyclerView.Adapter<ImageAdapterFav.ImageV
         public void onClick(View v) {
             String imageUrl = imageUrls.get(getAdapterPosition());
             String imageName = getImageNameFromUrl(imageUrl);
-            Intent intent = new Intent(v.getContext(), ImageViewActivity.class);
+            Intent intent = new Intent(v.getContext(), ImageViewActivityFav.class);
+            intent.putStringArrayListExtra("image_url_list", (ArrayList<String>) imageUrls);
             intent.putExtra("image_url", imageUrl);
             intent.putExtra("image_name", imageName);
             v.getContext().startActivity(intent);

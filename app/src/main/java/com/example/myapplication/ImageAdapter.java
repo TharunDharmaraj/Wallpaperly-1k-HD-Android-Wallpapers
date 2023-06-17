@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
@@ -164,6 +165,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             String imageUrl = imageUrls.get(getAdapterPosition());
             String imageName = getImageNameFromUrl(imageUrl);
             Intent intent = new Intent(v.getContext(), ImageViewActivity.class);
+            intent.putStringArrayListExtra("image_url_list", (ArrayList<String>) imageUrls);
             intent.putExtra("image_url", imageUrl);
             intent.putExtra("image_name", imageName);
             v.getContext().startActivity(intent);
