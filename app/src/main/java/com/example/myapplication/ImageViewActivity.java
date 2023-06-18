@@ -59,10 +59,9 @@ public class ImageViewActivity extends AppCompatActivity {
         downloadSharedPreferences = getApplicationContext().getSharedPreferences("image_urls", Context.MODE_PRIVATE);
         favSharedPreferences = getApplicationContext().getSharedPreferences("favorites", Context.MODE_PRIVATE);
         imageView = findViewById(R.id.imageView);
+        imageView = findViewById(R.id.imageView);
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         Glide.with(this).load(imageUrl).fitCenter().into(imageView);
-
-
         shareBtn = findViewById(R.id.shareBtn);
         downloadBtn = findViewById(R.id.download);
         favBtn = findViewById(R.id.favBtn);
