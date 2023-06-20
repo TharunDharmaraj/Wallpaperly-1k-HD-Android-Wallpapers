@@ -2,6 +2,10 @@
 
 <h1><i>Android Wallpaper App</i> that uses Firebase Storage for image store</h1>
 
+----------------------------------------
+Works Perfectly for Android 12 and Above
+----------------------------------------
+
 0. Material You Themed
 1. Set as Home screen, Lock Screen wallpapers
 2. Share as Images
