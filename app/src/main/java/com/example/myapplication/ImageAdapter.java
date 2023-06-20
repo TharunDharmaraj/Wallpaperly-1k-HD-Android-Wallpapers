@@ -4,6 +4,7 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
@@ -13,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -23,6 +26,9 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.TransformationUtils;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
@@ -89,7 +95,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             sharedPreferences = itemView.getContext().getSharedPreferences("favorites", Context.MODE_PRIVATE);
 
             cardView.setRadius(itemView.getContext().getResources().getDimensionPixelSize(R.dimen.card_corner_radius));
+            Animation waterdropAnimation = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.waterdrop_anim);
 
+// Apply the animation to the desired view
+            itemView.startAnimation(waterdropAnimation);
             favBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -153,10 +162,21 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
         public void bindData(String imageUrl) {
             imageView.setTag(imageUrl);
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(R.drawable.baseline_category_24)
+                    .error(R.drawable.seek_progress)
+                    .fitCenter()
+                    .encodeFormat(Bitmap.CompressFormat.JPEG) // Set the output format to JPEG
+                    .encodeQuality(10) // Adj
+                    .diskCacheStrategy(DiskCacheStrategy.ALL); // Enable caching
+
 
             // Load the image into the ImageView using a library like Glide or Picasso
             Glide.with(itemView.getContext())
+                    .asBitmap()
                     .load(imageUrl)
+                    .apply(requestOptions)
+                    .fitCenter()
                     .into(imageView);
         }
 

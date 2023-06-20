@@ -1,8 +1,7 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/_2sdp"
-    android:orientation="vertical">
+    android:layout_marginTop="@dimen/_2sdp">
 
     <ImageView
         android:id="@+id/coverImageView"
@@ -13,6 +12,15 @@
         android:clipToOutline="true"
         android:scaleType="centerCrop" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/colorAccent"
+        android:layout_gravity="center" />
+
     <TextView
         android:id="@+id/folderNameTextView"
         android:layout_width="match_parent"
@@ -22,6 +30,6 @@
         android:padding="8dp"
         android:textColor="@color/white"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold|normal" />
 
-</LinearLayout>
+</FrameLayout>
