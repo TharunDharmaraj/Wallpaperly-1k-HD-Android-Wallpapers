@@ -40,11 +40,11 @@ public class ImageViewActivityFav extends AppCompatActivity {
     int position;
     ImageButton shareBtn, downloadBtn, favBtn, rotateBtn;
     Button wallpaperBtn;
+    ArrayList<String> imageUrls;
+    String imageUrl;
     private SharedPreferences favSharedPreferences;
     private SharedPreferences downloadSharedPreferences;
     private ImageView imageView;
-    ArrayList<String> imageUrls;
-    String imageUrl;
     private ScaleGestureDetector scaleGestureDetector;
     private float scaleFactor = 1.0f;
     private GestureDetector gestureDetector;
@@ -332,7 +332,7 @@ public class ImageViewActivityFav extends AppCompatActivity {
         position = imagrUrls.indexOf(imageUrl);
         String leftURL = imagrUrls.get((position - 1 < 0) ? size - 1 : position - 1);
         Intent intent = new Intent(this, ImageViewActivityFav.class);
-        intent.putStringArrayListExtra("image_url_list", (ArrayList<String>) imageUrls);
+        intent.putStringArrayListExtra("image_url_list", imageUrls);
         intent.putExtra("image_url", leftURL);
         intent.putExtra("image_name", leftURL);
         startActivity(intent);
@@ -345,7 +345,7 @@ public class ImageViewActivityFav extends AppCompatActivity {
         position = imagrUrls.indexOf(imageUrl);
         String rightUrl = imagrUrls.get((position + 1) % size);
         Intent intent = new Intent(this, ImageViewActivityFav.class);
-        intent.putStringArrayListExtra("image_url_list", (ArrayList<String>) imageUrls);
+        intent.putStringArrayListExtra("image_url_list", imageUrls);
         intent.putExtra("image_url", rightUrl);
         intent.putExtra("image_name", rightUrl);
         intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -410,6 +410,12 @@ public class ImageViewActivityFav extends AppCompatActivity {
         }
     }
 
+    private void rotateImage() {
+        float currentRotation = imageView.getRotation();
+        float newRotation = currentRotation + 90f;
+        imageView.setRotation(newRotation);
+    }
+
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
@@ -468,11 +474,5 @@ public class ImageViewActivityFav extends AppCompatActivity {
             }
             return super.onFling(e1, e2, velocityX, velocityY);
         }
-    }
-
-    private void rotateImage() {
-        float currentRotation = imageView.getRotation();
-        float newRotation = currentRotation + 90f;
-        imageView.setRotation(newRotation);
     }
 }

@@ -28,12 +28,12 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class categoryEachImageFragment extends Fragment {
+    private final int animationDuration = 200;
     BottomNavigationView navRail;
     List<String> imageUrls = new ArrayList<>();
     RecyclerView recyclerView;
     private boolean doubleBackToExitPressedOnce;
     private boolean isNavBarVisible = false;
-    private final int animationDuration = 200;
     private String folderName;
 
     public categoryEachImageFragment() {
@@ -61,7 +61,7 @@ public class categoryEachImageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category_each_image, container, false); //pass the correct layout name for the fragment
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.imagesFOrEachFolderView);
+        recyclerView = view.findViewById(R.id.imagesFOrEachFolderView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         List<String> imageUrls = new ArrayList<>();
         navRail = getActivity().findViewById(R.id.navigation_rail);

@@ -36,14 +36,13 @@ public class HomeFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private final int animationDuration = 200;
     BottomNavigationView navRail;
     RecyclerView recyclerView;
     View borderLine;
     TextView heading;
     private boolean isBorderLineVisible = false;
-
     private boolean isNavBarVisible = false;
-    private final int animationDuration = 200;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -86,7 +85,7 @@ public class HomeFragment extends Fragment {
         LinearLayout ll = getActivity().findViewById(R.id.linearLayout);
         heading = getActivity().findViewById(R.id.heading);
         heading.setText("Trending");
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         List<String> imageUrls = new ArrayList<>();
         navRail = getActivity().findViewById(R.id.navigation_rail);

@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-android:background="@color/transparent"
+        android:background="@color/transparent"
         android:orientation="vertical">
 
         <ImageButton
@@ -36,6 +36,7 @@ android:background="@color/transparent"
             android:contextClickable="true"
             android:src="@drawable/baseline_rotate_right_24"
             android:tooltipText="Add To Fav" />
+
         <ImageButton
             android:id="@+id/favBtn"
             android:layout_width="50dp"

@@ -34,6 +34,7 @@
             android:contextClickable="true"
             android:src="@drawable/baseline_rotate_right_24"
             android:tooltipText="Add To Fav" />
+
         <ImageButton
             android:id="@+id/favBtn"
             android:layout_width="50dp"

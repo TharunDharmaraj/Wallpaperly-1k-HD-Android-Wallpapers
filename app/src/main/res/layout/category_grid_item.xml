@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/coverImageView"
         android:layout_width="match_parent"
-        android:layout_height="253dp"
+        android:layout_height="200dp"
         android:layout_margin="8dp"
         android:background="@drawable/image_background"
         android:clipToOutline="true"

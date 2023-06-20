@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -69,9 +68,8 @@ public class ImageAdapterFav extends RecyclerView.Adapter<ImageAdapterFav.ImageV
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView imageView;
         public ImageButton shareBtn, favBtn;
-        CardView cardView;
-
         public SharedPreferences sharedPreferences;
+        CardView cardView;
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);

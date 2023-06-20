@@ -26,24 +26,18 @@ import java.util.Map;
  * create an instance of this fragment.
  */
 public class FavFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
+    private final int animationDuration = 200;
     BottomNavigationView navRail;
     TextView heading;
     View borderLine;
     TextView favText;
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-    private RecyclerView recyclerView;
-    private ImageAdapter adapter;
-    private SharedPreferences sharedPreferences;
-    private boolean isBorderLineVisible = false;
 
+    private RecyclerView recyclerView;
+
+    private SharedPreferences sharedPreferences;
     private boolean isNavBarVisible = false;
-    private final int animationDuration = 200;
 
     // TODO: Rename and change types of parameters
     public FavFragment() {
@@ -62,8 +56,7 @@ public class FavFragment extends Fragment {
     public static FavFragment newInstance(String param1, String param2) {
         FavFragment fragment = new FavFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,17 +64,14 @@ public class FavFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fav, requireActivity().findViewById(R.id.container), false);
-        navRail = getActivity().findViewById(R.id.navigation_rail);
+        navRail = (getActivity()).findViewById(R.id.navigation_rail);
         borderLine = getActivity().findViewById(R.id.viewLine);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -97,15 +87,11 @@ public class FavFragment extends Fragment {
         pullToRefresh.setProgressBackgroundColorSchemeColor(myColor);
         pullToRefresh.setColorSchemeResources(R.color.white);
 
-        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                displayStoredUrls(view); // your code
-                pullToRefresh.setRefreshing(false);
-            }
+        pullToRefresh.setOnRefreshListener(() -> {
+            displayStoredUrls(view); // your code
+            pullToRefresh.setRefreshing(false);
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            private final int previousScrollPosition = 0;
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -138,7 +124,6 @@ public class FavFragment extends Fragment {
                             .translationY(0)
                             .setDuration(animationDuration)
                             .start();
-                    isBorderLineVisible = true;
                 }
 
             }
@@ -148,25 +133,14 @@ public class FavFragment extends Fragment {
                     navRail.animate()
                             .translationY(navRail.getHeight())
                             .setDuration(animationDuration)
-                            .withEndAction(new Runnable() {
-                                @Override
-                                public void run() {
-                                    navRail.setVisibility(View.GONE);
-                                }
-                            })
+                            .withEndAction(() -> navRail.setVisibility(View.GONE))
                             .start();
                     isNavBarVisible = false;
                     borderLine.animate()
                             .translationY(navRail.getHeight())
                             .setDuration(animationDuration)
-                            .withEndAction(new Runnable() {
-                                @Override
-                                public void run() {
-                                    navRail.setVisibility(View.GONE);
-                                }
-                            })
+                            .withEndAction(() -> navRail.setVisibility(View.GONE))
                             .start();
-                    isBorderLineVisible = false;
                 }
             }
         });
@@ -189,7 +163,7 @@ public class FavFragment extends Fragment {
             ImageAdapterFav adapter = new ImageAdapterFav(imageUrls);
             recyclerView.setAdapter(adapter);
         }
-        heading.setText("Favourites ("+allEntries.size()+")");
+        heading.setText("Favourites (" + allEntries.size() + ")");
 
     }
 //        public void addUrlToFavorites(String url) {

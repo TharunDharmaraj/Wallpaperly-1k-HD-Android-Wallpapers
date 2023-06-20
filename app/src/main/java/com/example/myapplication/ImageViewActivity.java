@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.WallpaperManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
@@ -35,15 +34,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ImageViewActivity extends AppCompatActivity {
-    static final int NONE = 0;
     int position;
     ImageButton shareBtn, downloadBtn, favBtn, rotateBtn;
     Button wallpaperBtn;
+    ArrayList<String> imageUrls;
+    String imageUrl;
     private SharedPreferences favSharedPreferences;
     private SharedPreferences downloadSharedPreferences;
     private ImageView imageView;
-    ArrayList<String> imageUrls;
-    String imageUrl;
     private ScaleGestureDetector scaleGestureDetector;
     private float scaleFactor = 1.0f;
     private GestureDetector gestureDetector;
@@ -69,179 +67,147 @@ public class ImageViewActivity extends AppCompatActivity {
         rotateBtn = findViewById(R.id.rotateBtn);
 
 
-        rotateBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rotateImage();
-            }
-        });
+        rotateBtn.setOnClickListener(v -> rotateImage());
 
-        favBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        favBtn.setOnClickListener(v -> {
 //                favBtn.setBackgroundResource(R.drawable.unfavourite);
-                String imageUrl = getIntent().getStringExtra("image_url");
-                String imageName = getIntent().getStringExtra("image_name");
-                storeImageUrlFav(imageUrl, v);
-                Toast.makeText(getApplicationContext(), "Added as Favourites", Toast.LENGTH_SHORT).show();
-            }
+            String imageUrl = getIntent().getStringExtra("image_url");
+            storeImageUrlFav(imageUrl, v);
+            Toast.makeText(getApplicationContext(), "Added as Favourites", Toast.LENGTH_SHORT).show();
         });
 
-        wallpaperBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String imageUrl = getIntent().getStringExtra("image_url");
-                String imageName = getIntent().getStringExtra("image_name");
+        wallpaperBtn.setOnClickListener(v -> {
+            String imageUrl = getIntent().getStringExtra("image_url");
+            String imageName = getIntent().getStringExtra("image_name");
 
-                String directoryName = "wallpaperly";
-                String fileName = imageName + ".png";
+            String directoryName = "wallpaperly";
+            String fileName = imageName + ".png";
 
-                File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), directoryName);
-                if (!directory.exists()) {
-                    directory.mkdirs();
-                }
+            File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), directoryName);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
 
-                File file = new File(directory, fileName);
+            File file = new File(directory, fileName);
 
-                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(imageUrl));
-                request.setTitle(imageName);
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                request.setDestinationUri(Uri.fromFile(file));
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(imageUrl));
+            request.setTitle(imageName);
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setDestinationUri(Uri.fromFile(file));
 
-                DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-                if (downloadManager != null) {
-                    storeImageUrl(imageUrl, imageName);
-                    downloadManager.enqueue(request);
+            DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+            if (downloadManager != null) {
+                storeImageUrl(imageUrl, imageName);
+                downloadManager.enqueue(request);
 //                    Toast.makeText(getApplicationContext(), "Image Downloaded", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Failed to download image", Toast.LENGTH_SHORT).show();
-                }
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ImageViewActivity.this, R.style.CustomAlertDialog);
-                        builder.setTitle("Set Wallpaper Options");
-
-                        // Inflate the custom layout for the dialog
-                        View dialogView = LayoutInflater.from(ImageViewActivity.this).inflate(R.layout.dialog_set_as_wallpaper, null);
-
-                        // Find the checkboxes in the dialog layout
-                        CheckBox checkBoxHomeScreen = dialogView.findViewById(R.id.checkBoxHomeScreen);
-                        CheckBox checkBoxLockScreen = dialogView.findViewById(R.id.checkBoxLockScreen);
-
-                        // Set the checkboxes' initial state if desired
-                        checkBoxHomeScreen.setChecked(true);
-                        checkBoxLockScreen.setChecked(true);
-
-                        // Set the custom layout to the dialog
-                        builder.setView(dialogView);
-
-                        // Set the positive button action
-                        builder.setPositiveButton("Set Wallpaper", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                boolean setHomeScreen = checkBoxHomeScreen.isChecked();
-                                boolean setLockScreen = checkBoxLockScreen.isChecked();
-
-                                // Set the selected image as the wallpaper(s) based on the chosen options
-                                try {
-                                    if (setHomeScreen && setLockScreen) {
-                                        WallpaperManager wallpaperManager = WallpaperManager.getInstance(ImageViewActivity.this);
-                                        // Set the wallpaper for both home screen and lock screen
-                                        wallpaperManager.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                            wallpaperManager.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
-                                        }
-                                        Toast.makeText(getApplicationContext(), "Wallpaper set for home screen and lock screen.", Toast.LENGTH_SHORT).show();
-                                    } else if (setHomeScreen) {
-                                        WallpaperManager wallpaperManager1 = WallpaperManager.getInstance(ImageViewActivity.this);
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                            wallpaperManager1.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()), null, true, WallpaperManager.FLAG_SYSTEM);
-                                        }
-                                        // Set the wallpaper for the home screen only
-                                        Toast.makeText(getApplicationContext(), "Wallpaper set for home screen.", Toast.LENGTH_SHORT).show();
-                                    } else if (setLockScreen) {
-                                        // Set the wallpaper for the lock screen only
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                            WallpaperManager mm = WallpaperManager.getInstance(getApplicationContext());
-                                            mm.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()), null, true, WallpaperManager.FLAG_LOCK);
-                                            Toast.makeText(getApplicationContext(), "Wallpaper set for lock screen.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    } else {
-                                        // No option selected, show a message
-                                        Toast.makeText(getApplicationContext(), "No option selected. Wallpaper not set.", Toast.LENGTH_SHORT).show();
-                                    }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(getApplicationContext(), "Failed to set wallpaper", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
-
-                        // Set the negative button action
-                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Cancel button action
-                            }
-                        });
-
-                        // Create and show the dialog
-                        AlertDialog dialog = builder.create();
-                        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
-                        dialog.show();
-                    }
-                }, 3000);
-
+            } else {
+                Toast.makeText(getApplicationContext(), "Failed to download image", Toast.LENGTH_SHORT).show();
             }
+            final Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ImageViewActivity.this, R.style.CustomAlertDialog);
+                builder.setTitle("Set Wallpaper Options");
+
+                // Inflate the custom layout for the dialog
+                View dialogView = LayoutInflater.from(ImageViewActivity.this).inflate(R.layout.dialog_set_as_wallpaper, null);
+
+                // Find the checkboxes in the dialog layout
+                CheckBox checkBoxHomeScreen = dialogView.findViewById(R.id.checkBoxHomeScreen);
+                CheckBox checkBoxLockScreen = dialogView.findViewById(R.id.checkBoxLockScreen);
+
+                // Set the checkboxes' initial state if desired
+                checkBoxHomeScreen.setChecked(true);
+                checkBoxLockScreen.setChecked(true);
+
+                // Set the custom layout to the dialog
+                builder.setView(dialogView);
+
+                // Set the positive button action
+                builder.setPositiveButton("Set Wallpaper", (dialog, which) -> {
+                    boolean setHomeScreen = checkBoxHomeScreen.isChecked();
+                    boolean setLockScreen = checkBoxLockScreen.isChecked();
+
+                    // Set the selected image as the wallpaper(s) based on the chosen options
+                    try {
+                        if (setHomeScreen && setLockScreen) {
+                            WallpaperManager wallpaperManager = WallpaperManager.getInstance(ImageViewActivity.this);
+                            // Set the wallpaper for both home screen and lock screen
+                            wallpaperManager.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                wallpaperManager.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+                            }
+                            Toast.makeText(getApplicationContext(), "Wallpaper set for home screen and lock screen.", Toast.LENGTH_SHORT).show();
+                        } else if (setHomeScreen) {
+                            WallpaperManager wallpaperManager1 = WallpaperManager.getInstance(ImageViewActivity.this);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                wallpaperManager1.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()), null, true, WallpaperManager.FLAG_SYSTEM);
+                            }
+                            // Set the wallpaper for the home screen only
+                            Toast.makeText(getApplicationContext(), "Wallpaper set for home screen.", Toast.LENGTH_SHORT).show();
+                        } else if (setLockScreen) {
+                            // Set the wallpaper for the lock screen only
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                WallpaperManager mm = WallpaperManager.getInstance(getApplicationContext());
+                                mm.setBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()), null, true, WallpaperManager.FLAG_LOCK);
+                                Toast.makeText(getApplicationContext(), "Wallpaper set for lock screen.", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            // No option selected, show a message
+                            Toast.makeText(getApplicationContext(), "No option selected. Wallpaper not set.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Failed to set wallpaper", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+                // Set the negative button action
+                builder.setNegativeButton("Cancel", (dialog, which) -> {
+                    // Cancel button action
+                });
+
+                // Create and show the dialog
+                AlertDialog dialog = builder.create();
+                dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
+                dialog.show();
+            }, 3000);
+
         });
 
 
-        downloadBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                downloadImage();
+        downloadBtn.setOnClickListener(v -> downloadImage());
+        shareBtn.setOnClickListener(v -> {
+            String imageUrl = getIntent().getStringExtra("image_url");
+            String imageName = getIntent().getStringExtra("image_name");
+
+            String directoryName = "wallpaperly";
+            String fileName = imageName + ".png";
+
+            File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), directoryName);
+            if (!directory.exists()) {
+                directory.mkdirs();
             }
-        });
-        shareBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String imageUrl = getIntent().getStringExtra("image_url");
-                String imageName = getIntent().getStringExtra("image_name");
 
-                String directoryName = "wallpaperly";
-                String fileName = imageName + ".png";
+            File file = new File(directory, fileName);
 
-                File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), directoryName);
-                if (!directory.exists()) {
-                    directory.mkdirs();
-                }
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(imageUrl));
+            request.setTitle(imageName);
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setDestinationUri(Uri.fromFile(file));
 
-                File file = new File(directory, fileName);
-
-                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(imageUrl));
-                request.setTitle(imageName);
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                request.setDestinationUri(Uri.fromFile(file));
-
-                DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-                if (downloadManager != null) {
-                    downloadManager.enqueue(request);
-                    Toast.makeText(getApplicationContext(), "Image Downloaded", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Failed to download image", Toast.LENGTH_SHORT).show();
-                }
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Do something after 5s = 5000ms
-                    }
-                }, 5000);
-                shareImage(file);
+            DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+            if (downloadManager != null) {
+                downloadManager.enqueue(request);
+                Toast.makeText(getApplicationContext(), "Image Downloaded", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Failed to download image", Toast.LENGTH_SHORT).show();
             }
+            final Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                // Do something after 5s = 5000ms
+            }, 5000);
+            shareImage(file);
         });
 //        TextView nameTextView = findViewById(R.id.imageNameTextView);
 
@@ -293,11 +259,8 @@ public class ImageViewActivity extends AppCompatActivity {
 
     private void shareImage(File imageFile) {
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Do something after 5s = 5000ms
-            }
+        handler.postDelayed(() -> {
+            // Do something after 5s = 5000ms
         }, 5000);
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
 
@@ -330,7 +293,7 @@ public class ImageViewActivity extends AppCompatActivity {
         position = imagrUrls.indexOf(imageUrl);
         String leftURL = imagrUrls.get((position - 1 < 0) ? size - 1 : position - 1);
         Intent intent = new Intent(this, ImageViewActivity.class);
-        intent.putStringArrayListExtra("image_url_list", (ArrayList<String>) imageUrls);
+        intent.putStringArrayListExtra("image_url_list", imageUrls);
         intent.putExtra("image_url", leftURL);
         intent.putExtra("image_name", leftURL);
         startActivity(intent);
@@ -343,7 +306,7 @@ public class ImageViewActivity extends AppCompatActivity {
         position = imagrUrls.indexOf(imageUrl);
         String rightUrl = imagrUrls.get((position + 1) % size);
         Intent intent = new Intent(this, ImageViewActivity.class);
-        intent.putStringArrayListExtra("image_url_list", (ArrayList<String>) imageUrls);
+        intent.putStringArrayListExtra("image_url_list", imageUrls);
         intent.putExtra("image_url", rightUrl);
         intent.putExtra("image_name", rightUrl);
         intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -359,19 +322,18 @@ public class ImageViewActivity extends AppCompatActivity {
     }
 
     private void storeImageUrlFav(String imageUrl, View v) {
-        String key = imageUrl;
-        String storedUrl = favSharedPreferences.getString(key, null);
+        String storedUrl = favSharedPreferences.getString(imageUrl, null);
 
         if (storedUrl == null || !storedUrl.equals(imageUrl)) {
             SharedPreferences.Editor editor = favSharedPreferences.edit();
-            editor.putString(key, imageUrl);
+            editor.putString(imageUrl, imageUrl);
             editor.apply();
             Toast.makeText(v.getContext(), "Added as Favourites", Toast.LENGTH_SHORT).show();
             favBtn.setImageResource(R.drawable.unfavourite);
         } else {
             // Image is already in favorites, remove it
             SharedPreferences.Editor editor = favSharedPreferences.edit();
-            editor.remove(key);
+            editor.remove(imageUrl);
             editor.apply();
             showSnackbarWithUndo(imageUrl, v);
         }
@@ -381,16 +343,13 @@ public class ImageViewActivity extends AppCompatActivity {
         Snackbar snackbar = Snackbar.make(v, "Removed from Favorites", Snackbar.LENGTH_SHORT);
         favBtn.setImageResource(R.drawable.baseline_favorite_24);
 
-        snackbar.setAction("Undo", new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Remove the image from favorites
-                SharedPreferences.Editor editor = favSharedPreferences.edit();
-                editor.putString("image_" + imageUrl, imageUrl);
-                favBtn.setImageResource(R.drawable.unfavourite);
-                editor.apply();
-                Toast.makeText(v.getContext(), "Added again from Favorites", Toast.LENGTH_SHORT).show();
-            }
+        snackbar.setAction("Undo", view -> {
+            // Remove the image from favorites
+            SharedPreferences.Editor editor = favSharedPreferences.edit();
+            editor.putString("image_" + imageUrl, imageUrl);
+            favBtn.setImageResource(R.drawable.unfavourite);
+            editor.apply();
+            Toast.makeText(v.getContext(), "Added again from Favorites", Toast.LENGTH_SHORT).show();
         });
 
         snackbar.show();
@@ -406,6 +365,12 @@ public class ImageViewActivity extends AppCompatActivity {
             editor.putString(key, imageUrl);
             editor.apply();
         }
+    }
+
+    private void rotateImage() {
+        float currentRotation = imageView.getRotation();
+        float newRotation = currentRotation + 90f;
+        imageView.setRotation(newRotation);
     }
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
@@ -466,11 +431,5 @@ public class ImageViewActivity extends AppCompatActivity {
             }
             return super.onFling(e1, e2, velocityX, velocityY);
         }
-    }
-
-    private void rotateImage() {
-        float currentRotation = imageView.getRotation();
-        float newRotation = currentRotation + 90f;
-        imageView.setRotation(newRotation);
     }
 }

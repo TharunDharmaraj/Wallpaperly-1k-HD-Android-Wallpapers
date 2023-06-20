@@ -8,6 +8,7 @@
 
     <color name="red">#FFFF6565</color>
     <color name="pink">#FFEE5166</color>
+    <color name="colorAccent_legacy">#FF2C7873</color>
     <color name="transparent" tools:targetApi="s">#00000000</color>
     <color name="colorAccent" tools:targetApi="s">#FF2C7873</color>
     <color name="colorAccentVariant" tools:targetApi="s">@android:color/system_accent3_600</color>

@@ -30,13 +30,12 @@ public class DownloadFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private final int animationDuration = 200;
     BottomNavigationView navRail;
     RecyclerView recyclerView;
     View borderLine;
     private boolean isBorderLineVisible = false;
-
     private boolean isNavBarVisible = false;
-    private final int animationDuration = 200;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -78,7 +77,7 @@ public class DownloadFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_download, requireActivity().findViewById(R.id.container), false); //pass the correct layout name for the fragment
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         List<String> imageUrls = new ArrayList<>();
         navRail = getActivity().findViewById(R.id.navigation_rail);
@@ -180,7 +179,7 @@ public class DownloadFragment extends Fragment {
             recyclerView.setAdapter(adapter);
         }
         heading = getActivity().findViewById(R.id.heading);
-        heading.setText("Downloads ("+imageUrls.size()+")");
+        heading.setText("Downloads (" + imageUrls.size() + ")");
 
 //        Log.d("storedUrlsTextView", "inside Download");
 

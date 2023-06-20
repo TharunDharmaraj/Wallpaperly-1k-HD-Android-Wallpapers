@@ -5,17 +5,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <GridView
-        android:id="@+id/folderGridView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:horizontalSpacing="8dp"
-        android:numColumns="2"
-        android:padding="8dp"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="vertical"
-        android:verticalSpacing="8dp"
-        tools:context=".CategoriesFragment" />
+        android:layout_height="match_parent">
+
+        <GridView
+            android:id="@+id/folderGridView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:horizontalSpacing="8dp"
+            android:numColumns="2"
+            android:padding="8dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"
+            android:verticalSpacing="8dp"
+            tools:context=".CategoriesFragment" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

@@ -28,6 +28,24 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+    //    BottomNavigationView.OnNavigationItemReselectedListener navigationItemReSelectedListener =
+//            new BottomNavigationView.OnNavigationItemReselectedListener() {
+//        @Override
+//        public void onNavigationItemReselected(@NonNull MenuItem item) {
+//           return ;
+//        }
+//    };
+    private final BroadcastReceiver shutdownReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Intent.ACTION_SHUTDOWN.equals(intent.getAction())) {
+                // Schedule cache clearing when the application is closed
+                scheduleCacheClear(context);
+            }
+        }
+    };
+    private final boolean isNavBarVisible = false;
+    private final int animationDuration = 200;
     BottomNavigationView navRail;
     FrameLayout recyclerView;
     ShimmerFrameLayout shimmerFrameLayout;
@@ -52,25 +70,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     private long backPressedTime;
-
-//    BottomNavigationView.OnNavigationItemReselectedListener navigationItemReSelectedListener =
-//            new BottomNavigationView.OnNavigationItemReselectedListener() {
-//        @Override
-//        public void onNavigationItemReselected(@NonNull MenuItem item) {
-//           return ;
-//        }
-//    };
-    private final BroadcastReceiver shutdownReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (Intent.ACTION_SHUTDOWN.equals(intent.getAction())) {
-                // Schedule cache clearing when the application is closed
-                scheduleCacheClear(context);
-            }
-        }
-    };
-    private final boolean isNavBarVisible = false;
-    private final int animationDuration = 200;
 
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
