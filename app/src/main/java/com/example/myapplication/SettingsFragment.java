@@ -1,16 +1,17 @@
 package com.example.myapplication;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -27,37 +28,38 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";TextView textViewClearCacheSize ;
+    private static final String ARG_PARAM2 = "param2";
+    TextView textViewClearCacheSize;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    
+
     BottomNavigationView navRail;
     TextView heading;
     View borderLine;
+
     public SettingsFragment() {
         // Required empty public constructor
     }
+
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.textViewClearFavorites) {
+        if (v.getId() == R.id.textViewClearFavorites) {
             clearFavorites();
-        }
-
-        else if(v.getId() == R.id.textViewClearDownloads) {
+        } else if (v.getId() == R.id.textViewClearDownloads) {
             // TODO: Implement clear downloads logic
             clearDownloads();
-        } else if(v.getId() == R.id.textViewClearCache) {
+        } else if (v.getId() == R.id.textViewClearCache) {
             clearCache();
-        } else if(v.getId() == R.id.textViewClearAppData) {
+        } else if (v.getId() == R.id.textViewClearAppData) {
             clearAppData();
         }
 
     }
 
     private void clearAppData() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(),R.style.CustomAlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog);
         builder.setTitle("Clear App Data");
         builder.setMessage("Are you sure you want to clear app data?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -106,12 +108,70 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     }
 
     private void clearDownloads() {
-        
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog);
+        builder.setTitle("Clear Downloads");
+        builder.setMessage("Clear Downloads you sure?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Clear the app data
+                try {
+                    // Get the SharedPreferences instance
+                    SharedPreferences sharedPreferences = requireContext().getSharedPreferences("image_urls", Context.MODE_PRIVATE);
+
+                    // Clear the SharedPreferences
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.apply();
+                    // Display a success message
+                    Toast.makeText(requireContext(), "All Downloads cleared", Toast.LENGTH_SHORT).show();
+
+                    // Update the cache size TextView
+                    showCacheSize();
+                } catch (Exception e) {
+                    // Display an error message
+                    Toast.makeText(requireContext(), "Failed to Downloads", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        builder.setNegativeButton("No", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
     }
 
     private void clearFavorites() {
-        
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog);
+        builder.setTitle("Clear Favourites");
+        builder.setMessage("Clear Favourites you sure?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Clear the app data
+                try {
+                    // Get the SharedPreferences instance
+                    SharedPreferences sharedPreferences = requireContext().getSharedPreferences("favorites", Context.MODE_PRIVATE);
+
+                    // Clear the SharedPreferences
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.apply();
+                    // Display a success message
+                    Toast.makeText(requireContext(), "All Favourites cleared", Toast.LENGTH_SHORT).show();
+
+                    // Update the cache size TextView
+                    showCacheSize();
+                } catch (Exception e) {
+                    // Display an error message
+                    Toast.makeText(requireContext(), "Failed to clear Favourites", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        builder.setNegativeButton("No", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
+
     private void deleteDirectory(File fileOrDirectory) {
         if (fileOrDirectory.isDirectory()) {
             File[] files = fileOrDirectory.listFiles();
@@ -123,6 +183,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         }
         fileOrDirectory.delete();
     }
+
     private void showCacheSize() {
         // Get the app's cache directory
         File cacheDir = requireContext().getCacheDir();
