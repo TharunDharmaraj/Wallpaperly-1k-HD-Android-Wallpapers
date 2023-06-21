@@ -20,4 +20,9 @@
         android:enabled="true"
         android:icon="@drawable/baseline_download_24"
         android:title="Downloads"/>
+    <item
+        android:id="@+id/settings"
+        android:enabled="true"
+        android:icon="@drawable/baseline_settings_24"
+        android:title="Settings"/>
 </menu>

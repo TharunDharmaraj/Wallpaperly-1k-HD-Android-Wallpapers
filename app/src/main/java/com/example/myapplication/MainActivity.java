@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
     private final boolean isNavBarVisible = false;
     private final int animationDuration = 200;
     BottomNavigationView navRail;
-    FrameLayout recyclerView;
-    ShimmerFrameLayout shimmerFrameLayout;
     View borderLine;
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -64,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (item.getItemId() == R.id.downloads) {
                 openFragment(DownloadFragment.newInstance("", ""));
+                return true;
+            }else if (item.getItemId() == R.id.settings) {
+                openFragment(SettingsFragment.newInstance("", ""));
                 return true;
             }
             return false;
