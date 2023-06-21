@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -46,6 +47,7 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    ImageAdapter adapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -91,7 +93,7 @@ public class HomeFragment extends Fragment {
         navRail = getActivity().findViewById(R.id.navigation_rail);
         borderLine = getActivity().findViewById(R.id.viewLine);
 
-        ImageAdapter adapter = new ImageAdapter(imageUrls);
+         adapter = new ImageAdapter(imageUrls);
         recyclerView.setAdapter(adapter);
 
         final SwipeRefreshLayout pullToRefresh = view.findViewById(R.id.pullToRefresh);
@@ -117,6 +119,14 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                // Get the last visible item position
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+
+                // Update the last visible item position in the adapter
+                adapter.setLastVisibleItemPosition(lastVisibleItem);
                 super.onScrolled(recyclerView, dx, dy);
                 if (dy > 0) {
                     // Scrolled down

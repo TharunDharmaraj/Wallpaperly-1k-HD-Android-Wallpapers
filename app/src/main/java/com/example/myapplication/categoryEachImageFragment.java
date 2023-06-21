@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,6 +32,7 @@ public class categoryEachImageFragment extends Fragment {
     private final int animationDuration = 200;
     BottomNavigationView navRail;
     List<String> imageUrls = new ArrayList<>();
+    ImageAdapter adapter;
     RecyclerView recyclerView;
     private boolean doubleBackToExitPressedOnce;
     private boolean isNavBarVisible = false;
@@ -65,7 +67,7 @@ public class categoryEachImageFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         List<String> imageUrls = new ArrayList<>();
         navRail = getActivity().findViewById(R.id.navigation_rail);
-        ImageAdapter adapter = new ImageAdapter(imageUrls);
+        adapter = new ImageAdapter(imageUrls);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private final int previousScrollPosition = 0;
@@ -78,6 +80,12 @@ public class categoryEachImageFragment extends Fragment {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                // Get the last visible item position
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+
+                // Update the last visible item position in the adapter
+                adapter.setLastVisibleItemPosition(lastVisibleItem);
                 super.onScrolled(recyclerView, dx, dy);
                 if (dy > 0) {
                     // Scrolled down

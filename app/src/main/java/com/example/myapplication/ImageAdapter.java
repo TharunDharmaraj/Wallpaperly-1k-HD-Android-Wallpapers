@@ -21,14 +21,18 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.TransformationUtils;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
@@ -38,9 +42,21 @@ import java.util.List;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private final List<String> imageUrls;
     private SharedPreferences sharedPreferences;
+    private RequestOptions requestOptions;
+    private int lastVisibleItemPosition = -1;
+    private int firstLoadedPosition = -1;
 
+    public void setLastVisibleItemPosition(int position) {
+        lastVisibleItemPosition = position;
+    }
     public ImageAdapter(List<String> imageUrls) {
         this.imageUrls = imageUrls;
+        requestOptions = new RequestOptions()
+                .error(R.drawable.seek_progress)
+                .fitCenter()
+                .encodeFormat(Bitmap.CompressFormat.JPEG)
+                .encodeQuality(10)
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
     }
 
 //    private FragmentManager fragmentManager;
@@ -63,6 +79,27 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         String imageUrl = imageUrls.get(position);
         holder.bindData(imageUrl);
+        // Check if the first image has already been loaded
+        if (firstLoadedPosition == -1) {
+            // Load the image using Glide
+            Glide.with(holder.itemView.getContext())
+                    .load(imageUrl)
+                    .into(holder.imageView);
+
+            // Update the first loaded position
+            firstLoadedPosition = holder.getAdapterPosition();
+        }
+
+        // Check if the current position is greater than the last visible item position
+        if (holder.getAdapterPosition() > lastVisibleItemPosition) {
+            // Load the image using Glide
+            Glide.with(holder.itemView.getContext())
+                    .load(imageUrl)
+                    .into(holder.imageView);
+
+            // Update the last visible item position
+            lastVisibleItemPosition = holder.getAdapterPosition();
+        }
     }
 
     @Override
@@ -162,21 +199,32 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
         public void bindData(String imageUrl) {
             imageView.setTag(imageUrl);
+
             RequestOptions requestOptions = new RequestOptions()
-                    .placeholder(R.drawable.baseline_category_24)
                     .error(R.drawable.seek_progress)
                     .fitCenter()
-                    .encodeFormat(Bitmap.CompressFormat.JPEG) // Set the output format to JPEG
-                    .encodeQuality(10) // Adj
-                    .diskCacheStrategy(DiskCacheStrategy.ALL); // Enable caching
+                    .diskCacheStrategy(DiskCacheStrategy.ALL);
 
-
-            // Load the image into the ImageView using a library like Glide or Picasso
             Glide.with(itemView.getContext())
                     .asBitmap()
                     .load(imageUrl)
                     .apply(requestOptions)
-                    .fitCenter()
+                    .listener(new RequestListener<Bitmap>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                            // Handle loading failure, show an error image or a message
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                            // Image loaded successfully, update the ImageView
+                            if (imageView.getTag().equals(imageUrl)) {
+                                imageView.setImageBitmap(resource);
+                            }
+                            return true;
+                        }
+                    })
                     .into(imageView);
         }
 

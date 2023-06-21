@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -50,6 +52,16 @@ public class ImageViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_view);
+
+// Hide the status bar
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            getWindow().getInsetsController().hide(WindowInsets.Type.statusBars());
+        } else {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+
+
+
         imageUrls = getIntent().getStringArrayListExtra("image_url_list");
         imageUrl = getIntent().getStringExtra("image_url");
         gestureDetector = new GestureDetector(this, new SwipeGestureListener());
@@ -218,6 +230,19 @@ public class ImageViewActivity extends AppCompatActivity {
 
 //        nameTextView.setText(imageName);
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Show the status bar again
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            getWindow().getInsetsController().show(WindowInsets.Type.statusBars());
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
     }
 
     public void downloadImage() {
