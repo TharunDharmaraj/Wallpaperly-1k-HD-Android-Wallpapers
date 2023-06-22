@@ -3,11 +3,14 @@ package com.example.myapplication;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +33,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     TextView textViewClearCacheSize;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -54,10 +58,17 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             clearCache();
         } else if (v.getId() == R.id.textViewClearAppData) {
             clearAppData();
+        } else if (v.getId() == R.id.sourceCode) {
+            toSourceCode();
         }
-
     }
 
+    private void toSourceCode(){
+        String url = "https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+    }
     private void clearAppData() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog);
         builder.setTitle("Clear App Data");
@@ -171,7 +182,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
+//    https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers
     private void deleteDirectory(File fileOrDirectory) {
         if (fileOrDirectory.isDirectory()) {
             File[] files = fileOrDirectory.listFiles();
@@ -269,6 +280,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         textViewClearCacheSize = view.findViewById(R.id.textViewClearCacheSize);
         heading = getActivity().findViewById(R.id.heading);
         heading.setText("Settings");
+        LinearLayout sourceCodee = view.findViewById(R.id.sourceCode);
+        sourceCodee.setOnClickListener(this);
+
         TextView clearFavoritesTextView = view.findViewById(R.id.textViewClearFavorites);
         clearFavoritesTextView.setOnClickListener(this);
 

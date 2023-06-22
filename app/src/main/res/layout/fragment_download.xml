@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/flFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.5"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
+    android:layout_centerInParent="true"
     tools:context=".DownloadFragment">
 
     <TextView
@@ -24,5 +19,8 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp" />
+        android:padding="8dp"   android:scrollbarSize="@dimen/_5sdp"
+        android:fadeScrollbars="true"
+        android:scrollbarThumbVertical="@drawable/scrollbar"
+        android:scrollbars="vertical"/>
 </FrameLayout>

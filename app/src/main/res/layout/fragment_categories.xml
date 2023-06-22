@@ -19,9 +19,12 @@
             android:numColumns="2"
             android:padding="8dp"
             android:scrollbarStyle="outsideOverlay"
-            android:scrollbars="vertical"
             android:verticalSpacing="8dp"
-            tools:context=".CategoriesFragment" />
+            tools:context=".CategoriesFragment"
+            android:scrollbarSize="@dimen/_5sdp"
+            android:fadeScrollbars="true"
+            android:scrollbarThumbVertical="@drawable/scrollbar"
+            android:scrollbars="vertical"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>
