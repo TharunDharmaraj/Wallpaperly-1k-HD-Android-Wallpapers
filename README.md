@@ -2,6 +2,7 @@
 <p  style="font-family: Arial;">
 Android Wallpaper App
   A stylish wallpaper app for Android that utilizes Firebase Storage for image storage.
+  Open Source Project - Contributors are welcomed!!!
 </p>
 <p align="center">
 
@@ -38,7 +39,7 @@ Android Wallpaper App
 - **Image Sharing:** Share stunning wallpapers with your friends and family.
 - **Favorites:** Mark your favorite wallpapers for quick access.
 - **Image Download:** Download wallpapers directly to your device.
-- - **Settings:** Wallpaperly has additional settings to enhance your User Experience.
+- **Settings:** Wallpaperly has additional settings to enhance your User Experience.
 - **Pull to Refresh:** Stay up-to-date with the latest wallpapers by pulling down to refresh the app.
 - **Firebase Storage Integration:** Retrieve wallpapers seamlessly from Firebase Storage.
 - **Cache for Faster Access:** Store images in cache for faster loading times.
