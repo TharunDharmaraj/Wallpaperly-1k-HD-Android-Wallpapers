@@ -1,11 +1,15 @@
 # [Wallpaperly](https://github.com/TharunDharmaraj/TharunDharmaraj/raw/main/wallpaperly.apk)
 <p  style="font-family: Arial;  text-align: center;">
-Android Wallpaper app -   get APK file from [Here](https://github.com/TharunDharmaraj/TharunDharmaraj/raw/main/wallpaperly.apk)
+Android Wallpaper app  
     <br>
-
   A stylish wallpaper app for Android that utilizes Firebase Storage for image storage.
 </p>
  <b> **Open Source Project  Contributors/Contributions are Appreciated!!! ** </b>
+ 
+
+  Get APK [Here](https://github.com/TharunDharmaraj/TharunDharmaraj/raw/main/wallpaperly.apk)
+
+
 
 <p align="center">
 
