@@ -14,7 +14,7 @@
         android:adjustViewBounds="true"
         android:focusable="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/container" />
+        android:contentDescription="Hi"/>
 
 
     <LinearLayout
