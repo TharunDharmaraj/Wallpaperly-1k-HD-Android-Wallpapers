@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,7 +34,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     TextView textViewClearCacheSize;
+    NestedScrollView recyclerView;
+    View borderLine;
+    private final int animationDuration = 200;
 
+    private boolean isNavBarVisible = false;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -41,7 +46,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     BottomNavigationView navRail;
     TextView heading;
-    View borderLine;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -63,12 +67,13 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void toSourceCode(){
+    private void toSourceCode() {
         String url = "https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers";
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
     }
+
     private void clearAppData() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog);
         builder.setTitle("Clear App Data");
@@ -78,8 +83,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             public void onClick(DialogInterface dialog, int which) {
                 // Clear the app data
                 try {
-                    // Get the package name of your app
-                    String packageName = requireContext().getPackageName();
+
 
                     // Get the app's data directory
                     File dataDir = new File(requireActivity().getApplicationInfo().dataDir);
@@ -182,7 +186,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-//    https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers
+
+    //    https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers
     private void deleteDirectory(File fileOrDirectory) {
         if (fileOrDirectory.isDirectory()) {
             File[] files = fileOrDirectory.listFiles();
@@ -277,6 +282,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings, requireActivity().findViewById(R.id.container), false);
         borderLine = getActivity().findViewById(R.id.viewLine);
+        recyclerView = view.findViewById(R.id.recyclerView);
+        navRail = getActivity().findViewById(R.id.navigation_rail);
+        borderLine = getActivity().findViewById(R.id.viewLine);
+
         textViewClearCacheSize = view.findViewById(R.id.textViewClearCacheSize);
         heading = getActivity().findViewById(R.id.heading);
         heading.setText("Settings");
@@ -296,7 +305,64 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         TextView clearAppDataTextView = view.findViewById(R.id.textViewClearAppData);
         clearAppDataTextView.setOnClickListener(this);
 
+
+        recyclerView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                Log.d("ScrollView","scrollX_"+scrollX+"_scrollY_"+scrollY+"_oldScrollX_"+oldScrollX+"_oldScrollY_"+oldScrollY);
+                if (scrollY > oldScrollY) {
+                    // Scrolled down
+                    toggleOutNavBar();
+                } else if (scrollY < oldScrollY) {
+                    // Scrolled up
+                    toggleInNavBar();
+                }
+            }
+        });
+
         return view;
     }
 
+    private void toggleInNavBar() {
+        if (!isNavBarVisible) {
+            navRail.setVisibility(View.VISIBLE);
+            navRail.animate()
+                    .translationY(0)
+                    .setDuration(animationDuration)
+                    .start();
+            isNavBarVisible = true;
+            borderLine.setVisibility(View.VISIBLE);
+            borderLine.animate()
+                    .translationY(0)
+                    .setDuration(animationDuration)
+                    .start();
+        }
+
+    }
+
+    private void toggleOutNavBar() {
+        if (isNavBarVisible) {
+            navRail.animate()
+                    .translationY(navRail.getHeight())
+                    .setDuration(animationDuration)
+                    .withEndAction(new Runnable() {
+                        @Override
+                        public void run() {
+                            navRail.setVisibility(View.GONE);
+                        }
+                    })
+                    .start();
+            isNavBarVisible = false;
+            borderLine.animate()
+                    .translationY(navRail.getHeight())
+                    .setDuration(animationDuration)
+                    .withEndAction(new Runnable() {
+                        @Override
+                        public void run() {
+                            navRail.setVisibility(View.GONE);
+                        }
+                    })
+                    .start();
+        }
+    }
 }

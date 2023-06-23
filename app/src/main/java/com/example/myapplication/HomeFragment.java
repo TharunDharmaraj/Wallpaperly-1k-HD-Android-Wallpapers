@@ -41,9 +41,9 @@ public class HomeFragment extends Fragment {
     BottomNavigationView navRail;
     RecyclerView recyclerView;
     View borderLine;
-    TextView heading;
-    private boolean isBorderLineVisible = false;
     private boolean isNavBarVisible = false;
+
+    TextView heading;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -84,7 +84,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, requireActivity().findViewById(R.id.container), false); //pass the correct layout name for the fragment
-        LinearLayout ll = getActivity().findViewById(R.id.linearLayout);
         heading = getActivity().findViewById(R.id.heading);
         heading.setText("Trending");
         recyclerView = view.findViewById(R.id.recyclerView);
@@ -93,7 +92,7 @@ public class HomeFragment extends Fragment {
         navRail = getActivity().findViewById(R.id.navigation_rail);
         borderLine = getActivity().findViewById(R.id.viewLine);
 
-         adapter = new ImageAdapter(imageUrls);
+        adapter = new ImageAdapter(imageUrls);
         recyclerView.setAdapter(adapter);
 
         final SwipeRefreshLayout pullToRefresh = view.findViewById(R.id.pullToRefresh);
@@ -150,7 +149,6 @@ public class HomeFragment extends Fragment {
                             .translationY(0)
                             .setDuration(animationDuration)
                             .start();
-                    isBorderLineVisible = true;
                 }
 
             }
@@ -178,7 +176,6 @@ public class HomeFragment extends Fragment {
                                 }
                             })
                             .start();
-                    isBorderLineVisible = false;
                 }
             }
         });
