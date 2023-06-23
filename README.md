@@ -1,6 +1,6 @@
 # [Wallpaperly](https://github.com/TharunDharmaraj/TharunDharmaraj/raw/main/wallpaperly.apk)
 <p  style="font-family: Arial;  text-align: center;">
-Android Wallpaper app
+Android Wallpaper app -   get APK file from [Here](https://github.com/TharunDharmaraj/TharunDharmaraj/raw/main/wallpaperly.apk)
     <br>
 
   A stylish wallpaper app for Android that utilizes Firebase Storage for image storage.
@@ -20,12 +20,15 @@ Android Wallpaper app
 [![Disk Caching](https://img.shields.io/badge/Caching-Disk-yellowgreen.svg)](https://developer.android.com/topic/performance/caching)
 
 </p>
+---
 
 <p align="center">
   <img src="https://github.com/TharunDharmaraj/Wallpaperly/assets/83175935/a5d4e46a-bdd2-4fa8-b481-d74634447dee" alt="Wallpaperly Categories" width="250" height="500"/>
   <img src="https://github.com/TharunDharmaraj/Wallpaperly/assets/83175935/b02f3e07-c5b7-433c-b5d3-2765330deac9" alt="Wallpaperly Category" width="250" height="500"/>
   <img src="https://github.com/TharunDharmaraj/Wallpaperly/assets/83175935/e883b91b-008a-4eca-932c-c4ba7f9d4809" alt="Wallpaperly Download" width="250" height="500"/>
 </p>
+
+---
 
 <p align="center">
   <img src="https://github.com/TharunDharmaraj/Wallpaperly/assets/83175935/ca084c64-562b-48c8-bd2b-fc6e0a7dc5f2" alt="Wallpaperly Favorites" width="250" height="500"/>
@@ -35,6 +38,7 @@ Android Wallpaper app
 
   Get APK [Here](https://github.com/TharunDharmaraj/TharunDharmaraj/raw/main/wallpaperly.apk)
   
+---
 
 ## Features
 
