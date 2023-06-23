@@ -1,11 +1,15 @@
 # [Wallpaperly](https://github.com/TharunDharmaraj/TharunDharmaraj/raw/main/wallpaperly.apk)
-<p  style="font-family: Arial;">
-Android Wallpaper App
+<p  style="font-family: Arial;  text-align: center;">
+Android Wallpaper app
+    <br>
+
   A stylish wallpaper app for Android that utilizes Firebase Storage for image storage.
-  Open Source Project - Contributors are welcomed!!!
 </p>
+ <b> **Open Source Project  Contributors/Contributions are Appreciated!!! ** </b>
+
 <p align="center">
 
+[![open source](https://img.shields.io/badge/open-source-yellow.svg)]()
 [![Android](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/)
 [![Firebase](https://img.shields.io/badge/Backend-Firebase-yellow.svg)](https://firebase.google.com/)
 [![Material Design](https://img.shields.io/badge/Design-Material%20Design-blue.svg)](https://material.io/design)
@@ -59,6 +63,7 @@ Android Wallpaper App
    
 5. **Installation:** Install the Wallpaperly app on your Android device and enjoy a wide range of beautiful wallpapers.
 </body>
+<br><br><br>
 
   Get APK [Here](https://github.com/TharunDharmaraj/TharunDharmaraj/raw/main/Wallpaperly.apk)
 
