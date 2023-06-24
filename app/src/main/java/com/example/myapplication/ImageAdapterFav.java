@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -91,7 +93,10 @@ public class ImageAdapterFav extends RecyclerView.Adapter<ImageAdapterFav.ImageV
             sharedPreferences = itemView.getContext().getSharedPreferences("favorites", Context.MODE_PRIVATE);
 
             cardView.setRadius(itemView.getContext().getResources().getDimensionPixelSize(R.dimen.card_corner_radius));
+            Animation waterdropAnimation = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.waterdrop_anim);
 
+// Apply the animation to the desired view
+            itemView.startAnimation(waterdropAnimation);
             favBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -157,9 +162,7 @@ public class ImageAdapterFav extends RecyclerView.Adapter<ImageAdapterFav.ImageV
             imageView.setTag(imageUrl);
 
             // Load the image into the ImageView using a library like Glide or Picasso
-            Glide.with(itemView.getContext())
-                    .load(imageUrl)
-                    .into(imageView);
+            Glide.with(itemView.getContext()).load(imageUrl).into(imageView);
         }
 
         @Override
@@ -201,11 +204,7 @@ public class ImageAdapterFav extends RecyclerView.Adapter<ImageAdapterFav.ImageV
             shareIntent.setType("image/png");
             shareIntent.putExtra(Intent.EXTRA_TEXT, "View The Source Code at https://github.com/TharunDharmaraj/Wallpaperly");
 
-            Uri imageUri = FileProvider.getUriForFile(
-                    v.getContext(),
-                    "com.example.myapplication.fileprovider",
-                    imageFile
-            );
+            Uri imageUri = FileProvider.getUriForFile(v.getContext(), "com.example.myapplication.fileprovider", imageFile);
             Log.d("tharun", String.valueOf(imageUri));
             shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
 

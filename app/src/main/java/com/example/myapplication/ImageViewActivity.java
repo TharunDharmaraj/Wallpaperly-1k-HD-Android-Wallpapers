@@ -91,10 +91,10 @@ public class ImageViewActivity extends AppCompatActivity {
         downloadBtn = findViewById(R.id.download);
         favBtn = findViewById(R.id.favBtn);
         wallpaperBtn = findViewById(R.id.wallpaper);
-        rotateBtn = findViewById(R.id.rotateBtn);
+//        rotateBtn = findViewById(R.id.rotateBtn);
 
 
-        rotateBtn.setOnClickListener(v -> rotateImage());
+//        rotateBtn.setOnClickListener(v -> rotateImage());
 
         favBtn.setOnClickListener(v -> {
 //                favBtn.setBackgroundResource(R.drawable.unfavourite);

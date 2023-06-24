@@ -13,8 +13,7 @@
         android:layout_gravity="center_horizontal|center_vertical"
         android:adjustViewBounds="true"
         android:focusable="true"
-        android:scaleType="fitCenter"/>
-
+        android:scaleType="fitCenter" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -24,27 +23,27 @@
         android:background="@color/transparent"
         android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/rotateBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="@dimen/_6sdp"
-            android:adjustViewBounds="true"
-            android:background="@null"
-            android:contextClickable="true"
-            android:src="@drawable/baseline_rotate_right_24"
-            android:tooltipText="Add To Fav" />
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/rotateBtn"-->
+        <!--            android:layout_width="50dp"-->
+        <!--            android:layout_height="50dp"-->
+        <!--            android:layout_gravity="bottom|right"-->
+        <!--            android:layout_margin="@dimen/_6sdp"-->
+        <!--            android:adjustViewBounds="true"-->
+        <!--            android:background="@null"-->
+        <!--            android:contextClickable="true"-->
+        <!--            android:src="@drawable/baseline_rotate_right_24"-->
+        <!--            android:tooltipText="Add To Fav" android:contentDescription="Enter How Much Cookies You Want"-->
+        <!--            android:hint="e.g 8" />-->
 
         <ImageButton
             android:id="@+id/favBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_gravity="bottom|right"
             android:layout_margin="@dimen/_6sdp"
             android:adjustViewBounds="true"
             android:background="@null"
-            android:contextClickable="true"
+            android:contentDescription="Download"
             android:src="@drawable/baseline_favorite_24"
             android:tooltipText="Add To Fav" />
 
@@ -52,11 +51,10 @@
             android:id="@+id/download"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_gravity="top|right"
             android:layout_margin="@dimen/_6sdp"
             android:adjustViewBounds="true"
             android:background="@null"
-
+            android:contentDescription="Download"
             android:src="@drawable/baseline_download_24"
             android:tooltipText="Download" />
 
@@ -64,10 +62,10 @@
             android:id="@+id/shareBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_gravity="bottom|left"
             android:layout_margin="@dimen/_6sdp"
             android:adjustViewBounds="true"
             android:background="@null"
+            android:contentDescription="share"
             android:src="@drawable/baseline_share_24"
             android:tooltipText="share" />
     </LinearLayout>

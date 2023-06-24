@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -61,7 +63,12 @@ public class CoverImageAdapter extends ArrayAdapter<String> {
         } else {
             // Set a placeholder image while the actual image is being loaded
             holder.imageView.setImageResource(R.drawable.seek_progress);
+            Animation waterdropAnimation = AnimationUtils.loadAnimation(holder.imageView.getContext(), R.anim.waterdrop_anim);
+            Animation waterdropAnimationText = AnimationUtils.loadAnimation(holder.folderNameTextView.getContext(), R.anim.waterdrop_anim);
 
+// Apply the animation to the desired view
+            holder.imageView.startAnimation(waterdropAnimation);
+            holder.folderNameTextView.startAnimation(waterdropAnimationText);
             StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folderName);
             storageRef.listAll().addOnSuccessListener(listResult -> {
                 if (listResult.getItems().size() > 0) {
