@@ -7,7 +7,7 @@ Android Wallpaper app
  <b> **Open Source Project  Contributors/Contributions are Appreciated!!! ** </b>
  
 
-  Get APK [Here](https://github.com/TharunDharmaraj/TharunDharmaraj/raw/main/wallpaperly.apk)
+  Get APK [Here](https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers/releases/download/Pre_Release_0.0.1/wallpaperly.apk)
 
 
 
@@ -40,7 +40,8 @@ Android Wallpaper app
   <img src="https://github.com/TharunDharmaraj/Wallpaperly/assets/83175935/dfe344fb-e0a3-4f93-aae2-f8975b208b58" alt="Wallpaperly Set as Wallpaper" width="250" height="500"/>
 </p>
 
-  Get APK [Here](https://github.com/TharunDharmaraj/TharunDharmaraj/raw/main/wallpaperly.apk)
+**Currently, there is abug in the ImageViewActivity for Android 11. We are resolving that. If you have some ideas, consider sharing with us**
+  Get APK [Here](https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers/releases/download/Pre_Release_0.0.1/wallpaperly.apk)
   
 ---
 
@@ -73,5 +74,6 @@ Android Wallpaper app
 </body>
 <br><br><br>
 
-  Get APK [Here](https://github.com/TharunDharmaraj/TharunDharmaraj/raw/main/Wallpaperly.apk)
+  Get APK [Here](https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers/releases/download/Pre_Release_0.0.1/wallpaperly.apk)
 
+**Currently, there is abug in the ImageViewActivity for Android 11. We are resolving that. If you have some ideas, consider sharing with us**
