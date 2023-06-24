@@ -6,9 +6,11 @@ import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.WallpaperManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
@@ -39,6 +41,8 @@ import com.google.android.material.snackbar.Snackbar;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class ImageViewActivity extends AppCompatActivity {
     int position;
@@ -106,6 +110,7 @@ public class ImageViewActivity extends AppCompatActivity {
         wallpaperBtn.setOnClickListener(v -> {
             String imageUrl = getIntent().getStringExtra("image_url");
             String imageName = getIntent().getStringExtra("image_name");
+            String imageExt = getIntent().getStringExtra("image_ext");
 //            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
 //                if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
 //
@@ -114,15 +119,15 @@ public class ImageViewActivity extends AppCompatActivity {
 //                }
 //            }
             String directoryName = "wallpaperly";
-            String fileName = imageName + ".png";
+            String fileName = imageName + "." + imageExt;
 
-            File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), directoryName);
+            File directory = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), directoryName);
             if (!directory.exists()) {
                 directory.mkdirs();
             }
 
             File file = new File(directory, fileName);
-
+            System.out.println(file);
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(imageUrl));
             request.setTitle(imageName);
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
@@ -140,25 +145,31 @@ public class ImageViewActivity extends AppCompatActivity {
             handler.postDelayed(() -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ImageViewActivity.this, R.style.CustomAlertDialog);
                 builder.setTitle("Set Wallpaper Options");
+//                // Inflate the custom layout for the dialog
+//                View dialogView = LayoutInflater.from(ImageViewActivity.this).inflate(R.layout.dialog_set_as_wallpaper, null);
+//
+//                // Find the checkboxes in the dialog layout
+//                CheckBox checkBoxHomeScreen = dialogView.findViewById(R.id.checkBoxHomeScreen);
+//                CheckBox checkBoxLockScreen = dialogView.findViewById(R.id.checkBoxLockScreen);
+//
+//                // Set the checkboxes' initial state if desired
+//                checkBoxHomeScreen.setChecked(true);
+//                checkBoxLockScreen.setChecked(true);
+//
+//                 Set the custom layout to the dialog
+//                builder.setView(dialogView);
+                final boolean[] checked = new boolean[] {false, false};
 
-                // Inflate the custom layout for the dialog
-                View dialogView = LayoutInflater.from(ImageViewActivity.this).inflate(R.layout.dialog_set_as_wallpaper, null);
-
-                // Find the checkboxes in the dialog layout
-                CheckBox checkBoxHomeScreen = dialogView.findViewById(R.id.checkBoxHomeScreen);
-                CheckBox checkBoxLockScreen = dialogView.findViewById(R.id.checkBoxLockScreen);
-
-                // Set the checkboxes' initial state if desired
-                checkBoxHomeScreen.setChecked(true);
-                checkBoxLockScreen.setChecked(true);
-
-                // Set the custom layout to the dialog
-                builder.setView(dialogView);
-
+                builder.setMultiChoiceItems(new String[]{"Home Screen", "Lock Screen"}, checked, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        checked[which] = isChecked;
+                    }
+                });
                 // Set the positive button action
                 builder.setPositiveButton("Set Wallpaper", (dialog, which) -> {
-                    boolean setHomeScreen = checkBoxHomeScreen.isChecked();
-                    boolean setLockScreen = checkBoxLockScreen.isChecked();
+                    boolean setHomeScreen = checked[0];
+                    boolean setLockScreen = checked[1];
 
                     // Set the selected image as the wallpaper(s) based on the chosen options
                     try {
@@ -213,17 +224,17 @@ public class ImageViewActivity extends AppCompatActivity {
         shareBtn.setOnClickListener(v -> {
             String imageUrl = getIntent().getStringExtra("image_url");
             String imageName = getIntent().getStringExtra("image_name");
-
+            String imageExt = getIntent().getStringExtra("image_ext");
             String directoryName = "wallpaperly";
-            String fileName = imageName + ".png";
+            String fileName = imageName + "." + imageExt;
 
-            File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), directoryName);
+            File directory = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), directoryName);
             if (!directory.exists()) {
                 directory.mkdirs();
             }
 
             File file = new File(directory, fileName);
-
+            System.out.println(file);
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(imageUrl));
             request.setTitle(imageName);
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
@@ -269,11 +280,11 @@ public class ImageViewActivity extends AppCompatActivity {
     public void downloadImage() {
         String imageUrl = getIntent().getStringExtra("image_url");
         String imageName = getIntent().getStringExtra("image_name");
-
+        String imageExt = getIntent().getStringExtra("image_ext");
         String directoryName = "wallpaperly";
-        String fileName = imageName + ".png";
+        String fileName = imageName + "." + imageExt ;
 
-        File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), directoryName);
+        File directory = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), directoryName);
         if (!directory.exists()) {
             directory.mkdirs();
         }
@@ -311,21 +322,26 @@ public class ImageViewActivity extends AppCompatActivity {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
 
         // Set the type of the content to "image/png"
-        shareIntent.setType("image/png");
+        shareIntent.setType("image/*");
         shareIntent.putExtra(Intent.EXTRA_TEXT, "Made in India");
-
+        System.out.println(imageFile);
         // Get the URI of the image file using FileProvider
         Uri imageUri = FileProvider.getUriForFile(
-                this,
+                getApplicationContext() ,
                 "com.example.myapplication.fileprovider",
                 imageFile
         );
+//        List<ResolveInfo> resInfoList = getApplicationContext().getPackageManager().queryIntentActivities(shareIntent, PackageManager.MATCH_DEFAULT_ONLY);
+//        for (ResolveInfo resolveInfo : resInfoList) {
+//            String packageName = resolveInfo.activityInfo.packageName;
+//            getApplicationContext().grantUriPermission(packageName, imageUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//        }
         // Add the image URI to the intent as an extra
         shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
 
         // Grant temporary permissions to the content URI
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
+        shareIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         // Start the share activity
         startActivity(Intent.createChooser(shareIntent, "Share Image"));
     }

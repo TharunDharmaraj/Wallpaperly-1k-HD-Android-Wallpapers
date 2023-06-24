@@ -148,9 +148,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 public void onClick(View v) {
                     String imageUrl = imageUrls.get(getAdapterPosition());
                     String imageName = getImageNameFromUrl(imageUrl);
+                    String imageExt = getImageExtensions(imageUrl);
                     String directoryName = "wallpaperly";
-                    String fileName = imageName + ".png";
-                    File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), directoryName);
+                    String fileName = imageName + "." + imageExt;
+                    File directory = new File(itemView.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), directoryName);
                     if (!directory.exists()) {
                         directory.mkdirs();
                     }
@@ -232,10 +233,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         public void onClick(View v) {
             String imageUrl = imageUrls.get(getAdapterPosition());
             String imageName = getImageNameFromUrl(imageUrl);
+            String imageExt = getImageExtensions(imageUrl);
             Intent intent = new Intent(v.getContext(), ImageViewActivity.class);
             intent.putStringArrayListExtra("image_url_list", (ArrayList<String>) imageUrls);
             intent.putExtra("image_url", imageUrl);
             intent.putExtra("image_name", imageName);
+            intent.putExtra("image_ext", imageExt);
             v.getContext().startActivity(intent);
         }
 
@@ -264,7 +267,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 }
             }, 5000);
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("image/png");
+            shareIntent.setType("image/*");
             shareIntent.putExtra(Intent.EXTRA_TEXT, "View The Source Code at https://github.com/TharunDharmaraj/Wallpaperly");
 
             Uri imageUri = FileProvider.getUriForFile(
@@ -272,7 +275,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                     "com.example.myapplication.fileprovider",
                     imageFile
             );
-            Log.d("tharun", String.valueOf(imageUri));
             shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
 
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -283,8 +285,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         private String getImageNameFromUrl(String imageUrl) {
             Uri uri = Uri.parse(imageUrl);
             String fileName = uri.getLastPathSegment();
+            System.out.println(uri);
             int folder = fileName.indexOf("/") + 1;
             fileName = fileName.substring(folder);
+            System.out.println(fileName);
             int dotIndex = fileName.indexOf(".");
             if (dotIndex != -1) {
                 return toTitleCase(fileName.substring(0, dotIndex));
@@ -292,7 +296,21 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 return toTitleCase(fileName);
             }
         }
-
+        private String getImageExtensions(String imageUrl) {
+            Uri uri = Uri.parse(imageUrl);
+            String fileName = uri.getLastPathSegment();
+//            System.out.println(uri);
+            int folder = fileName.indexOf("/") + 1;
+            fileName = fileName.substring(folder);
+            System.out.println(fileName);
+            int dotIndex = fileName.indexOf(".");
+            int fileNameLen = fileName.length();
+            if (dotIndex != -1) {
+                return (fileName.substring(dotIndex+1, fileNameLen));
+            } else {
+                return "png";
+            }
+        }
         private void storeImageUrlFav(String imageUrl, View v) {
             String key = "image_" + imageUrl;
             String storedUrl = sharedPreferences.getString(key, null);
