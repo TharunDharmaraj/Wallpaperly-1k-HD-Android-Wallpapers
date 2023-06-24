@@ -109,8 +109,9 @@ public class ImageAdapterFav extends RecyclerView.Adapter<ImageAdapterFav.ImageV
                 public void onClick(View v) {
                     String imageUrl = imageUrls.get(getAdapterPosition());
                     String imageName = getImageNameFromUrl(imageUrl);
+                    String imageExt = getImageExtensions(imageUrl);
                     String directoryName = "wallpaperly";
-                    String fileName = imageName + ".png";
+                    String fileName = imageName + "." + imageExt;
                     File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), directoryName);
                     if (!directory.exists()) {
                         directory.mkdirs();
@@ -169,6 +170,7 @@ public class ImageAdapterFav extends RecyclerView.Adapter<ImageAdapterFav.ImageV
         public void onClick(View v) {
             String imageUrl = imageUrls.get(getAdapterPosition());
             String imageName = getImageNameFromUrl(imageUrl);
+            String imageExt = getImageExtensions(imageUrl);
             Intent intent = new Intent(v.getContext(), ImageViewActivityFav.class);
             intent.putStringArrayListExtra("image_url_list", (ArrayList<String>) imageUrls);
             intent.putExtra("image_url", imageUrl);
@@ -201,7 +203,7 @@ public class ImageAdapterFav extends RecyclerView.Adapter<ImageAdapterFav.ImageV
                 }
             }, 5000);
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("image/png");
+            shareIntent.setType("image/*");
             shareIntent.putExtra(Intent.EXTRA_TEXT, "View The Source Code at https://github.com/TharunDharmaraj/Wallpaperly");
 
             Uri imageUri = FileProvider.getUriForFile(v.getContext(), "com.example.myapplication.fileprovider", imageFile);
@@ -226,6 +228,21 @@ public class ImageAdapterFav extends RecyclerView.Adapter<ImageAdapterFav.ImageV
             }
         }
 
+        private String getImageExtensions(String imageUrl) {
+            Uri uri = Uri.parse(imageUrl);
+            String fileName = uri.getLastPathSegment();
+//            System.out.println(uri);
+            int folder = fileName.indexOf("/") + 1;
+            fileName = fileName.substring(folder);
+            System.out.println(fileName);
+            int dotIndex = fileName.indexOf(".");
+            int fileNameLen = fileName.length();
+            if (dotIndex != -1) {
+                return (fileName.substring(dotIndex + 1, fileNameLen));
+            } else {
+                return "png";
+            }
+        }
         private void storeImageUrlFav(String imageUrl, View v) {
             String key = "image_" + imageUrl;
             String storedUrl = sharedPreferences.getString(key, null);
