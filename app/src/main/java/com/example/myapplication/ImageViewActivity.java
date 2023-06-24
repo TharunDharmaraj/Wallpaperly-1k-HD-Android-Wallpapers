@@ -132,7 +132,7 @@ public class ImageViewActivity extends AppCompatActivity {
             if (downloadManager != null) {
                 storeImageUrl(imageUrl, imageName);
                 downloadManager.enqueue(request);
-                    Toast.makeText(getApplicationContext(), "Image Downloaded", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "Image Downloaded", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getApplicationContext(), "Failed to download image", Toast.LENGTH_SHORT).show();
             }

@@ -20,13 +20,32 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+        <LinearLayout
+            android:id="@+id/textViewClearFavorites"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_18sdp"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:clickable="false"
+                android:focusable="false"
+                android:src="@drawable/baseline_bookmark_remove_24" />
             <TextView
-                android:id="@+id/textViewClearFavorites"
+                android:id="@+id/textViewClearFavoritess"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
+                android:clickable="false"
+                android:focusable="false"
                 android:text="Clear Favorites"
                 android:textColor="@color/white" />
+        </LinearLayout>
 
             <View
                 android:id="@+id/line"
@@ -37,13 +56,32 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textViewClearFavorites"
                 tools:ignore="MissingConstraints" />
 
+        <LinearLayout
+            android:id="@+id/textViewClearDownloads"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_18sdp"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:clickable="false"
+                android:focusable="false"
+                android:src="@drawable/baseline_file_download_off_24" />
             <TextView
-                android:id="@+id/textViewClearDownloads"
+                android:id="@+id/textViewClearDownloadss"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
+                android:clickable="false"
+                android:focusable="false"
                 android:text="Clear Downloads"
                 android:textColor="@color/white" />
+        </LinearLayout>
 
             <View
                 android:id="@+id/line1"
@@ -53,14 +91,32 @@
                 android:background="@color/colorAccent"
                 app:layout_constraintBottom_toBottomOf="@+id/textViewClearDownloads"
                 tools:ignore="MissingConstraints" />
-
+        <LinearLayout
+            android:id="@+id/textViewClearAppData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_18sdp"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:clickable="false"
+                android:focusable="false"
+                android:src="@drawable/baseline_data_object_24" />
             <TextView
-                android:id="@+id/textViewClearAppData"
+                android:id="@+id/textViewClearAppDataa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:text="Clear App Data"
+                android:clickable="false"
+                android:focusable="false"
                 android:textColor="@color/white" />
+        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,7 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:padding="16dp"
+                    android:padding="16dp"      android:textColor="@color/white"
                     android:text="Total App Cache" />
 
                 <TextView

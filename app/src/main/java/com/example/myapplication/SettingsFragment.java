@@ -104,6 +104,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         });
         builder.setNegativeButton("No", null);
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
         dialog.show();
     }
 
@@ -151,6 +152,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         });
         builder.setNegativeButton("No", null);
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
         dialog.show();
 
     }
@@ -184,6 +186,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         });
         builder.setNegativeButton("No", null);
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
         dialog.show();
     }
 
@@ -292,17 +295,17 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         LinearLayout sourceCodee = view.findViewById(R.id.sourceCode);
         sourceCodee.setOnClickListener(this);
 
-        TextView clearFavoritesTextView = view.findViewById(R.id.textViewClearFavorites);
+        LinearLayout clearFavoritesTextView = view.findViewById(R.id.textViewClearFavorites);
         clearFavoritesTextView.setOnClickListener(this);
 
-        TextView clearDownloadsTextView = view.findViewById(R.id.textViewClearDownloads);
+        LinearLayout clearDownloadsTextView = view.findViewById(R.id.textViewClearDownloads);
         clearDownloadsTextView.setOnClickListener(this);
         showCacheSize();
 
         TextView clearCacheTextView = view.findViewById(R.id.textViewClearCache);
         clearCacheTextView.setOnClickListener(this);
 
-        TextView clearAppDataTextView = view.findViewById(R.id.textViewClearAppData);
+        LinearLayout clearAppDataTextView = view.findViewById(R.id.textViewClearAppData);
         clearAppDataTextView.setOnClickListener(this);
 
 
