@@ -105,14 +105,13 @@ public class ImageAdapterFav extends RecyclerView.Adapter<ImageAdapterFav.ImageV
                 }
             });
             shareBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                 public void onClick(View v) {
                     String imageUrl = imageUrls.get(getAdapterPosition());
                     String imageName = getImageNameFromUrl(imageUrl);
                     String imageExt = getImageExtensions(imageUrl);
                     String directoryName = "wallpaperly";
                     String fileName = imageName + "." + imageExt;
-                    File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), directoryName);
+                    File directory = new File(itemView.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), directoryName);
                     if (!directory.exists()) {
                         directory.mkdirs();
                     }
@@ -206,8 +205,11 @@ public class ImageAdapterFav extends RecyclerView.Adapter<ImageAdapterFav.ImageV
             shareIntent.setType("image/*");
             shareIntent.putExtra(Intent.EXTRA_TEXT, "View The Source Code at https://github.com/TharunDharmaraj/Wallpaperly");
 
-            Uri imageUri = FileProvider.getUriForFile(v.getContext(), "com.example.myapplication.fileprovider", imageFile);
-            Log.d("tharun", String.valueOf(imageUri));
+            Uri imageUri = FileProvider.getUriForFile(
+                    v.getContext(),
+                    "com.example.myapplication.fileprovider",
+                    imageFile
+            );
             shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
 
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

@@ -323,7 +323,7 @@ public class ImageViewActivity extends AppCompatActivity {
 
         // Set the type of the content to "image/png"
         shareIntent.setType("image/*");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "Made in India");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "View The Source Code at https://github.com/TharunDharmaraj/Wallpaperly");
         System.out.println(imageFile);
         // Get the URI of the image file using FileProvider
         Uri imageUri = FileProvider.getUriForFile(
