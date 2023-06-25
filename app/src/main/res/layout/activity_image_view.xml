@@ -6,6 +6,7 @@
     app:layout_constraintCircleRadius="@dimen/_16sdp"
     tools:context=".ImageViewActivity">
 
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
@@ -14,6 +15,32 @@
         android:adjustViewBounds="true"
         android:focusable="true"
         android:scaleType="fitCenter" />
+    <TextView
+        android:id="@+id/progressText"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_18sdp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginTop="@dimen/_10sdp"
+        />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:indeterminate="false"
+        style="?android:attr/progressBarStyleHorizontal"
+
+        android:max="100"
+        android:progress="0"
+        android:progressTint="@color/colorAccent"
+        android:progressBackgroundTint="@color/white"
+
+        android:visibility="gone"
+        />
+
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
