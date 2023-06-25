@@ -1,13 +1,18 @@
 # [Wallpaperly](https://github.com/TharunDharmaraj/TharunDharmaraj/raw/main/wallpaperly.apk)
-<p  style="font-family: Arial;  text-align: center;">
-Android Wallpaper app  
+
+---
+
+<p  style="font-family: Arial;  text-align: center ;">
+** Android Wallpaper app **  
     <br>
   A stylish wallpaper app for Android that utilizes Firebase Storage for image storage.
 </p>
+
+
  <b> **Open Source Project  Contributors/Contributions are Appreciated!!! ** </b>
  
 
-  Get APK [Here](https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers/releases/download/Pre_Release_0.0.1/wallpaperly.apk)
+ <i> Get APK [Here](https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers/releases/download/Pre_Release_0.0.1/wallpaperly.apk)</i>
 
 
 
@@ -22,25 +27,36 @@ Android Wallpaper app
 [![Gradle](https://img.shields.io/badge/Build-Gradle-purple.svg)](https://gradle.org/)
 [![Glide](https://img.shields.io/badge/Image%20Loading-Glide-brightgreen.svg)](https://github.com/bumptech/glide)
 [![Disk Caching](https://img.shields.io/badge/Caching-Disk-yellowgreen.svg)](https://developer.android.com/topic/performance/caching)
-
-</p>
----
-
-<p align="center">
-  <img src="https://github.com/TharunDharmaraj/Wallpaperly/assets/83175935/a5d4e46a-bdd2-4fa8-b481-d74634447dee" alt="Wallpaperly Categories" width="250" height="500"/>
-  <img src="https://github.com/TharunDharmaraj/Wallpaperly/assets/83175935/b02f3e07-c5b7-433c-b5d3-2765330deac9" alt="Wallpaperly Category" width="250" height="500"/>
-  <img src="https://github.com/TharunDharmaraj/Wallpaperly/assets/83175935/e883b91b-008a-4eca-932c-c4ba7f9d4809" alt="Wallpaperly Download" width="250" height="500"/>
 </p>
 
 ---
 
+ <p align="center">
+ <img src="https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers/assets/83175935/9bf5a8bd-2e07-4cb2-adc2-2228d6013d61)" alt="" width="250" height="500"/> 
+         <img src="https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers/assets/83175935/039570e3-2531-407a-a9ad-7f8c4d87db0d)" alt="" width="250" height="500"/>
+     <img src="https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers/assets/83175935/2ce4ae26-85b1-473c-a71a-5fec2c43c7d5)" alt="" width="250" height="500"/>
+ </p>
+ 
+---
+
+ <p align="center">
+     <img src="https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers/assets/83175935/9d858ea1-58ee-41fd-846d-50fafcfb2051)" alt="" width="250" height="500"/>
+      <img src="https://github.com/TharunDharmaraj/Wallpaperly/assets/83175935/dfe344fb-e0a3-4f93-aae2-f8975b208b58" alt="Wallpaperly Set as Wallpaper" width="250" height="500"/>
+ <img src="https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers/assets/83175935/83e37b9d-5a0b-4e5b-aed4-bf5031ff4106)" alt="" width="250" height="500"/>
+ </p>
+ 
+---
+
+
 <p align="center">
-  <img src="https://github.com/TharunDharmaraj/Wallpaperly/assets/83175935/ca084c64-562b-48c8-bd2b-fc6e0a7dc5f2" alt="Wallpaperly Favorites" width="250" height="500"/>
-  <img src="https://github.com/TharunDharmaraj/Wallpaperly/assets/83175935/8b7b94cf-98dd-4ecf-8273-3e55f471c7f5" alt="Wallpaperly Downloading" width="250" height="500"/>
-  <img src="https://github.com/TharunDharmaraj/Wallpaperly/assets/83175935/dfe344fb-e0a3-4f93-aae2-f8975b208b58" alt="Wallpaperly Set as Wallpaper" width="250" height="500"/>
+     <img src="https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers/assets/83175935/e8892139-67e4-44b0-aa4a-c721952efd64)" alt="" width="250" height="500"/>
+ <img src="https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers/assets/83175935/780aafcd-6ad0-4d95-9826-5ea3fd8948a0" alt="" width="250" height="500"/>
 </p>
 
-**Currently, there is abug in the ImageViewActivity for Android 11. We are resolving that. If you have some ideas, consider sharing with us**
+---
+
+
+**If you have some ideas, consider sharing with us.  App might have some bugs**
   Get APK [Here](https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers/releases/download/Pre_Release_0.0.1/wallpaperly.apk)
   
 ---
@@ -55,7 +71,7 @@ Android Wallpaper app
 - **Settings:** Wallpaperly has additional settings to enhance your User Experience.
 - **Pull to Refresh:** Stay up-to-date with the latest wallpapers by pulling down to refresh the app.
 - **Firebase Storage Integration:** Retrieve wallpapers seamlessly from Firebase Storage.
-- **Cache for Faster Access:** Store images in cache for faster loading times.
+- **Image Caching for Faster Access:** Store images in cache for faster loading times.
 - **Requires Internet Connection:** Wallpaperly requires an active internet connection for fetching wallpapers.
 
 ---
@@ -76,4 +92,6 @@ Android Wallpaper app
 
   Get APK [Here](https://github.com/TharunDharmaraj/Wallpaperly-1k-HD-Android-Wallpapers/releases/download/Pre_Release_0.0.1/wallpaperly.apk)
 
-**Currently, there is abug in the ImageViewActivity for Android 11. We are resolving that. If you have some ideas, consider sharing with us**
+---
+
+**If you have some ideas, consider sharing with us. App might have some bugs**
