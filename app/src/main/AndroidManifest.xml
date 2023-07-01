@@ -26,11 +26,11 @@
         <activity
             android:name=".ImageViewActivity"
             android:exported="true"
-            android:noHistory="false" />
+            android:noHistory="true" />
         <activity
             android:name=".ImageViewActivityFav"
             android:exported="true"
-            android:noHistory="false" />
+            android:noHistory="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
